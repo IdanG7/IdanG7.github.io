@@ -1,73 +1,87 @@
-# Welcome to your Lovable project
+# Idan Gurevich - Portfolio
 
-## Project info
+A modern, interactive portfolio website featuring a unique terminal-based interface alongside traditional portfolio sections.
 
-**URL**: https://lovable.dev/projects/5e45be3a-f015-45e6-874c-e85be2bf3b3e
+## Features
 
-## How can I edit this code?
+- **Interactive Terminal Interface**: Command-line style interaction for a unique user experience
+- **Smooth Animations**: Engaging animations and transitions throughout
+- **Responsive Design**: Fully responsive across all devices
+- **Modern Tech Stack**: Built with cutting-edge web technologies
+- **Dark Theme**: Sleek, professional dark theme design
 
-There are several ways of editing your application.
+## Sections
 
-**Use Lovable**
+- **Hero**: Dynamic introduction with typewriter effects
+- **About**: Professional background and experience
+- **Skills**: Technical proficiency showcase
+- **Projects**: Portfolio of work and achievements
+- **Contact**: Easy ways to get in touch
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5e45be3a-f015-45e6-874c-e85be2bf3b3e) and start prompting.
+## Technologies Used
 
-Changes made via Lovable will be committed automatically to this repo.
+- **React** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - High-quality React components
+- **Framer Motion** - Animation library
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 16+ or Bun
+- npm or bun package manager
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Clone the repository
+git clone https://github.com/IdanG7/IdanG7.github.io.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd IdanG7.github.io
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
+# or
+bun install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+# or
+bun dev
 ```
 
-**Edit a file directly in GitHub**
+The site will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+# or
+bun run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Preview Production Build
 
-## What technologies are used for this project?
+```bash
+npm run preview
+# or
+bun run preview
+```
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This site is configured for deployment to GitHub Pages at [IdanG7.github.io](https://IdanG7.github.io).
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/5e45be3a-f015-45e6-874c-e85be2bf3b3e) and click on Share -> Publish.
+© 2025 Idan Gurevich. All rights reserved.
 
-## Can I connect a custom domain to my Lovable project?
+## Contact
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Email**: idan.gurevich@gmail.com
+- **LinkedIn**: [linkedin.com/in/idan-gurevich-b955861b8](https://www.linkedin.com/in/idan-gurevich-b955861b8/)
+- **GitHub**: [github.com/IdanG7](https://github.com/IdanG7)
