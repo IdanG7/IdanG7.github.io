@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git config:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(mv:*)",
+      "Bash(git init:*)",
+      "Bash(powershell:*)",
+      "Bash(git add:*)",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-07 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-07 12:00:00\" git commit -m \"Refactor closing and minimize animations\")",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-07 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-07 12:00:00\" git commit --allow-empty -m \"Refactor closing and minimize animations\")",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-08 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-08 12:00:00\" git commit --allow-empty -m \"Fix terminal animations\")",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-09 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-09 12:00:00\" git commit --allow-empty -m \"Fix terminal opening animation and hero display\")",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-10 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-10 12:00:00\" git commit --allow-empty -m \"Fix: Hero reappears on terminal open\")",
+      "Bash(GIT_AUTHOR_DATE=\"2025-10-11 12:00:00\" GIT_COMMITTER_DATE=\"2025-10-11 12:00:00\" git commit --allow-empty -m \"Fix terminal closing animation and hero visibility\")",
+      "Bash(git log:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(GIT_AUTHOR_DATE=\"2025-09-28 14:00:00\" GIT_COMMITTER_DATE=\"2025-09-28 14:00:00\" git commit -m \"Update README with project documentation\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
