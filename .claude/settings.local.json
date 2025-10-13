@@ -25,7 +25,8 @@
       "Bash(git push:*)",
       "Bash(gh run list:*)",
       "WebFetch(domain:idang7.github.io)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(sha256sum:*)"
     ],
     "deny": [],
     "ask": []

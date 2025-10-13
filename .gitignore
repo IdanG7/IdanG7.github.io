@@ -28,3 +28,6 @@ dist-ssr
 .git.backup/
 create-commits*.sh
 create-commits*.ps1
+
+# Environment variables
+.env
