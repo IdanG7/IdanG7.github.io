@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const socials = [
-  { icon: Mail, label: "Email", href: "mailto:idan.gurevich@example.com" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: FileText, label: "Resume", href: "#" }
+  { icon: Mail, label: "Email", href: "mailto:Idan.gurevich@gmail.com" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/idangurevich/" },
+  { icon: Github, label: "GitHub", href: "https://github.com/IdanG7" },
+  { icon: FileText, label: "Resume", href: "/resume.pdf" }
 ];
 
 const Contact = () => {
