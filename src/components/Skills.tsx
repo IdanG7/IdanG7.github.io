@@ -110,12 +110,16 @@ const Skills = () => {
             <span>$ cat tech_stack.txt</span>
           </div>
           <div className="grid sm:grid-cols-2 gap-2 text-muted-foreground">
-            <div><span className="text-primary">→</span> C++, Python, Bash</div>
+            <div><span className="text-primary">→</span> C++, C#, Python, Java, Bash</div>
             <div><span className="text-primary">→</span> CMake, Make, GCC/Clang</div>
             <div><span className="text-primary">→</span> GTest, Catch2, pytest</div>
             <div><span className="text-primary">→</span> Jenkins, GitLab CI, GitHub Actions</div>
-            <div><span className="text-primary">→</span> Docker, Kubernetes</div>
-            <div><span className="text-primary">→</span> Git, Linux, Embedded Systems</div>
+            <div><span className="text-primary">→</span> Docker, Kubernetes, AWS</div>
+            <div><span className="text-primary">→</span> Git, SVN, JIRA, Monday</div>
+            <div><span className="text-primary">→</span> OpenCV, Eigen, ImGui</div>
+            <div><span className="text-primary">→</span> PostgreSQL, Redis, NATS</div>
+            <div><span className="text-primary">→</span> FastAPI, Groovy Scripts</div>
+            <div><span className="text-primary">→</span> Linux, Embedded Linux, Windows</div>
           </div>
         </div>
       </div>
