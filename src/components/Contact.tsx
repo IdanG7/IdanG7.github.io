@@ -79,11 +79,11 @@ const Contact = () => {
             © {new Date().getFullYear()} Idan Gurevich. Built with precision.
           </p>
           <div className="flex justify-center gap-3 text-xs font-mono text-muted-foreground/50">
-            <span>0xDEAD</span>
+            <span>0xC0DE</span>
             <span className="text-primary">•</span>
-            <span>0xBEEF</span>
+            <span>0x1337</span>
             <span className="text-primary">•</span>
-            <span>0xCAFE</span>
+            <span>0xF1RM</span>
           </div>
         </div>
       </div>

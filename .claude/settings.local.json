@@ -28,7 +28,15 @@
       "Bash(git checkout:*)",
       "Bash(sha256sum:*)",
       "Bash(gh api:*)",
-      "Read(//d/Downloads/**)"
+      "Read(//d/Downloads/**)",
+      "WebFetch(domain:malaypatrav2.vercel.app)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(curl -s https://malaypatrav2.vercel.app/)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

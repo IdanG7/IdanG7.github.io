@@ -31,7 +31,7 @@ interface TerminalInterfaceProps {
 
 const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
   const [input, setInput] = useState("");
-  const [terminalState, setTerminalState] = useState<TerminalState>("maximized");
+  const [terminalState, setTerminalState] = useState<TerminalState>("closed");
   const [isClosing, setIsClosing] = useState(false);
   const [isMinimizing, setIsMinimizing] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
@@ -53,7 +53,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
   const [commandHistoryIndex, setCommandHistoryIndex] = useState(-1);
   const [tabCompletions, setTabCompletions] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
-  const [nanoSection, setNanoSection] = useState<"about" | "skills" | "projects" | "contact" | null>(null);
+  const [nanoSection, setNanoSection] = useState<"about" | "skills" | "projects" | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -70,9 +70,6 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           </div>
           <div>
             <span className="text-accent font-mono">nano projects</span> - View Projects section
-          </div>
-          <div>
-            <span className="text-accent font-mono">nano contact</span> - View Contact section
           </div>
           <div>
             <span className="text-accent font-mono">ls</span> - List all sections
@@ -115,7 +112,6 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           <span className="text-accent">about</span>
           <span className="text-accent">skills</span>
           <span className="text-accent">projects</span>
-          <span className="text-accent">contact</span>
           <span className="text-green-400">README.md</span>
           <span className="text-green-400">skills.json</span>
         </div>
@@ -157,9 +153,6 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
         </div>
         <div className="ml-4">
           ├── <span className="text-accent">projects</span>
-        </div>
-        <div className="ml-4">
-          ├── <span className="text-accent">contact</span>
         </div>
         <div className="ml-4">
           └── <span className="text-green-400">README.md</span>
@@ -241,28 +234,8 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
   };
 
   const handleClose = () => {
-    setIsClosing(true);
     onStateChange(false);
-
-    const baseDurationMs = 800;
-    
-    // Animate fill proportional to closing animation
-    const fillInterval = setInterval(() => {
-      setButtonFill((prev) => {
-        const increment = 100 / (baseDurationMs / 16);
-        return Math.min(prev + increment, 100);
-      });
-    }, 16);
-
-    setTimeout(
-      () => {
-        setTerminalState("closed");
-        setIsClosing(false);
-        clearInterval(fillInterval);
-        setButtonFill(100);
-      },
-      baseDurationMs,
-    );
+    setTerminalState("closed");
   };
 
   const handleOpen = () => {
@@ -356,15 +329,14 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
         output = files[file] || <span className="text-destructive">cat: {file}: No such file or directory</span>;
       } else if (trimmedCmd.startsWith("nano ")) {
         const file = trimmedCmd.substring(5).trim();
-        const validSections: ("about" | "skills" | "projects" | "contact")[] = [
+        const validSections: ("about" | "skills" | "projects")[] = [
           "about",
           "skills",
           "projects",
-          "contact",
         ];
 
         if (validSections.includes(file as any)) {
-          setNanoSection(file as "about" | "skills" | "projects" | "contact");
+          setNanoSection(file as "about" | "skills" | "projects");
           output = <span className="text-primary">Opening {file} in nano...</span>;
         } else {
           output = <span className="text-destructive">nano: {file}: No such file</span>;
@@ -417,7 +389,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
 
   const getCompletions = (partial: string) => {
     const allCommands = Object.keys(commands);
-    const sections = ["about", "skills", "projects", "contact"];
+    const sections = ["about", "skills", "projects"];
     const files = ["README.md", "skills.json"];
     const echoSuggestions = [
       "echo Hello World",
@@ -599,28 +571,22 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
               y: 0,
             }}
             exit={
-              isClosing
+              terminalState === "minimized"
                 ? {
-                    scale: 0.05,
-                    x: window.innerWidth / 2 - 100,
-                    y: window.innerHeight / 2 - 100,
+                    x: "calc(100% + 24px)",
+                    scale: 0.8,
                     opacity: 0,
-                    transition: { 
-                      duration: 0.8,
-                      ease: [0.34, 0.01, 0.01, 1],
-                    },
-                  }
-                : terminalState === "minimized"
-                  ? { 
-                      x: "calc(100% + 24px)",
-                      scale: 0.8,
-                      opacity: 0,
-                      transition: {
-                        duration: 0.5,
-                        ease: [0.34, 1.26, 0.64, 1],
-                      }
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.34, 1.26, 0.64, 1],
                     }
-                  : { scale: 0.95, opacity: 0 }
+                  }
+                : {
+                    opacity: 0,
+                    transition: {
+                      duration: 0.15,
+                    }
+                  }
             }
             transition={
               isMinimizing
@@ -651,7 +617,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
                   terminalState === "minimized" ? "h-14" : ""
                 }`}
                 animate={{
-                  opacity: isClosing || isMinimizing ? 0 : 1,
+                  opacity: isMinimizing ? 0 : 1,
                 }}
                 transition={{ duration: 0.3 }}
               >
@@ -659,8 +625,16 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
               <div className="flex items-center gap-2 px-4 py-3 bg-primary/10 border-b border-primary/20">
                 <TerminalIcon className="w-4 h-4 text-primary" />
                 <span className="text-sm font-mono text-foreground">portfolio@terminal:~</span>
+                {/* Online Status Indicator */}
+                <div className="flex items-center gap-1.5 ml-3">
+                  <div className="relative">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-mono tracking-wider">ONLINE</span>
+                </div>
                 <div className="ml-auto flex gap-1.5 items-center">
-                  {terminalState === "maximized" && !isClosing && (
+                  {terminalState === "maximized" && (
                     <button
                       onClick={handleClose}
                       className="h-3 w-3 rounded-full bg-destructive/60 hover:bg-destructive transition-colors"
@@ -678,7 +652,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
                       className="h-3 w-3 rounded-full bg-yellow-500/60 hover:bg-yellow-500 transition-colors"
                       title={terminalState === "maximized" ? "Minimize" : "Maximize"}
                     />
-                    {terminalState === "maximized" && !isClosing && (
+                    {terminalState === "maximized" && (
                       <button
                         className="h-3 w-3 rounded-full bg-primary/60 hover:bg-primary transition-colors"
                         title="Info"
@@ -818,14 +792,13 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
 
       {/* Floating Action Button */}
       <AnimatePresence>
-        {(terminalState === "closed" || isClosing) && (
+        {terminalState === "closed" && (
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: 1,
               scale: 1,
               transition: {
-                delay: isClosing ? 0 : 0,
                 duration: 0.3,
                 ease: [0.34, 1.56, 0.64, 1] as const,
               },
@@ -833,33 +806,20 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
             exit={{ opacity: 0, scale: 0 }}
             className="fixed bottom-6 right-6 z-50"
           >
-            {/* Pulsing outer ring when filling */}
-            {isClosing && (
-              <motion.div
-                className="absolute inset-0 rounded-full bg-primary/30"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 0.2, 0.5],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            )}
-
             {/* Button container with fill effect */}
             <motion.div
               className="relative h-14 w-14 rounded-full overflow-hidden"
               initial={{ opacity: 0.3 }}
               animate={{ opacity: 1 }}
             >
-              {/* Fill from bottom like liquid in a cup - synced with closing animation */}
+              {/* Base background - always visible */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent" />
+
+              {/* Fill overlay - shows during opening (draining effect) */}
               <motion.div
                 className="absolute bottom-0 left-0 right-0 rounded-full bg-gradient-to-t from-primary via-accent to-primary"
                 style={{
-                  height: isClosing || isOpening ? `${buttonFill}%` : "100%",
+                  height: isOpening ? `${buttonFill}%` : "0%",
                   opacity: buttonFill > 0 ? 1 : 0,
                   transformOrigin: "bottom",
                 }}
@@ -872,7 +832,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
                 className="absolute inset-0 h-14 w-14 rounded-full shadow-[var(--shadow-glow)] bg-transparent hover:scale-110 transition-all duration-300"
                 aria-label="Open terminal"
               >
-                <TerminalIcon className="w-6 h-6 relative z-10" />
+                <TerminalIcon className="w-6 h-6 relative z-10 text-white" />
               </Button>
             </motion.div>
           </motion.div>

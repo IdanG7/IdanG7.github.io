@@ -56,19 +56,12 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
             <Code2 className="w-4 h-4 mr-2 text-primary" />
             nano skills
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => executeCommand('nano projects')}
             className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
           >
             <Terminal className="w-4 h-4 mr-2 text-primary" />
             nano projects
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => executeCommand('nano contact')}
-            className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
-          >
-            <Mail className="w-4 h-4 mr-2 text-primary" />
-            nano contact
           </DropdownMenuItem>
           <DropdownMenuItem 
             onClick={() => executeCommand('neofetch')}
@@ -86,14 +79,6 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
           </DropdownMenuItem>
         </DropdownMenuContent>
           </DropdownMenu>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="rounded-full px-8 transition-all hover:scale-105 border-primary/30 hover:border-primary hover:bg-primary/5 font-mono"
-            onClick={() => executeCommand('nano contact')}
-          >
-            Professional Contact
-          </Button>
         </>
       ) : (
         <>
@@ -105,23 +90,14 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
             <User className="w-4 h-4 mr-2" />
             About Me
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
+          <Button
+            variant="outline"
+            size="lg"
             className="rounded-full px-8 transition-all hover:scale-105 border-primary/30 hover:border-primary hover:bg-primary/5"
             onClick={() => scrollToSection('projects')}
           >
             <Code2 className="w-4 h-4 mr-2" />
             View Projects
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="rounded-full px-8 transition-all hover:scale-105 border-primary/30 hover:border-primary hover:bg-primary/5"
-            onClick={() => scrollToSection('contact')}
-          >
-            <Mail className="w-4 h-4 mr-2" />
-            Get In Touch
           </Button>
         </>
       )}

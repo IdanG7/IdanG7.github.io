@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { CheckCircle2, ExternalLink, Terminal, X, Wrench } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { motion, useAnimation } from "framer-motion";
 
 interface Project {
   title: string;
@@ -55,40 +56,257 @@ const projects: Project[] = [
       "FastAPI-based REST endpoints for client integration"
     ],
     github: "https://github.com/IdanG7"
-  },
-  {
-    title: "Firmware Test Framework",
-    description: "Comprehensive automated testing suite for embedded firmware validation with 99%+ coverage and real-time reporting.",
-    tags: ["C++", "Testing", "Firmware"],
-    status: "Production",
-    metrics: { tests: "2.5K+", coverage: "99.2%", uptime: "99.9%" }
-  },
-  {
-    title: "Host-Device Communication Layer",
-    description: "High-performance host system interface enabling seamless firmware-host communication with low latency.",
-    tags: ["C++", "Systems", "Protocol"],
-    status: "Production",
-    metrics: { latency: "<1ms", throughput: "10GB/s", reliability: "99.8%" }
-  },
-  {
-    title: "CI/CD Pipeline Automation",
-    description: "End-to-end DevOps pipeline automating builds, tests, and deployments across multiple environments.",
-    tags: ["DevOps", "Automation", "CI/CD"],
-    status: "Active",
-    metrics: { builds: "500+/day", success: "99.5%", time: "8min" }
-  },
-  {
-    title: "Performance Profiling Tools",
-    description: "Custom profiling and optimization toolkit for identifying bottlenecks and improving system performance.",
-    tags: ["C++", "Optimization", "Tools"],
-    status: "Active",
-    metrics: { speedup: "40%", memory: "-25%", efficiency: "+35%" }
   }
 ];
 
 const Projects = () => {
   const { ref, isVisible } = useScrollAnimation(0.2);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [matchingCount, setMatchingCount] = useState(150);
+  const [altitude, setAltitude] = useState(45.2);
+  const [confidence, setConfidence] = useState(98);
+  const [queues, setQueues] = useState(24);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMatchingCount(Math.floor(Math.random() * 100) + 100);
+      setAltitude(Number((Math.random() * 10 + 40).toFixed(1)));
+      setConfidence(Math.floor(Math.random() * 5) + 95);
+      setQueues(Math.floor(Math.random() * 10) + 20);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const getProjectGraphic = (title: string) => {
+    if (title === "AeroForge") {
+      return (
+        <div className="aspect-video bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 relative overflow-hidden">
+          {/* Sky/atmosphere gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-transparent" />
+
+          {/* Grid overlay for targeting */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
+
+          {/* Moving target with tracking box and crosshair */}
+          <motion.div
+            className="absolute top-0 left-0"
+            animate={{
+              left: ["20%", "50%", "60%", "30%", "45%", "20%"],
+              top: ["20%", "40%", "25%", "50%", "35%", "20%"]
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            {/* Target box */}
+            <motion.div
+              className="relative w-16 h-16 border-2 border-cyan-400 rounded"
+              animate={{
+                borderColor: ["#22d3ee", "#06b6d4", "#22d3ee"],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              {/* Corner brackets */}
+              <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-cyan-300" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-cyan-300" />
+
+              {/* Target label - centered above box */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-cyan-400 whitespace-nowrap">TARGET LOCKED</div>
+
+              {/* Tracking crosshair with center dot */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 flex items-center justify-center">
+                <Crosshair className="w-20 h-20 text-blue-400" strokeWidth={1.5} />
+                {/* Center dot - perfectly centered */}
+                <motion.div
+                  className="absolute w-2 h-2 bg-red-500 rounded-full"
+                  animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+              </div>
+
+              {/* Tracking lines extending from target */}
+              <div className="absolute top-1/2 -left-8 w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute top-1/2 -right-8 w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute left-1/2 -top-8 h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+              <div className="absolute left-1/2 -bottom-8 h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+            </motion.div>
+          </motion.div>
+
+          {/* Telemetry data */}
+          <div className="absolute bottom-4 left-4 space-y-1">
+            <div className="text-xs font-mono text-cyan-400 flex items-center gap-2">
+              <Eye className="w-3 h-3" />
+              <span>VIS: ACTIVE</span>
+            </div>
+            <motion.div
+              className="text-xs font-mono text-green-400"
+              key={altitude}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              ALT: {altitude}m
+            </motion.div>
+            <div className="text-xs font-mono text-orange-400">
+              TRACK: STABLE
+            </div>
+          </div>
+
+          {/* FPS and confidence */}
+          <div className="absolute top-4 left-4 space-y-1">
+            <div className="text-xs font-mono text-blue-400">FPS: 60</div>
+            <motion.div
+              className="text-xs font-mono text-green-400"
+              key={confidence}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              CONF: {confidence}%
+            </motion.div>
+          </div>
+        </div>
+      );
+    } else if (title === "Multiplayer SDK") {
+      return (
+        <div className="aspect-video bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 relative overflow-hidden">
+          {/* Network grid background */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
+
+          {/* Central server node */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="relative"
+            >
+              <div className="w-16 h-16 rounded-full bg-purple-500/30 border-2 border-purple-400 flex items-center justify-center">
+                <Server className="w-8 h-8 text-purple-400" />
+              </div>
+              {/* Pulsing ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-purple-400"
+                animate={{ scale: [1, 2, 1], opacity: [1, 0, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+          </div>
+
+          {/* Animated connection lines with traveling dots */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" style={{ pointerEvents: 'none' }}>
+            <defs>
+              <filter id="glow-dot">
+                <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {[0, 1, 2, 3, 4, 5].map((i) => {
+              const angle = (i * 60 * Math.PI) / 180;
+              const radius = 300; // Extended to reach closer to edges
+              const centerX = 100;
+              const centerY = 100;
+              const endX = 100 + radius * Math.cos(angle);
+              const endY = 100 + radius * Math.sin(angle);
+
+              return (
+                <g key={i}>
+                  {/* Connection line */}
+                  <motion.line
+                    x1={centerX}
+                    y1={centerY}
+                    x2={endX}
+                    y2={endY}
+                    stroke="rgba(139, 92, 246, 0.4)"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.3
+                    }}
+                  />
+
+                  {/* Path for dot animation */}
+                  <path
+                    id={`dot-path-${i}`}
+                    d={`M ${centerX} ${centerY} L ${endX} ${endY}`}
+                    fill="none"
+                  />
+
+                  {/* Animated dot */}
+                  <circle
+                    r="3"
+                    fill="rgba(168, 85, 247, 1)"
+                    filter="url(#glow-dot)"
+                  >
+                    <animateMotion
+                      dur="2s"
+                      repeatCount="indefinite"
+                      begin={`${i * 0.4}s`}
+                    >
+                      <mpath xlinkHref={`#dot-path-${i}`} />
+                    </animateMotion>
+                    <animate
+                      attributeName="opacity"
+                      values="0;1;1;0"
+                      dur="2s"
+                      repeatCount="indefinite"
+                      begin={`${i * 0.4}s`}
+                    />
+                  </circle>
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Stats */}
+          <div className="absolute bottom-4 right-4 space-y-1 text-right">
+            <div className="text-xs font-mono text-purple-400 flex items-center gap-2 justify-end">
+              <Network className="w-3 h-3" />
+              <span>10K+ PLAYERS</span>
+            </div>
+            <div className="text-xs font-mono text-green-400">
+              LATENCY: &lt;100ms
+            </div>
+            <motion.div
+              className="text-xs font-mono text-indigo-400"
+              key={queues}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              QUEUES: {queues}
+            </motion.div>
+          </div>
+
+          {/* Matchmaking counter */}
+          <div className="absolute top-4 left-4 space-y-1">
+            <div className="text-xs font-mono text-purple-400">MATCHING</div>
+            <motion.div
+              className="text-lg font-mono font-bold text-indigo-400"
+              key={matchingCount}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {matchingCount}
+            </motion.div>
+          </div>
+        </div>
+      );
+    }
+  };
 
   return (
     <>
@@ -100,9 +318,8 @@ const Projects = () => {
 
         <div className="max-w-6xl mx-auto">
           <div
-            className={`text-center mb-16 transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
           >
             <div className="flex items-center justify-center gap-3 mb-4">
               <Terminal className="w-6 h-6 text-primary" />
@@ -119,15 +336,14 @@ const Projects = () => {
             {projects.map((project, index) => (
               <article
                 key={project.title}
-                className={`group relative overflow-hidden rounded-xl bg-card border border-primary/20 hover:border-primary/50 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-700 hover:-translate-y-2 ${
-                  isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
-                }`}
+                className={`group relative overflow-hidden rounded-xl bg-card border border-primary/20 hover:border-primary/50 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-700 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
+                  }`}
                 style={{
                   transitionDelay: isVisible ? `${index * 150}ms` : '0ms'
                 }}
               >
                 {/* Status indicator */}
-                <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30">
+                <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                   <span className="text-xs font-mono text-primary flex items-center gap-1">
                     {project.isWIP && <Wrench className="w-3 h-3" />}
@@ -135,11 +351,8 @@ const Projects = () => {
                   </span>
                 </div>
 
-                {/* Grid background */}
-                <div className="aspect-video bg-gradient-to-br from-primary/10 via-accent/5 to-muted/30 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:20px_20px] group-hover:bg-[size:24px_24px] transition-all duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                </div>
+                {/* Custom project graphic */}
+                {getProjectGraphic(project.title)}
 
                 <div className="p-6 space-y-4">
                   <div className="flex items-start justify-between">

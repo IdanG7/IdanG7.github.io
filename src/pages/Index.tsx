@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Contact from "@/components/Contact";
+import SocialTaskbar from "@/components/SocialTaskbar";
 
 const Index = () => {
   const [terminalMaximized, setTerminalMaximized] = useState(true);
@@ -22,26 +23,51 @@ const Index = () => {
   }, [terminalMaximized]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
       <div id="hero">
         <Hero onTerminalStateChange={setTerminalMaximized} />
       </div>
-      <AnimatePresence>
+      <SocialTaskbar />
+      <AnimatePresence mode="wait">
         {!terminalMaximized && (
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
+            exit={{ opacity: 0, y: -30 }}
             transition={{
               duration: 0.6,
-              ease: [0.34, 1.26, 0.64, 1],
-              staggerChildren: 0.1,
+              delay: 0,
+              ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            <About />
-            <Skills />
-            <Projects />
-            <Contact />
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
+            >
+              <About />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            >
+              <Experience />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+            >
+              <Skills />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            >
+              <Projects />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

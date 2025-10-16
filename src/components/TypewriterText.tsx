@@ -21,14 +21,8 @@ const TypewriterText = ({
     <span className={className}>
       {displayedText}
       {showCursor && !isComplete && (
-        <span 
+        <span
           className="inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle"
-          style={{ animation: "blink 1s step-end infinite" }}
-        />
-      )}
-      {showCursor && isComplete && (
-        <span 
-          className="inline-block w-0.5 h-[1em] bg-foreground ml-1 align-middle opacity-50"
           style={{ animation: "blink 1s step-end infinite" }}
         />
       )}
