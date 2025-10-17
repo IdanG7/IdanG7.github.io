@@ -1,4 +1,5 @@
 import About from "./About";
+import Experience from "./Experience";
 import Skills from "./Skills";
 import Projects from "./Projects";
 import Contact from "./Contact";
@@ -6,7 +7,7 @@ import { X } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface SectionPreviewProps {
-  section: 'about' | 'skills' | 'projects' | 'contact';
+  section: 'about' | 'experience' | 'skills' | 'projects' | 'contact';
   onClose: () => void;
 }
 
@@ -15,6 +16,8 @@ const SectionPreview = ({ section, onClose }: SectionPreviewProps) => {
     switch (section) {
       case 'about':
         return <About />;
+      case 'experience':
+        return <Experience />;
       case 'skills':
         return <Skills />;
       case 'projects':

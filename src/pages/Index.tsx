@@ -5,6 +5,7 @@ import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
+import Contact from "@/components/Contact";
 import SocialTaskbar from "@/components/SocialTaskbar";
 
 const Index = () => {
@@ -67,6 +68,13 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             >
               <Projects />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+            >
+              <Contact />
             </motion.div>
           </motion.div>
         )}

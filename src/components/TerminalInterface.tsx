@@ -53,7 +53,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
   const [commandHistoryIndex, setCommandHistoryIndex] = useState(-1);
   const [tabCompletions, setTabCompletions] = useState<string[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
-  const [nanoSection, setNanoSection] = useState<"about" | "skills" | "projects" | null>(null);
+  const [nanoSection, setNanoSection] = useState<"about" | "skills" | "projects" | "experience" | "contact" | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -66,10 +66,16 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
             <span className="text-accent font-mono">nano about</span> - View About section
           </div>
           <div>
+            <span className="text-accent font-mono">nano experience</span> - View Experience section
+          </div>
+          <div>
             <span className="text-accent font-mono">nano skills</span> - View Skills section
           </div>
           <div>
             <span className="text-accent font-mono">nano projects</span> - View Projects section
+          </div>
+          <div>
+            <span className="text-accent font-mono">nano contact</span> - View Contact section
           </div>
           <div>
             <span className="text-accent font-mono">ls</span> - List all sections
@@ -101,6 +107,25 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           <div>
             <span className="text-accent font-mono">clear</span> - Clear terminal
           </div>
+          <div className="text-muted-foreground text-xs mt-3">Fun Commands:</div>
+          <div>
+            <span className="text-accent font-mono">cowsay [text]</span> - ASCII cow speaks
+          </div>
+          <div>
+            <span className="text-accent font-mono">fortune</span> - Get a random quote
+          </div>
+          <div>
+            <span className="text-accent font-mono">joke</span> - Random programming joke
+          </div>
+          <div>
+            <span className="text-accent font-mono">coffee</span> - Brew some coffee
+          </div>
+          <div>
+            <span className="text-accent font-mono">hack</span> - Initiate hacker mode
+          </div>
+          <div>
+            <span className="text-accent font-mono">matrix</span> - Enter the matrix
+          </div>
           <div className="text-muted-foreground text-xs mt-2">In nano: Press ESC or Ctrl+Z to exit</div>
         </div>
       </div>
@@ -110,9 +135,14 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
         <div className="flex gap-4 flex-wrap font-mono">
           <span className="text-blue-400">drwxr-xr-x</span>
           <span className="text-accent">about</span>
+          <span className="text-accent">experience</span>
           <span className="text-accent">skills</span>
           <span className="text-accent">projects</span>
+          <span className="text-accent">contact</span>
           <span className="text-green-400">README.md</span>
+          <span className="text-green-400">contact.txt</span>
+          <span className="text-green-400">experience.json</span>
+          <span className="text-green-400">projects.json</span>
           <span className="text-green-400">skills.json</span>
         </div>
       </div>
@@ -137,10 +167,13 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
       <div className="font-mono text-sm space-y-1">
         <div className="text-primary">portfolio/</div>
         <div className="ml-4">
-          ├── <span className="text-accent">about</span>
+          ├── <span className="text-accent">about/</span>
         </div>
         <div className="ml-4">
-          ├── <span className="text-accent">skills</span>
+          ├── <span className="text-accent">experience/</span>
+        </div>
+        <div className="ml-4">
+          ├── <span className="text-accent">skills/</span>
         </div>
         <div className="ml-8">
           ├── <span className="text-green-400">cpp.conf</span>
@@ -152,10 +185,25 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           └── <span className="text-green-400">devops.conf</span>
         </div>
         <div className="ml-4">
-          ├── <span className="text-accent">projects</span>
+          ├── <span className="text-accent">projects/</span>
         </div>
         <div className="ml-4">
-          └── <span className="text-green-400">README.md</span>
+          ├── <span className="text-accent">contact/</span>
+        </div>
+        <div className="ml-4">
+          ├── <span className="text-green-400">README.md</span>
+        </div>
+        <div className="ml-4">
+          ├── <span className="text-green-400">contact.txt</span>
+        </div>
+        <div className="ml-4">
+          ├── <span className="text-green-400">experience.json</span>
+        </div>
+        <div className="ml-4">
+          ├── <span className="text-green-400">projects.json</span>
+        </div>
+        <div className="ml-4">
+          └── <span className="text-green-400">skills.json</span>
         </div>
       </div>
     ),
@@ -203,6 +251,96 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
               <span className="ml-4 text-foreground">{item.command}</span>
             </div>
           ))}
+        </div>
+      );
+    },
+    fortune: () => {
+      const fortunes = [
+        "The best way to predict the future is to implement it.",
+        "Code never lies, comments sometimes do.",
+        "There are only two hard things in Computer Science: cache invalidation and naming things.",
+        "First, solve the problem. Then, write the code.",
+        "Simplicity is the soul of efficiency.",
+        "Make it work, make it right, make it fast.",
+        "The only way to go fast is to go well.",
+        "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+        "Programs must be written for people to read, and only incidentally for machines to execute.",
+        "Debugging is twice as hard as writing the code. So if you write the code as cleverly as possible, you are not smart enough to debug it.",
+      ];
+      const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+      return (
+        <div className="space-y-2">
+          <div className="text-primary border-l-2 border-primary/50 pl-4 italic">
+            "{randomFortune}"
+          </div>
+        </div>
+      );
+    },
+    joke: () => {
+      const jokes = [
+        "Why do programmers prefer dark mode? Because light attracts bugs!",
+        "A SQL query walks into a bar, walks up to two tables and asks... 'Can I join you?'",
+        "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+        "Why do Java developers wear glasses? Because they can't C#.",
+        "What's a programmer's favorite hangout place? The Foo Bar.",
+        "Why did the programmer quit his job? Because he didn't get arrays.",
+        "There are 10 types of people in the world: those who understand binary and those who don't.",
+        "A programmer had a problem. He thought he could solve it with threads. has Now problems. two he",
+        "Algorithm: A word used by programmers when they don't want to explain what they did.",
+      ];
+      const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+      return <div className="text-accent">{randomJoke}</div>;
+    },
+    coffee: () => (
+      <div className="font-mono text-sm space-y-1">
+        <pre className="text-primary">{`
+    ( (
+     ) )
+  ........
+  |      |]
+  \\      /
+   \`----'
+        `}</pre>
+        <div className="text-muted-foreground">Here's your coffee! ☕ Time to code!</div>
+      </div>
+    ),
+    hack: () => (
+      <div className="font-mono text-sm space-y-2">
+        <div className="text-green-400">
+          <div>Initializing hack sequence...</div>
+          <div>Bypassing firewall... ✓</div>
+          <div>Cracking encryption... ✓</div>
+          <div>Accessing mainframe... ✓</div>
+          <div className="text-primary mt-2">Just kidding! I'm a portfolio site, not a hacker tool 😄</div>
+        </div>
+      </div>
+    ),
+    matrix: () => (
+      <div className="font-mono text-sm space-y-1">
+        <div className="text-green-400">
+          <div>Wake up, Neo...</div>
+          <div>The Matrix has you...</div>
+          <div>Follow the white rabbit.</div>
+          <div className="text-primary mt-2">🐰 Check out my projects to see what I've built!</div>
+        </div>
+      </div>
+    ),
+    cowsay: (text: string = "Hello! I'm a cow!") => {
+      const message = text || "Hello! I'm a cow!";
+      const bubbleLength = Math.max(message.length + 2, 20);
+      const topBorder = " " + "_".repeat(bubbleLength);
+      const bottomBorder = " " + "-".repeat(bubbleLength);
+
+      return (
+        <div className="font-mono text-sm">
+          <pre className="text-primary">{`${topBorder}
+< ${message.padEnd(bubbleLength - 2)} >
+${bottomBorder}
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||`}</pre>
         </div>
       );
     },
@@ -306,37 +444,172 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
         output = <span className="text-foreground">{text}</span>;
       } else if (trimmedCmd.startsWith("cat ")) {
         const file = trimmedCmd.substring(4).trim();
-        const files: { [key: string]: JSX.Element } = {
-          "README.md": (
-            <div className="space-y-2 text-sm">
-              <div className="text-primary font-bold"># Idan Gurevich - Portfolio</div>
-              <div className="text-muted-foreground">
-                Backend Engineer specializing in firmware, host systems, and DevOps.
+        const fileLower = file.toLowerCase();
+
+        let fileOutput: JSX.Element | null = null;
+
+        if (fileLower === "readme.md") {
+          fileOutput = (
+            <div className="space-y-3 text-sm">
+              <div className="text-primary font-bold text-lg"># Idan Gurevich - Portfolio</div>
+
+              <div className="border-l-2 border-primary/30 pl-4 space-y-2">
+                <div className="text-accent font-semibold">## About</div>
+                <div className="text-muted-foreground">
+                  Backend Engineer specializing in C++ development, firmware engineering,
+                  host systems, and DevOps automation. Passionate about building robust,
+                  high-performance solutions for critical infrastructure.
+                </div>
               </div>
-              <div className="mt-2">Use the terminal to navigate through my portfolio.</div>
+
+              <div className="border-l-2 border-primary/30 pl-4 space-y-2">
+                <div className="text-accent font-semibold">## Quick Start</div>
+                <div className="text-muted-foreground space-y-1">
+                  <div>• Type <span className="text-primary font-mono">help</span> to see all available commands</div>
+                  <div>• Use <span className="text-primary font-mono">nano about</span> to view my background</div>
+                  <div>• Try <span className="text-primary font-mono">nano skills</span> to see my technical stack</div>
+                  <div>• Check out <span className="text-primary font-mono">nano projects</span> for my work</div>
+                </div>
+              </div>
+
+              <div className="border-l-2 border-primary/30 pl-4 space-y-2">
+                <div className="text-accent font-semibold">## Fun Commands</div>
+                <div className="text-muted-foreground space-y-1">
+                  <div>• <span className="text-primary font-mono">fortune</span> - Get a programming quote</div>
+                  <div>• <span className="text-primary font-mono">joke</span> - Hear a programmer joke</div>
+                  <div>• <span className="text-primary font-mono">cowsay [text]</span> - Make the cow speak</div>
+                  <div>• <span className="text-primary font-mono">coffee</span> - Brew some virtual coffee</div>
+                </div>
+              </div>
+
+              <div className="border-l-2 border-primary/30 pl-4 space-y-2">
+                <div className="text-accent font-semibold">## Contact</div>
+                <div className="text-muted-foreground">
+                  📧 Idan.gurevich@gmail.com<br />
+                  💼 linkedin.com/in/idangurevich<br />
+                  🐙 github.com/IdanG7
+                </div>
+              </div>
+
+              <div className="text-muted-foreground/60 text-xs mt-4">
+                Version 1.0.0 | Built with React, TypeScript, and Tailwind CSS
+              </div>
             </div>
-          ),
-          "skills.json": (
-            <div className="font-mono text-sm">
+          );
+        } else if (fileLower === "skills.json") {
+          fileOutput = (
+            <div className="font-mono text-sm space-y-1">
               <div>{`{`}</div>
-              <div className="ml-4">"languages": ["C++", "Python", "Bash"],</div>
-              <div className="ml-4">"tools": ["CMake", "GCC", "Jenkins"],</div>
-              <div className="ml-4">"expertise": ["Firmware", "Testing", "DevOps"]</div>
+              <div className="ml-4">"categories": {`{`}</div>
+              <div className="ml-8">"Languages": ["C++", "C", "Python", "C#", "Java", "Bash", "Groovy"],</div>
+              <div className="ml-8">"DevOps & Cloud": ["Jenkins", "Docker", "Git", "GitHub Actions", "SVN", "AWS", "Kubernetes"],</div>
+              <div className="ml-8">"Development Tools": ["Visual Studio", "VS Code", "IntelliJ", "PyCharm", "AutoIt"],</div>
+              <div className="ml-8">"Databases & Backend": ["PostgreSQL", "Redis", "FastAPI", "NATS"],</div>
+              <div className="ml-8">"Libraries & Frameworks": ["OpenCV", "PhysX", "YAML", "OpenTelemetry"],</div>
+              <div className="ml-8">"Tools & Systems": ["Linux", "Windows", "JIRA", "Monday", "Prometheus", "Grafana"]</div>
+              <div className="ml-4">{`}`}</div>
               <div>{`}`}</div>
             </div>
-          ),
-        };
-        output = files[file] || <span className="text-destructive">cat: {file}: No such file or directory</span>;
+          );
+        } else if (fileLower === "contact.txt") {
+          fileOutput = (
+            <div className="space-y-3 text-sm">
+              <div className="text-primary font-bold">Contact Information</div>
+              <div className="border-l-2 border-primary/30 pl-4 space-y-2">
+                <div className="flex items-start gap-2">
+                  <span className="text-accent font-semibold">Email:</span>
+                  <span className="text-muted-foreground">Idan.gurevich@gmail.com</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-accent font-semibold">LinkedIn:</span>
+                  <span className="text-muted-foreground">linkedin.com/in/idangurevich</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-accent font-semibold">GitHub:</span>
+                  <span className="text-muted-foreground">github.com/IdanG7</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-accent font-semibold">Location:</span>
+                  <span className="text-muted-foreground">Toronto, Ontario, Canada</span>
+                </div>
+              </div>
+              <div className="text-muted-foreground/60 text-xs mt-3">
+                Feel free to reach out for opportunities or collaboration!
+              </div>
+            </div>
+          );
+        } else if (fileLower === "experience.json") {
+          fileOutput = (
+            <div className="font-mono text-sm space-y-1">
+              <div>{`{`}</div>
+              <div className="ml-4">"positions": [</div>
+              <div className="ml-8">{`{`}</div>
+              <div className="ml-12">"company": "WDI Wise Device Inc.",</div>
+              <div className="ml-12">"location": "Vaughan, ON",</div>
+              <div className="ml-12">"title": "Junior Software Developer",</div>
+              <div className="ml-12">"period": "Jan 2025 – Present",</div>
+              <div className="ml-12">"description": "Administering 70+ Jenkins projects and engineering automated CI/CD integrations that reduced errors by 30%. Developing C++ components for NIR imaging systems with real-time processing algorithms. Building API-driven testing tools and mentoring junior developers."</div>
+              <div className="ml-8">{`},`}</div>
+              <div className="ml-8">{`{`}</div>
+              <div className="ml-12">"company": "WDI Wise Device Inc.",</div>
+              <div className="ml-12">"location": "Vaughan, ON",</div>
+              <div className="ml-12">"title": "Software Co-op Student",</div>
+              <div className="ml-12">"period": "May 2024 – Jan 2025",</div>
+              <div className="ml-12">"description": "Supporting large-scale Jenkins infrastructure and developing Groovy automation scripts. Collaborated with QA to resolve 100+ issues and strengthen release delivery timelines."</div>
+              <div className="ml-8">{`}`}</div>
+              <div className="ml-4">],</div>
+              <div className="ml-4">"total_experience": "2+ Years"</div>
+              <div>{`}`}</div>
+            </div>
+          );
+        } else if (fileLower === "projects.json") {
+          fileOutput = (
+            <div className="font-mono text-sm space-y-1">
+              <div>{`{`}</div>
+              <div className="ml-4">"projects": [</div>
+              <div className="ml-8">{`{`}</div>
+              <div className="ml-12">"name": "AeroForge",</div>
+              <div className="ml-12">"status": "WIP",</div>
+              <div className="ml-12">"description": "Cross-platform C++20 framework for vision-based drone control with real-time object detection and autonomous navigation.",</div>
+              <div className="ml-12">"tech": ["C++20", "OpenCV", "Computer Vision", "Drones"],</div>
+              <div className="ml-12">"metrics": {`{`}</div>
+              <div className="ml-16">"latency": "Sub-frame",</div>
+              <div className="ml-16">"safety": "5 layers",</div>
+              <div className="ml-16">"platform": "Cross"</div>
+              <div className="ml-12">{`},`}</div>
+              <div className="ml-12">"github": "https://github.com/IdanG7/AeroForge"</div>
+              <div className="ml-8">{`},`}</div>
+              <div className="ml-8">{`{`}</div>
+              <div className="ml-12">"name": "Multiplayer SDK",</div>
+              <div className="ml-12">"status": "Production",</div>
+              <div className="ml-12">"description": "Production-grade distributed matchmaking and game services platform supporting real-time session allocation at scale.",</div>
+              <div className="ml-12">"tech": ["C++17", "Python", "Microservices", "Docker"],</div>
+              <div className="ml-12">"metrics": {`{`}</div>
+              <div className="ml-16">"latency": "&lt;100ms",</div>
+              <div className="ml-16">"players": "10K+",</div>
+              <div className="ml-16">"services": "5+"</div>
+              <div className="ml-12">{`},`}</div>
+              <div className="ml-12">"github": "https://github.com/IdanG7"</div>
+              <div className="ml-8">{`}`}</div>
+              <div className="ml-4">]</div>
+              <div>{`}`}</div>
+            </div>
+          );
+        }
+
+        output = fileOutput || <span className="text-destructive">cat: {file}: No such file or directory</span>;
       } else if (trimmedCmd.startsWith("nano ")) {
         const file = trimmedCmd.substring(5).trim();
-        const validSections: ("about" | "skills" | "projects")[] = [
+        const validSections: ("about" | "skills" | "projects" | "experience" | "contact")[] = [
           "about",
+          "experience",
           "skills",
           "projects",
+          "contact",
         ];
 
         if (validSections.includes(file as any)) {
-          setNanoSection(file as "about" | "skills" | "projects");
+          setNanoSection(file as "about" | "skills" | "projects" | "experience" | "contact");
           output = <span className="text-primary">Opening {file} in nano...</span>;
         } else {
           output = <span className="text-destructive">nano: {file}: No such file</span>;
@@ -347,6 +620,37 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           output = <span className="text-muted-foreground">Changed directory to ~</span>;
         } else {
           output = <span className="text-destructive">cd: {path}: No such directory</span>;
+        }
+      } else if (trimmedCmd === "fortune") {
+        output = commands.fortune();
+      } else if (trimmedCmd === "joke") {
+        output = commands.joke();
+      } else if (trimmedCmd === "coffee") {
+        output = commands.coffee();
+      } else if (trimmedCmd === "hack") {
+        output = commands.hack();
+      } else if (trimmedCmd === "matrix") {
+        output = commands.matrix();
+      } else if (trimmedCmd.startsWith("cowsay")) {
+        const text = trimmedCmd.substring(6).trim();
+        output = commands.cowsay(text);
+      } else if (trimmedCmd.startsWith("sudo ")) {
+        const sudoCmd = trimmedCmd.substring(5).trim();
+        if (sudoCmd === "rm -rf /" || sudoCmd === "rm -rf /*") {
+          output = (
+            <div className="space-y-2">
+              <div className="text-destructive">Nice try! But I'm not falling for that one.</div>
+              <div className="text-muted-foreground">This is a portfolio site, not a production server 😉</div>
+            </div>
+          );
+        } else {
+          output = (
+            <div className="space-y-1">
+              <div className="text-yellow-500">[sudo] password for portfolio:</div>
+              <div className="text-muted-foreground">Sorry, user portfolio is not in the sudoers file.</div>
+              <div className="text-muted-foreground text-xs">This incident will be reported to nobody because this is a portfolio site 😄</div>
+            </div>
+          );
         }
       } else if (trimmedCmd === "") {
         output = "";
@@ -389,8 +693,8 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
 
   const getCompletions = (partial: string) => {
     const allCommands = Object.keys(commands);
-    const sections = ["about", "skills", "projects"];
-    const files = ["README.md", "skills.json"];
+    const sections = ["about", "experience", "skills", "projects", "contact"];
+    const files = ["README.md", "contact.txt", "experience.json", "projects.json", "skills.json"];
     const echoSuggestions = [
       "echo Hello World",
       "echo Backend Engineer",

@@ -368,7 +368,7 @@ const Projects = () => {
                   </p>
 
                   {/* Metrics */}
-                  <div className="grid grid-cols-3 gap-3 pt-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                     {Object.entries(project.metrics).map(([key, value]) => (
                       <div key={key} className="text-center p-2 rounded bg-muted/50">
                         <div className="text-xs text-muted-foreground font-mono mb-1">{key}</div>
@@ -432,7 +432,7 @@ const Projects = () => {
                 {/* Metrics */}
                 <div>
                   <h3 className="text-sm font-mono text-primary mb-3">Metrics</h3>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {Object.entries(selectedProject.metrics).map(([key, value]) => (
                       <div key={key} className="text-center p-3 rounded bg-muted/50 border border-primary/20">
                         <div className="text-xs text-muted-foreground font-mono mb-1">{key}</div>
