@@ -25,12 +25,12 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 opacity-0 animate-fade-in animate-delay-300">
-      {isTerminalOpen ? (
+      {isTerminalOpen && (
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="rounded-full px-8 transition-all hover:scale-105 hover:shadow-[var(--shadow-glow)] bg-gradient-to-r from-primary to-accent"
               >
                 <Terminal className="w-4 h-4 mr-2" />
@@ -38,18 +38,18 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
             </DropdownMenuTrigger>
-        <DropdownMenuContent 
+        <DropdownMenuContent
           className="w-56 bg-card border-primary/30 shadow-[var(--shadow-elegant)] z-50"
           align="center"
         >
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => executeCommand('nano about')}
             className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
           >
             <User className="w-4 h-4 mr-2 text-primary" />
             nano about
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => executeCommand('nano skills')}
             className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
           >
@@ -63,14 +63,14 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
             <Terminal className="w-4 h-4 mr-2 text-primary" />
             nano projects
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => executeCommand('neofetch')}
             className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
           >
             <span className="text-primary mr-2">$</span>
             neofetch
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => executeCommand('tree')}
             className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 font-mono"
           >
@@ -79,26 +79,6 @@ const TerminalQuickActions = ({ onTerminalStateChange, isTerminalOpen }: Termina
           </DropdownMenuItem>
         </DropdownMenuContent>
           </DropdownMenu>
-        </>
-      ) : (
-        <>
-          <Button 
-            size="lg" 
-            className="rounded-full px-8 transition-all hover:scale-105 hover:shadow-[var(--shadow-glow)] bg-gradient-to-r from-primary to-accent"
-            onClick={() => scrollToSection('about')}
-          >
-            <User className="w-4 h-4 mr-2" />
-            About Me
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full px-8 transition-all hover:scale-105 border-primary/30 hover:border-primary hover:bg-primary/5"
-            onClick={() => scrollToSection('projects')}
-          >
-            <Code2 className="w-4 h-4 mr-2" />
-            View Projects
-          </Button>
         </>
       )}
     </div>

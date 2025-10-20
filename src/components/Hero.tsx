@@ -108,14 +108,14 @@ const Hero = ({ onTerminalStateChange }: HeroProps) => {
               </div>
             </div>
             <div>
-              <h1 className="hero-title">BACKEND</h1>
+              <h1 className="hero-title text-gradient-primary">BACKEND</h1>
               <h1 className="hero-title">
-                <span className="shine-txt">ENGINEER</span> &
+                <span className="text-gradient-accent">ENGINEER</span> <span className="text-foreground">&</span>
               </h1>
               <h1 className="hero-title">
-                <span className="highlight-txt">FIRMWARE</span> WHISPERER
+                <span className="text-gradient-secondary">FIRMWARE</span> <span className="text-gradient-primary">WHISPERER</span>
               </h1>
-              <p className="text-sm text-muted-foreground font-mono mt-2">i like hardware :)</p>
+              <p className="text-base text-muted-foreground font-mono mt-4 tracking-wide">i like hardware :)</p>
             </div>
           </div>
         </div>

@@ -7,6 +7,8 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import SocialTaskbar from "@/components/SocialTaskbar";
+import StickyNav from "@/components/StickyNav";
+import ScrollReveal from "@/components/ScrollReveal";
 
 const Index = () => {
   const [terminalMaximized, setTerminalMaximized] = useState(true);
@@ -25,6 +27,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
+      <StickyNav />
       <div id="hero">
         <Hero onTerminalStateChange={setTerminalMaximized} />
       </div>
@@ -41,41 +44,35 @@ const Index = () => {
               ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-            >
-              <About />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            >
-              <Experience />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-            >
-              <Skills />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-            >
-              <Projects />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
-            >
-              <Contact />
-            </motion.div>
+            <ScrollReveal delay={0.1}>
+              <div id="about">
+                <About />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.15}>
+              <div id="experience">
+                <Experience />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <div id="skills">
+                <Skills />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.25}>
+              <div id="projects">
+                <Projects />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.3}>
+              <div id="contact">
+                <Contact />
+              </div>
+            </ScrollReveal>
           </motion.div>
         )}
       </AnimatePresence>
