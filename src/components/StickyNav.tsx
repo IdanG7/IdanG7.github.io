@@ -73,6 +73,12 @@ const StickyNav = () => {
         setIsVisible(true);
       }
 
+      // If at the very top of the page, always set hero as active
+      if (window.scrollY < 50) {
+        setActiveSection('hero');
+        return;
+      }
+
       // Find active section
       const sections = navItems.map(item => document.getElementById(item.id));
       const scrollPosition = window.scrollY + 200;
