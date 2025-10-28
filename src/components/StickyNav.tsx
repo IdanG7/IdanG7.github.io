@@ -83,6 +83,12 @@ const StickyNav = () => {
       const sections = navItems.map(item => document.getElementById(item.id));
       const scrollPosition = window.scrollY + 200;
 
+      // Check if sections are properly laid out (have valid offsetTop values)
+      const sectionsReady = sections.every(section => section !== null);
+      if (!sectionsReady) {
+        return; // Don't update if sections aren't ready yet
+      }
+
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
         if (section && section.offsetTop <= scrollPosition) {
@@ -107,7 +113,11 @@ const StickyNav = () => {
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
-    handleScroll(); // Initial check
+
+    // Delay initial check to ensure DOM is laid out
+    requestAnimationFrame(() => {
+      setTimeout(handleScroll, 100);
+    });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
