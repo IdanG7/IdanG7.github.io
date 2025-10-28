@@ -170,21 +170,10 @@ const StickyNav = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + index * 0.05 }}
                     onClick={() => scrollToSection(item.id)}
-                    className={`relative px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 ${
-                      activeSection === item.id
-                        ? 'text-primary'
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
+                    className="relative px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-muted-foreground hover:text-foreground"
                   >
                     <item.icon className="w-4 h-4" />
                     <span className="text-sm font-medium">{item.label}</span>
-                    {activeSection === item.id && (
-                      <motion.div
-                        layoutId="activeSection"
-                        className="absolute inset-0 bg-primary/10 rounded-lg border border-primary/20"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                    )}
                   </motion.button>
                 ))}
               </div>
@@ -237,13 +226,7 @@ const StickyNav = () => {
                       className="p-1.5"
                       aria-label={item.label}
                     >
-                      <div
-                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                          activeSection === item.id
-                            ? 'bg-primary w-8'
-                            : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                        }`}
-                      />
+                      <div className="w-2 h-2 rounded-full transition-all duration-200 bg-muted-foreground/30 hover:bg-muted-foreground/50" />
                     </button>
                   ))}
                 </div>
