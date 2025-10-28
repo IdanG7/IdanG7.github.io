@@ -133,11 +133,6 @@ const StickyNav = () => {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Delay initial check to ensure DOM is laid out
-    requestAnimationFrame(() => {
-      setTimeout(handleScroll, 100);
-    });
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
