@@ -73,33 +73,8 @@ const StickyNav = () => {
         setIsVisible(true);
       }
 
-      // If at the very top of the page, always set hero as active
-      if (window.scrollY < 50) {
-        setActiveSection('hero');
-        return;
-      }
-
       // Find active section
       const sections = navItems.map(item => document.getElementById(item.id));
-
-      // Check if sections are properly laid out
-      // Sections should have increasing offsetTop values. If they don't, layout isn't ready.
-      const allSectionsExist = sections.every(section => section !== null);
-      if (!allSectionsExist) {
-        return; // Don't update if sections aren't ready yet
-      }
-
-      // Verify that sections have realistic positions (contact should be well below hero)
-      const heroSection = sections[0];
-      const contactSection = sections[sections.length - 1];
-      if (heroSection && contactSection) {
-        const verticalSpacing = contactSection.offsetTop - heroSection.offsetTop;
-        // If contact isn't at least 500px below hero, layout isn't ready
-        if (verticalSpacing < 500) {
-          return;
-        }
-      }
-
       const scrollPosition = window.scrollY + 200;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -126,11 +101,6 @@ const StickyNav = () => {
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
-
-    // Delay initial check to ensure DOM is laid out
-    requestAnimationFrame(() => {
-      setTimeout(handleScroll, 100);
-    });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
