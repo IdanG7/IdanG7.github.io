@@ -3,13 +3,15 @@
  * A thinking, reasoning chatbot that understands context and generates dynamic responses
  */
 
+import { askLLM, isLLMAvailable } from "./llm";
+
 export interface ChatbotResponse {
   answer: string;
   suggestions?: string[];
 }
 
 // Core knowledge graph - structured for intelligent querying
-const KNOWLEDGE_GRAPH = {
+export const KNOWLEDGE_GRAPH = {
   identity: {
     name: "Idan Gurevich",
     pronouns: ["I", "me", "my", "Idan", "he"],
@@ -553,7 +555,7 @@ function getOrdinalSuffix(num: number): string {
 /**
  * Main chatbot intelligence system
  */
-export function askChatbot(question: string): ChatbotResponse {
+export async function askChatbot(question: string): Promise<ChatbotResponse> {
   const trimmed = question.trim();
 
   if (!trimmed) {
@@ -600,7 +602,27 @@ export function askChatbot(question: string): ChatbotResponse {
     }
   }
 
-  // Fallback for unrecognized questions
+  // Fallback for unrecognized questions - try LLM first if available
+  if (isLLMAvailable()) {
+    try {
+      const llmResponse = await askLLM(trimmed);
+      if (llmResponse) {
+        return {
+          answer: llmResponse,
+          suggestions: [
+            "Tell me more about your projects",
+            "What's your experience with C++?",
+            "How can I contact you?",
+          ],
+        };
+      }
+    } catch (error) {
+      console.error("LLM fallback failed:", error);
+      // Continue to pattern-based fallback
+    }
+  }
+
+  // Final fallback: pattern-based generic response
   return {
     answer: generator.generateFallbackResponse(parser),
     suggestions: [
