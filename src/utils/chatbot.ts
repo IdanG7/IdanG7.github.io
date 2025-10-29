@@ -374,12 +374,14 @@ class ResponseGenerator {
   }
 
   generateSkillsResponse(parser: IntentParser): string | null {
-    if (!parser.hasIntent("skills")) return null;
-
+    // Check for SPECIFIC technology mentions first (highest priority)
     const tech = parser.getTechEntity();
     if (tech) {
       return this.generateTechSpecificResponse(tech);
     }
+
+    // Fall back to general skills intent
+    if (!parser.hasIntent("skills")) return null;
 
     const expertSkills = KNOWLEDGE_GRAPH.skills.expert.slice(0, 4).join(", ");
     const responses = [
@@ -453,12 +455,14 @@ class ResponseGenerator {
   }
 
   generateProjectsResponse(parser: IntentParser): string | null {
-    if (!parser.hasIntent("projects")) return null;
-
+    // Check for SPECIFIC project mentions first (highest priority)
     const projectName = parser.getProjectEntity();
     if (projectName) {
       return this.generateProjectSpecificResponse(projectName);
     }
+
+    // Fall back to general projects intent
+    if (!parser.hasIntent("projects")) return null;
 
     const responses = [
       `I'm working on two major projects right now. AeroForge is a C++20 framework for autonomous drone control using computer vision - think real-time object tracking with sub-frame latency. Then there's my Multiplayer SDK, which is a production-ready distributed matchmaking platform that handles 10,000+ concurrent players with sub-100ms latency. Both are pretty complex systems!`,
@@ -567,17 +571,22 @@ export function askChatbot(question: string): ChatbotResponse {
   const generator = new ResponseGenerator();
 
   // Try to generate responses based on detected intents
-  // Casual conversation takes priority for natural flow
+  // Priority order: Casual → Specific (projects/tech) → Generic (personal/about)
   const responseAttempts = [
+    // Casual conversation first
     () => generator.generateGreetingResponse(parser),
     () => generator.generateHowAreYouResponse(parser),
     () => generator.generateThanksResponse(parser),
     () => generator.generateGoodbyeResponse(parser),
     () => generator.generateSmallTalkResponse(parser),
-    () => generator.generatePersonalResponse(parser),
+
+    // SPECIFIC topics (projects, technologies) - these should override generic "about"
+    () => generator.generateProjectsResponse(parser), // Moved up - checks for specific project names
+    () => generator.generateSkillsResponse(parser),   // Moved up - checks for specific tech names
+
+    // Generic topics last
+    () => generator.generatePersonalResponse(parser), // Moved down - generic "about" fallback
     () => generator.generateExperienceResponse(parser),
-    () => generator.generateSkillsResponse(parser),
-    () => generator.generateProjectsResponse(parser),
     () => generator.generateEducationResponse(parser),
     () => generator.generateContactResponse(parser),
   ];
