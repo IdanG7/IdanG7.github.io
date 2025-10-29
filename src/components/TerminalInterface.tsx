@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 import SectionPreview from "./SectionPreview";
+import { askChatbot, isQuestion } from "@/utils/chatbot";
 
 const commandSchema = z.string().trim().max(500);
 
@@ -43,8 +44,12 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
       output: (
         <div className="text-primary space-y-2">
           <div>Welcome to Idan Gurevich's Portfolio Terminal</div>
-          <div className="text-muted-foreground">Type 'help' to see available commands</div>
-          <div className="text-muted-foreground text-sm">Version 1.0.0 | Backend Engineer Portfolio</div>
+          <div className="text-accent text-sm">✨ Now featuring AI-powered chatbot! Ask me anything about my background, skills, or projects.</div>
+          <div className="text-muted-foreground text-sm">
+            Try: <span className="text-primary font-mono">"What do you do?"</span> or <span className="text-primary font-mono">"Tell me about your projects"</span>
+          </div>
+          <div className="text-muted-foreground text-sm mt-2">Type 'help' to see all available commands</div>
+          <div className="text-muted-foreground text-xs">Version 2.0.0 | Backend Engineer Portfolio with AI Chatbot</div>
         </div>
       ),
       timestamp: new Date(),
@@ -62,6 +67,14 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
       <div className="space-y-2">
         <div className="text-primary font-semibold">Available Commands:</div>
         <div className="grid gap-1 text-sm">
+          <div className="text-muted-foreground text-xs mb-2">AI Chatbot:</div>
+          <div>
+            <span className="text-accent font-mono">ask [question]</span> - Ask me anything about my background, skills, or projects
+          </div>
+          <div className="text-muted-foreground text-xs ml-4 mb-2">
+            Or just type naturally! Questions ending with '?' are auto-detected
+          </div>
+          <div className="text-muted-foreground text-xs mt-3">Portfolio Navigation:</div>
           <div>
             <span className="text-accent font-mono">nano about</span> - View About section
           </div>
@@ -77,6 +90,7 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
           <div>
             <span className="text-accent font-mono">nano contact</span> - View Contact section
           </div>
+          <div className="text-muted-foreground text-xs mt-3">System Commands:</div>
           <div>
             <span className="text-accent font-mono">ls</span> - List all sections
           </div>
@@ -654,6 +668,43 @@ ${bottomBorder}
         }
       } else if (trimmedCmd === "") {
         output = "";
+      } else if (trimmedCmd.startsWith("ask ")) {
+        // Explicit ask command
+        const question = trimmedCmd.substring(4).trim();
+        const response = askChatbot(question);
+        output = (
+          <div className="space-y-2">
+            <div className="text-foreground whitespace-pre-wrap">{response.answer}</div>
+            {response.suggestions && response.suggestions.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-primary/20">
+                <div className="text-muted-foreground text-xs mb-2">You might also ask:</div>
+                {response.suggestions.map((suggestion, idx) => (
+                  <div key={idx} className="text-accent text-sm ml-2">
+                    • {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      } else if (isQuestion(trimmedCmd) || validatedCmd.endsWith('?')) {
+        // Auto-detect questions
+        const response = askChatbot(validatedCmd);
+        output = (
+          <div className="space-y-2">
+            <div className="text-foreground whitespace-pre-wrap">{response.answer}</div>
+            {response.suggestions && response.suggestions.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-primary/20">
+                <div className="text-muted-foreground text-xs mb-2">You might also ask:</div>
+                {response.suggestions.map((suggestion, idx) => (
+                  <div key={idx} className="text-accent text-sm ml-2">
+                    • {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
       } else {
         output = (
           <span className="text-destructive">Command not found: {trimmedCmd}. Type 'help' for available commands.</span>
