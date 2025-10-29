@@ -23,9 +23,12 @@ export async function askLLM(question: string): Promise<string | null> {
 
   // If no API key configured, return null (fallback to pattern system)
   if (!groq) {
-    console.log("No Groq API key configured - using pattern-based responses only");
+    console.log("🔴 No Groq API key configured - using pattern-based responses only");
+    console.log("💡 Add VITE_GROQ_API_KEY to .env and restart dev server");
     return null;
   }
+
+  console.log("🧠 LLM activated for question:", question);
 
   try {
     const systemPrompt = createSystemPrompt();
@@ -43,10 +46,11 @@ export async function askLLM(question: string): Promise<string | null> {
     });
 
     const response = completion.choices[0]?.message?.content;
+    console.log("✅ LLM response received:", response?.substring(0, 100) + "...");
     return response || null;
 
   } catch (error) {
-    console.error("Groq API error:", error);
+    console.error("❌ Groq API error:", error);
     return null; // Gracefully fall back to pattern system on error
   }
 }
