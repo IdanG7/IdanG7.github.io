@@ -166,6 +166,14 @@ class IntentParser {
 
   private extractEntities(): void {
     const entityMap = {
+      // Casual conversation
+      greeting: ["hi", "hello", "hey", "greetings", "howdy", "yo", "sup"],
+      howAreYou: ["how are you", "how's it going", "how are things", "what's up", "how you doing", "how've you been", "how is it going", "hows it going", "whats up"],
+      thanks: ["thanks", "thank you", "thx", "appreciate", "grateful"],
+      goodbye: ["bye", "goodbye", "see you", "later", "farewell", "peace"],
+      smallTalk: ["nice", "cool", "awesome", "great", "interesting", "wow"],
+
+      // Portfolio-related
       experience: ["work", "job", "experience", "worked", "career", "employed", "position", "role"],
       skills: ["skill", "tech", "technology", "language", "framework", "tool", "know", "proficient", "expert"],
       projects: ["project", "built", "building", "created", "working on", "aeroforge", "multiplayer", "sdk"],
@@ -250,6 +258,73 @@ class ResponseGenerator {
     // Add conversational elements randomly
     const starters = Math.random() > 0.6 ? this.pickRandom([...RESPONSE_STYLES.casual, ...RESPONSE_STYLES.thinking]) + "! " : "";
     return starters + base;
+  }
+
+  generateGreetingResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("greeting")) {
+      const responses = [
+        `Hey! 👋 I'm Idan's AI brain. I can chat about his work, projects, skills, or just tell you how to reach him. What's on your mind?`,
+        `Hello! Great to meet you. I'm here to answer questions about Idan's background, technical work, or anything else you're curious about!`,
+        `Hi there! I'm the computer brain behind this portfolio. Ask me anything - I love talking about Idan's projects and experience!`,
+        `Hey! Welcome. I'm an AI assistant loaded with everything about Idan. What would you like to know?`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
+  }
+
+  generateHowAreYouResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("howAreYou")) {
+      const responses = [
+        `I'm doing great! All systems operational and ready to chat. 🧠 I'm excited to tell you about Idan's work - he's been crushing it with some really cool projects lately. What would you like to know?`,
+        `Pretty good! Just here processing questions and sharing knowledge. Things are busy - Idan's working on some fascinating stuff like AeroForge (autonomous drone control) and managing 70+ Jenkins projects. What interests you?`,
+        `Excellent! My neural pathways are firing perfectly. 😄 I've got tons of info about Idan's backend engineering work, his C++ projects, and DevOps expertise. What can I help you explore?`,
+        `I'm good, thanks for asking! Just hanging out in the terminal waiting to answer questions. Idan's been building some impressive systems - want to hear about them?`,
+        `Doing awesome! I'm an AI so I don't get tired. 🤖 I could talk about Idan's projects all day - especially AeroForge and the Multiplayer SDK. What would you like to dive into?`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
+  }
+
+  generateThanksResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("thanks")) {
+      const responses = [
+        `You're very welcome! Feel free to ask me anything else - I'm always here to chat about Idan's work. 😊`,
+        `Happy to help! That's what I'm here for. Got any other questions?`,
+        `No problem at all! I enjoy sharing this information. Anything else you'd like to know?`,
+        `Anytime! I love talking about Idan's projects and skills. Let me know if you want to know more!`,
+        `Glad I could help! Don't hesitate to ask more questions - I've got plenty to share.`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
+  }
+
+  generateGoodbyeResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("goodbye")) {
+      const responses = [
+        `See you later! Thanks for chatting. If you're interested in working with Idan, his email is ${KNOWLEDGE_GRAPH.contact.email}. Take care! 👋`,
+        `Goodbye! Feel free to come back anytime. And don't forget - you can reach Idan at ${KNOWLEDGE_GRAPH.contact.email} if you'd like to connect!`,
+        `Later! It was great chatting with you. If you want to reach out to Idan, check out ${KNOWLEDGE_GRAPH.contact.linkedin} or ${KNOWLEDGE_GRAPH.contact.email}. Bye!`,
+        `Take care! Remember, if you're interested in collaborating or hiring, Idan's available at ${KNOWLEDGE_GRAPH.contact.email}. See you! 🚀`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
+  }
+
+  generateSmallTalkResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("smallTalk") && !parser.hasIntent("experience") && !parser.hasIntent("projects")) {
+      const responses = [
+        `Thanks! Yeah, Idan's been building some really cool stuff. Want to hear about his projects?`,
+        `Glad you think so! There's a lot of interesting work happening - especially with AeroForge and the DevOps automation. Curious about anything specific?`,
+        `Appreciate it! If you think that's cool, wait until you hear about the actual projects. What would you like to know more about?`,
+        `Right? I think so too! Idan's really passionate about performance engineering and automation. Want me to dive into any particular area?`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
   }
 
   generatePersonalResponse(parser: IntentParser): string | null {
@@ -483,7 +558,13 @@ export function askChatbot(question: string): ChatbotResponse {
   const generator = new ResponseGenerator();
 
   // Try to generate responses based on detected intents
+  // Casual conversation takes priority for natural flow
   const responseAttempts = [
+    () => generator.generateGreetingResponse(parser),
+    () => generator.generateHowAreYouResponse(parser),
+    () => generator.generateThanksResponse(parser),
+    () => generator.generateGoodbyeResponse(parser),
+    () => generator.generateSmallTalkResponse(parser),
     () => generator.generatePersonalResponse(parser),
     () => generator.generateExperienceResponse(parser),
     () => generator.generateSkillsResponse(parser),
@@ -520,7 +601,11 @@ export function askChatbot(question: string): ChatbotResponse {
 function generateContextualSuggestions(parser: IntentParser): string[] {
   const suggestions: string[] = [];
 
-  if (parser.hasIntent("experience")) {
+  if (parser.hasIntent("greeting") || parser.hasIntent("howAreYou")) {
+    suggestions.push("What do you do?", "Tell me about your projects", "What are your skills?");
+  } else if (parser.hasIntent("thanks") || parser.hasIntent("goodbye")) {
+    suggestions.push("How can I contact you?", "Show me your resume");
+  } else if (parser.hasIntent("experience")) {
     suggestions.push("What are your main technical skills?", "Tell me about your projects");
   } else if (parser.hasIntent("skills")) {
     suggestions.push("What have you built with these skills?", "Tell me about your experience");
