@@ -1,6 +1,6 @@
 /**
- * Portfolio Chatbot Service
- * Provides natural language question-answering about Idan Gurevich's portfolio
+ * Intelligent Portfolio Chatbot - "Computer Brain"
+ * A thinking, reasoning chatbot that understands context and generates dynamic responses
  */
 
 export interface ChatbotResponse {
@@ -8,398 +8,539 @@ export interface ChatbotResponse {
   suggestions?: string[];
 }
 
-// Knowledge base organized by topic
-const KNOWLEDGE_BASE = {
-  personal: {
+// Core knowledge graph - structured for intelligent querying
+const KNOWLEDGE_GRAPH = {
+  identity: {
     name: "Idan Gurevich",
+    pronouns: ["I", "me", "my", "Idan", "he"],
+    role: "Backend Engineer & Firmware Whisperer",
     location: "Toronto, Ontario, Canada",
-    title: "Backend Engineer & Firmware Whisperer",
-    bio: "Backend engineer specializing in C++ development with deep expertise in firmware engineering, host systems, and DevOps automation. I build robust, high-performance solutions that power critical infrastructure. My work focuses on automated testing frameworks, firmware validation, and continuous integration pipelines.",
-    yearsOfExperience: "2+ years",
-    availability: "Available for opportunities"
+    status: "Available for opportunities",
+    yearsExperience: 2,
+    primaryFocus: ["C++", "Firmware Engineering", "DevOps Automation"],
   },
 
-  experience: {
-    current: {
-      title: "Junior Software Developer",
-      company: "WDI Wise Device Inc.",
-      location: "Vaughan, ON",
-      period: "Jan 2025 – Present",
-      responsibilities: [
-        "Administering 70+ Jenkins projects",
-        "Engineering automated CI/CD integrations (reduced errors by 30%)",
-        "Developing C++ components for NIR imaging systems with real-time processing algorithms",
-        "Building API-driven testing tools",
-        "Mentoring junior developers"
-      ]
-    },
-    previous: {
-      title: "Software Co-op Student",
-      company: "WDI Wise Device Inc.",
-      location: "Vaughan, ON",
-      period: "May 2024 – Jan 2025",
-      responsibilities: [
-        "Supporting large-scale Jenkins infrastructure",
-        "Developing Groovy automation scripts",
-        "Collaborating with QA to resolve 100+ issues",
-        "Strengthening release delivery timelines"
-      ]
-    }
+  personality: {
+    traits: ["technical", "precise", "passionate about performance", "systems thinker"],
+    interests: ["real-time systems", "computer vision", "distributed systems", "automation"],
   },
+
+  experience: [
+    {
+      role: "Junior Software Developer",
+      company: "WDI Wise Device Inc.",
+      location: "Vaughan, ON",
+      startDate: "2025-01",
+      current: true,
+      achievements: [
+        { fact: "managing 70+ Jenkins projects", impact: "infrastructure management" },
+        { fact: "reduced CI/CD errors by 30%", impact: "reliability improvement" },
+        { fact: "developing C++ for NIR imaging systems", impact: "real-time processing" },
+        { fact: "building API-driven testing tools", impact: "automation" },
+        { fact: "mentoring junior developers", impact: "team growth" },
+      ],
+      technologies: ["Jenkins", "C++", "Groovy", "CI/CD", "NIR imaging"],
+    },
+    {
+      role: "Software Co-op Student",
+      company: "WDI Wise Device Inc.",
+      location: "Vaughan, ON",
+      startDate: "2024-05",
+      endDate: "2025-01",
+      achievements: [
+        { fact: "supported large-scale Jenkins infrastructure", impact: "DevOps" },
+        { fact: "developed Groovy automation scripts", impact: "automation" },
+        { fact: "resolved 100+ QA issues", impact: "quality improvement" },
+      ],
+      technologies: ["Jenkins", "Groovy", "QA Tools"],
+    },
+  ],
 
   education: [
     {
       degree: "Bachelor of Computer Science (Honors)",
-      institution: "Toronto Metropolitan University",
+      school: "Toronto Metropolitan University",
       location: "Toronto, Ontario",
-      period: "2023-2027",
-      status: "In Progress"
+      yearStart: 2023,
+      yearEnd: 2027,
+      inProgress: true,
     },
     {
       degree: "High School Diploma",
-      institution: "Stephen Lewis Secondary School",
+      school: "Stephen Lewis Secondary School",
       location: "Vaughan, Ontario",
-      period: "2019-2022",
-      status: "Completed"
-    }
+      yearStart: 2019,
+      yearEnd: 2022,
+      completed: true,
+    },
   ],
 
   skills: {
-    languages: ["C++", "C", "Python", "C#", "Java", "Bash", "Groovy"],
-    devops: ["Jenkins", "Docker", "Git", "GitHub Actions", "SVN", "AWS", "Kubernetes"],
-    tools: ["Visual Studio", "VS Code", "IntelliJ", "PyCharm", "AutoIt"],
-    databases: ["PostgreSQL", "Redis"],
-    backend: ["FastAPI", "NATS"],
-    libraries: ["OpenCV", "PhysX", "YAML", "OpenTelemetry"],
-    systems: ["Linux", "Windows"],
-    monitoring: ["JIRA", "Monday.com", "Prometheus", "Grafana"]
+    expert: ["C++", "C++17", "C++20", "Jenkins", "DevOps", "Firmware"],
+    proficient: ["Python", "Docker", "Git", "CI/CD", "Kubernetes", "C"],
+    familiar: ["C#", "Java", "Bash", "Groovy", "AWS"],
+    domains: {
+      backend: ["C++", "Python", "FastAPI", "NATS"],
+      devops: ["Jenkins", "Docker", "Kubernetes", "GitHub Actions", "SVN"],
+      databases: ["PostgreSQL", "Redis"],
+      monitoring: ["Prometheus", "Grafana", "OpenTelemetry", "JIRA"],
+      vision: ["OpenCV", "Computer Vision", "Real-time Processing"],
+      tools: ["Visual Studio", "VS Code", "IntelliJ", "PyCharm"],
+      systems: ["Linux", "Windows", "Firmware", "Embedded Systems"],
+    },
   },
 
-  projects: {
-    aeroforge: {
+  projects: [
+    {
       name: "AeroForge",
-      status: "Work in Progress",
-      description: "Cross-platform C++20 framework for vision-based drone control with real-time object detection and autonomous navigation.",
-      tech: ["C++20", "OpenCV", "Computer Vision", "Drones"],
-      metrics: {
-        latency: "Sub-frame",
-        safety: "5 layers",
-        platform: "Cross-platform (Windows, macOS, Linux)"
-      },
-      features: [
-        "Interactive object selection via click-and-drag tracking",
-        "High-performance template matching with Kalman filtering",
-        "Complete processing chain: detection → tracking → 3D estimation → PID control",
-        "Professional ImGui-based HUD with real-time telemetry",
-        "Comprehensive safety mechanisms (geofence, hold-to-enable, e-stop, speed limits)",
-        "YAML-based runtime configuration",
-        "Full testing suite using Catch2 framework",
-        "Optional DJI SDK integration for real drone hardware"
+      status: "active",
+      stage: "Work in Progress",
+      description: "vision-based drone control framework with autonomous navigation",
+      tech: ["C++20", "OpenCV", "Computer Vision", "ImGui", "Kalman Filtering"],
+      focus: "real-time object tracking and autonomous flight control",
+      highlights: [
+        "sub-frame latency processing",
+        "5-layer safety system",
+        "cross-platform (Windows, macOS, Linux)",
+        "interactive object tracking via UI",
+        "full PID control pipeline",
+        "Catch2 test coverage",
       ],
-      github: "https://github.com/IdanG7/AeroForge"
+      complexity: "high",
+      github: "https://github.com/IdanG7/AeroForge",
     },
-    multiplayerSdk: {
+    {
       name: "Multiplayer SDK",
-      status: "Production",
-      description: "Production-grade distributed matchmaking and game services platform supporting real-time session allocation at scale.",
-      tech: ["C++17", "Python", "Microservices", "Docker"],
-      metrics: {
-        latency: "<100ms",
-        concurrentPlayers: "10K+",
-        services: "5+"
-      },
-      features: [
-        "MMR-based dynamic matchmaking queues with region and latency constraints",
-        "Sub-100ms matching latency supporting 10,000+ concurrent players",
-        "Modular backend services: Auth, Lobby, Session, Leaderboard",
-        "Asynchronous communication via NATS message broker",
-        "PostgreSQL for persistent storage, Redis for caching",
-        "Full OpenTelemetry observability (Prometheus, Grafana, Jaeger)",
-        "Kubernetes-ready deployment with Docker containerization",
-        "FastAPI-based REST endpoints for client integration"
+      status: "production",
+      stage: "Production",
+      description: "distributed matchmaking platform for real-time gaming",
+      tech: ["C++17", "Python", "Microservices", "Docker", "NATS", "Redis", "PostgreSQL"],
+      focus: "scalable game session management and MMR-based matchmaking",
+      highlights: [
+        "sub-100ms matchmaking latency",
+        "10,000+ concurrent players support",
+        "modular microservices architecture",
+        "full observability stack (Prometheus, Grafana, Jaeger)",
+        "Kubernetes-ready deployment",
       ],
-      github: "https://github.com/IdanG7"
-    }
-  },
+      complexity: "high",
+      github: "https://github.com/IdanG7",
+    },
+  ],
 
   contact: {
     email: "Idan.gurevich@gmail.com",
     linkedin: "linkedin.com/in/idan-gurevich-b955861b8",
     github: "github.com/IdanG7",
-    resume: "/resume.pdf"
-  }
+    resume: "/resume.pdf",
+  },
 };
 
-// Question patterns for intent detection
-const QUESTION_PATTERNS = {
-  // Personal & Bio
-  name: [/\b(what'?s? your|who are you|your name|who'?s this)\b/i, /\bname\b/i],
-  bio: [/\b(about (you|yourself)|who are you|tell me about|background|introduction)\b/i],
-  location: [/\b(where (are you|do you live)|location|based|from)\b/i],
-  title: [/\b(what do you do|job title|position|role|what'?s? your (job|role|title))\b/i],
-  availability: [/\b(available|hiring|looking for (work|job)|open to|job search)\b/i],
-
-  // Experience
-  experience: [/\b(work experience|job history|work|worked|career|professional)\b/i],
-  currentJob: [/\b(current (job|role|position|work)|where do you work|working at)\b/i],
-  company: [/\b(company|employer|wdi|wise device)\b/i],
-  responsibilities: [/\b(what do you do|responsibilities|duties|tasks)\b/i],
-
-  // Education
-  education: [/\b(education|school|university|college|degree|study|studying)\b/i],
-
-  // Skills
-  skills: [/\b(skills|technologies|tech stack|languages|tools|know|proficient|good at)\b/i],
-  cpp: [/\b(c\+\+|cpp|cplusplus)\b/i],
-  python: [/\bpython\b/i],
-  devops: [/\b(devops|jenkins|docker|kubernetes|ci\/?cd|continuous integration)\b/i],
-  databases: [/\b(database|sql|postgres|redis)\b/i],
-
-  // Projects
-  projects: [/\b(projects?|built|building|working on|portfolio|github)\b/i],
-  aeroforge: [/\b(aeroforge|aero forge|drone|computer vision|opencv)\b/i],
-  multiplayer: [/\b(multiplayer|sdk|matchmaking|game|gaming)\b/i],
-
-  // Contact
-  contact: [/\b(contact|reach (you|out)|email|get in touch|hire)\b/i],
-  resume: [/\b(resume|cv|curriculum vitae)\b/i],
-  linkedin: [/\blinkedin\b/i],
-  github: [/\bgithub\b/i],
-
-  // General
-  help: [/\b(help|how to|what can (you|i)|commands)\b/i],
-  thanks: [/\b(thanks|thank you|thx|appreciate)\b/i]
+// Conversational response templates for variety
+const RESPONSE_STYLES = {
+  casual: ["Yeah", "Sure thing", "Absolutely", "Definitely", "For sure", "You got it"],
+  thinking: ["Let me think about that", "Good question", "Interesting you ask", "That's something I can answer"],
+  enthusiastic: ["Great question", "I'm glad you asked", "Love talking about this"],
+  technical: ["From a technical perspective", "Here's how that works", "Let me break that down"],
+  transitions: ["So", "Well", "Actually", "Essentially", "Basically", "In fact", "To be specific"],
 };
 
 /**
- * Detect the intent of a user's question
+ * Advanced intent parser - extracts entities and understands question semantics
  */
-function detectIntent(question: string): string[] {
-  const lowerQuestion = question.toLowerCase();
-  const intents: string[] = [];
+class IntentParser {
+  private question: string;
+  private tokens: string[];
+  private entities: Set<string>;
 
-  for (const [intent, patterns] of Object.entries(QUESTION_PATTERNS)) {
-    for (const pattern of patterns) {
-      if (pattern.test(lowerQuestion)) {
-        intents.push(intent);
-        break;
+  constructor(question: string) {
+    this.question = question.toLowerCase();
+    this.tokens = this.tokenize(question);
+    this.entities = new Set();
+    this.extractEntities();
+  }
+
+  private tokenize(text: string): string[] {
+    return text.toLowerCase().match(/\b\w+(?:[-']\w+)*\b/g) || [];
+  }
+
+  private extractEntities(): void {
+    const entityMap = {
+      experience: ["work", "job", "experience", "worked", "career", "employed", "position", "role"],
+      skills: ["skill", "tech", "technology", "language", "framework", "tool", "know", "proficient", "expert"],
+      projects: ["project", "built", "building", "created", "working on", "aeroforge", "multiplayer", "sdk"],
+      education: ["school", "university", "degree", "education", "study", "studying", "college"],
+      personal: ["name", "who", "about", "background", "bio"],
+      location: ["where", "location", "live", "based", "from"],
+      contact: ["contact", "reach", "email", "linkedin", "github", "hire", "hiring"],
+      current: ["current", "now", "currently", "present", "today", "latest"],
+      availability: ["available", "hiring", "looking for", "open to", "job search"],
+    };
+
+    for (const [entity, keywords] of Object.entries(entityMap)) {
+      if (keywords.some(kw => this.question.includes(kw))) {
+        this.entities.add(entity);
+      }
+    }
+
+    // Specific technology detection
+    const allTech = [
+      ...KNOWLEDGE_GRAPH.skills.expert,
+      ...KNOWLEDGE_GRAPH.skills.proficient,
+      ...KNOWLEDGE_GRAPH.skills.familiar,
+    ];
+
+    for (const tech of allTech) {
+      if (this.question.includes(tech.toLowerCase())) {
+        this.entities.add(`tech:${tech}`);
+      }
+    }
+
+    // Project name detection
+    for (const project of KNOWLEDGE_GRAPH.projects) {
+      if (this.question.includes(project.name.toLowerCase())) {
+        this.entities.add(`project:${project.name}`);
       }
     }
   }
 
-  return intents.length > 0 ? intents : ['unknown'];
+  getEntities(): Set<string> {
+    return this.entities;
+  }
+
+  hasIntent(intent: string): boolean {
+    return this.entities.has(intent);
+  }
+
+  getTechEntity(): string | null {
+    for (const entity of this.entities) {
+      if (entity.startsWith("tech:")) {
+        return entity.replace("tech:", "");
+      }
+    }
+    return null;
+  }
+
+  getProjectEntity(): string | null {
+    for (const entity of this.entities) {
+      if (entity.startsWith("project:")) {
+        return entity.replace("project:", "");
+      }
+    }
+    return null;
+  }
+
+  isQuestion(): boolean {
+    const questionWords = ["what", "who", "where", "when", "why", "how", "can", "do", "are", "is", "tell", "show"];
+    return questionWords.some(w => this.tokens.includes(w)) || this.question.includes("?");
+  }
 }
 
 /**
- * Generate a natural response based on detected intents
+ * Dynamic response generator - creates varied, contextual responses
  */
-function generateResponse(intents: string[], question: string): ChatbotResponse {
-  const responses: string[] = [];
-  const suggestions: string[] = [];
+class ResponseGenerator {
+  private usedResponses: Set<string> = new Set();
 
-  // Handle specific intents
-  if (intents.includes('name')) {
-    responses.push(`My name is ${KNOWLEDGE_BASE.personal.name}.`);
-    suggestions.push("What do you do?", "Tell me about your experience");
+  private pickRandom<T>(array: T[]): T {
+    return array[Math.floor(Math.random() * array.length)];
   }
 
-  if (intents.includes('bio') || intents.includes('title')) {
-    responses.push(`I'm ${KNOWLEDGE_BASE.personal.name}, a ${KNOWLEDGE_BASE.personal.title}.`);
-    responses.push(KNOWLEDGE_BASE.personal.bio);
-    suggestions.push("What projects are you working on?", "What are your skills?");
+  private addVariety(base: string): string {
+    // Add conversational elements randomly
+    const starters = Math.random() > 0.6 ? this.pickRandom([...RESPONSE_STYLES.casual, ...RESPONSE_STYLES.thinking]) + "! " : "";
+    return starters + base;
   }
 
-  if (intents.includes('location')) {
-    responses.push(`I'm based in ${KNOWLEDGE_BASE.personal.location}.`);
+  generatePersonalResponse(parser: IntentParser): string | null {
+    if (parser.hasIntent("personal") || parser.hasIntent("location")) {
+      const responses = [
+        `I'm ${KNOWLEDGE_GRAPH.identity.name}, a ${KNOWLEDGE_GRAPH.identity.role} based in ${KNOWLEDGE_GRAPH.identity.location}. I specialize in building high-performance backend systems, particularly in C++ and firmware engineering.`,
+        `My name's ${KNOWLEDGE_GRAPH.identity.name}. I work as a ${KNOWLEDGE_GRAPH.identity.role} out of ${KNOWLEDGE_GRAPH.identity.location}. I'm passionate about low-level systems programming and DevOps automation.`,
+        `${KNOWLEDGE_GRAPH.identity.name} here! I'm a backend engineer focusing on ${KNOWLEDGE_GRAPH.identity.primaryFocus.slice(0, 2).join(" and ")}. Currently based in ${KNOWLEDGE_GRAPH.identity.location}.`,
+      ];
+      return this.pickRandom(responses);
+    }
+    return null;
   }
 
-  if (intents.includes('availability')) {
-    responses.push(`I'm currently ${KNOWLEDGE_BASE.personal.availability.toLowerCase()}.`);
-    responses.push(`Feel free to reach out at ${KNOWLEDGE_BASE.contact.email}`);
-    suggestions.push("How can I contact you?", "Show me your resume");
+  generateExperienceResponse(parser: IntentParser): string | null {
+    if (!parser.hasIntent("experience")) return null;
+
+    const current = KNOWLEDGE_GRAPH.experience[0];
+    const isCurrentQuery = parser.hasIntent("current");
+
+    if (isCurrentQuery) {
+      const achievements = current.achievements.slice(0, 3).map(a => a.fact);
+      const responses = [
+        `Right now I'm working as a ${current.role} at ${current.company}. I'm ${achievements[0]}, and I've ${achievements[1]}. I also spend time ${achievements[2]}.`,
+        `Currently, I'm a ${current.role} with ${current.company} in ${current.location}. My main focus is ${achievements[0]} - I've been able to ${achievements[1]} through automation improvements.`,
+        `I'm employed as a ${current.role} at ${current.company}. Day-to-day, I'm ${achievements[0]} and ${achievements[1]}. Recently, I've also been ${achievements[2]}.`,
+      ];
+      return this.addVariety(this.pickRandom(responses));
+    } else {
+      const totalExp = `${KNOWLEDGE_GRAPH.identity.yearsExperience}+ years`;
+      const responses = [
+        `I've got ${totalExp} of professional experience in software engineering. Started as a ${KNOWLEDGE_GRAPH.experience[1].role} and now I'm a ${current.role}, both at ${current.company}. I've been focusing heavily on CI/CD automation and C++ development.`,
+        `Over ${totalExp}, I've worked in backend and firmware engineering. Currently at ${current.company} as a ${current.role}. My journey has taken me from QA automation to managing 70+ Jenkins projects and developing real-time C++ systems.`,
+        `I've spent ${totalExp} in the industry. All my experience has been with ${current.company}, where I progressed from a ${KNOWLEDGE_GRAPH.experience[1].role} to my current position as ${current.role}. I specialize in DevOps and low-level systems programming.`,
+      ];
+      return this.addVariety(this.pickRandom(responses));
+    }
   }
 
-  if (intents.includes('currentJob') || intents.includes('company') || intents.includes('responsibilities')) {
-    const job = KNOWLEDGE_BASE.experience.current;
-    responses.push(`I currently work as a ${job.title} at ${job.company} in ${job.location}.`);
-    responses.push(`I've been in this role since ${job.period.split('–')[0].trim()}.`);
-    responses.push("\nKey responsibilities:");
-    job.responsibilities.forEach(resp => {
-      responses.push(`  • ${resp}`);
-    });
-    suggestions.push("What's your tech stack?", "Tell me about your projects");
+  generateSkillsResponse(parser: IntentParser): string | null {
+    if (!parser.hasIntent("skills")) return null;
+
+    const tech = parser.getTechEntity();
+    if (tech) {
+      return this.generateTechSpecificResponse(tech);
+    }
+
+    const expertSkills = KNOWLEDGE_GRAPH.skills.expert.slice(0, 4).join(", ");
+    const responses = [
+      `My strongest skills are in ${expertSkills}. I live and breathe C++ - it's what I use for performance-critical systems and firmware. I'm also deep into DevOps, managing complex CI/CD pipelines with Jenkins and Docker.`,
+      `I specialize in ${KNOWLEDGE_GRAPH.identity.primaryFocus.join(", ")}. On the language side, I'm most proficient with C++ (including modern C++17/20), but I also work with Python, C, and Bash regularly. My DevOps stack includes Jenkins, Kubernetes, and Docker.`,
+      `Technical-wise, my core expertise is ${expertSkills}. I've spent most of my career optimizing build pipelines and writing high-performance C++ for embedded and imaging systems. I also have solid experience with cloud infrastructure and database systems like PostgreSQL and Redis.`,
+    ];
+    return this.addVariety(this.pickRandom(responses));
   }
 
-  if (intents.includes('experience') && !intents.includes('currentJob')) {
-    const current = KNOWLEDGE_BASE.experience.current;
-    const previous = KNOWLEDGE_BASE.experience.previous;
-    responses.push(`I have ${KNOWLEDGE_BASE.personal.yearsOfExperience} of professional experience.`);
-    responses.push(`\nCurrent: ${current.title} at ${current.company} (${current.period})`);
-    responses.push(`Previous: ${previous.title} at ${previous.company} (${previous.period})`);
-    suggestions.push("What do you do at your current job?", "What are your skills?");
+  private generateTechSpecificResponse(tech: string): string {
+    const techLower = tech.toLowerCase();
+
+    // C++ specific
+    if (techLower.includes("c++")) {
+      const responses = [
+        `C++ is my primary language! I use it daily for firmware development and real-time systems. I'm comfortable with modern C++17/20 features - working with things like template metaprogramming, move semantics, and RAII patterns. Check out my AeroForge project for a good example of C++20 in action.`,
+        `Love working with C++! I've been using it professionally for ${KNOWLEDGE_GRAPH.identity.yearsExperience}+ years, particularly for performance-critical applications. I work with C++17/20 standards, focusing on zero-overhead abstractions and memory-efficient designs. Both my major projects (AeroForge and Multiplayer SDK) are C++ codebases.`,
+        `C++ is where I'm strongest. I use it for everything from NIR imaging systems at work to my personal projects like AeroForge (drone control framework). I particularly enjoy working with modern C++ features - smart pointers, lambdas, constexpr, and the new modules system in C++20.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    // Jenkins/DevOps
+    if (techLower.includes("jenkins") || techLower.includes("devops")) {
+      const responses = [
+        `Jenkins is a huge part of my daily work - I currently manage 70+ Jenkins projects at WDI. I've built complex CI/CD pipelines, integrated automated testing frameworks, and reduced deployment errors by 30% through pipeline optimization.`,
+        `DevOps is one of my core strengths. I administer a large-scale Jenkins infrastructure and write Groovy scripts for automation. I've worked extensively with Docker, Kubernetes, and various CI/CD tools to build reliable deployment pipelines.`,
+        `I'm pretty deep into the DevOps world. At my current job, I manage 70+ Jenkins projects and have engineered automated CI/CD integrations. I also work with Docker, Kubernetes, and cloud infrastructure to ensure smooth deployments.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    // Python
+    if (techLower === "python") {
+      const responses = [
+        `I use Python regularly, especially for automation scripts, testing tools, and backend services. In my Multiplayer SDK project, I used Python alongside C++ for the microservices architecture. It's great for rapid prototyping and API development.`,
+        `Python is in my toolkit - I use it for build automation, scripting, and backend development with frameworks like FastAPI. It complements my C++ work nicely when I need to prototype quickly or build API layers.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    // Docker/Kubernetes
+    if (techLower.includes("docker") || techLower.includes("kubernetes")) {
+      const responses = [
+        `I work with Docker and Kubernetes extensively for containerization and orchestration. My Multiplayer SDK project is fully containerized and Kubernetes-ready. At work, I use Docker for building reproducible CI/CD environments.`,
+        `Container orchestration is part of my DevOps work. I've built Kubernetes-ready deployments and use Docker for creating isolated build environments in my Jenkins pipelines.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    // OpenCV
+    if (techLower.includes("opencv")) {
+      const responses = [
+        `OpenCV is central to my AeroForge project! I use it for real-time object detection and tracking in drone navigation. I've implemented template matching algorithms with Kalman filtering to achieve sub-frame latency processing.`,
+        `I've worked extensively with OpenCV in my AeroForge project for computer vision tasks. Built a complete pipeline: object detection → tracking → 3D position estimation. It's fascinating work, especially optimizing for real-time performance.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    // Generic response for recognized tech
+    const isExpert = KNOWLEDGE_GRAPH.skills.expert.includes(tech);
+    const isProficient = KNOWLEDGE_GRAPH.skills.proficient.includes(tech);
+
+    if (isExpert || isProficient) {
+      const level = isExpert ? "very experienced" : "proficient";
+      return `I'm ${level} with ${tech}. I use it ${isExpert ? "regularly in my professional work" : "for various projects"}.`;
+    }
+
+    return `I have some experience with ${tech}, though it's not my primary focus. My core expertise is in C++, DevOps, and firmware engineering.`;
   }
 
-  if (intents.includes('education')) {
-    responses.push("Education:");
-    KNOWLEDGE_BASE.education.forEach(edu => {
-      responses.push(`\n${edu.degree} - ${edu.status}`);
-      responses.push(`${edu.institution}, ${edu.location} (${edu.period})`);
-    });
-    suggestions.push("What programming languages do you know?", "What projects have you built?");
+  generateProjectsResponse(parser: IntentParser): string | null {
+    if (!parser.hasIntent("projects")) return null;
+
+    const projectName = parser.getProjectEntity();
+    if (projectName) {
+      return this.generateProjectSpecificResponse(projectName);
+    }
+
+    const responses = [
+      `I'm working on two major projects right now. AeroForge is a C++20 framework for autonomous drone control using computer vision - think real-time object tracking with sub-frame latency. Then there's my Multiplayer SDK, which is a production-ready distributed matchmaking platform that handles 10,000+ concurrent players with sub-100ms latency. Both are pretty complex systems!`,
+      `My main projects are AeroForge and Multiplayer SDK. AeroForge is all about vision-based drone control - I'm building a complete autonomous navigation system with OpenCV and C++20. The Multiplayer SDK is a scalable game backend with microservices architecture, MMR-based matchmaking, and full observability. Both showcase different aspects of my skills - real-time systems vs. distributed systems.`,
+      `I've got two big projects in my portfolio. First is AeroForge - a cross-platform drone control framework using computer vision for autonomous flight. It's got a 5-layer safety system and processes video in real-time. Second is my Multiplayer SDK - a production-grade matchmaking platform built with C++17, microservices, and Docker. It's designed to scale to thousands of concurrent players.`,
+    ];
+    return this.addVariety(this.pickRandom(responses));
   }
 
-  if (intents.includes('skills')) {
-    responses.push("Here's an overview of my technical skills:\n");
-    responses.push(`Languages: ${KNOWLEDGE_BASE.skills.languages.join(', ')}`);
-    responses.push(`DevOps: ${KNOWLEDGE_BASE.skills.devops.join(', ')}`);
-    responses.push(`Databases: ${KNOWLEDGE_BASE.skills.databases.join(', ')}`);
-    responses.push(`Libraries: ${KNOWLEDGE_BASE.skills.libraries.join(', ')}`);
-    responses.push("\nMy primary focus is C++ and DevOps automation.");
-    suggestions.push("Tell me about AeroForge", "What's your experience with Jenkins?");
+  private generateProjectSpecificResponse(projectName: string): string {
+    const project = KNOWLEDGE_GRAPH.projects.find(p => p.name.toLowerCase() === projectName.toLowerCase());
+    if (!project) return "";
+
+    if (projectName.toLowerCase() === "aeroforge") {
+      const responses = [
+        `AeroForge is one of my most exciting projects! It's a C++20 framework for autonomous drone control. The core idea is using computer vision (OpenCV) for real-time object tracking - you can click and drag to select an object, and the drone will track it autonomously. I've built the entire pipeline: detection → tracking → 3D estimation → PID control. It's cross-platform, has sub-frame latency, and includes a 5-layer safety system because, well, flying robots need to be safe! Currently still in development.`,
+        `AeroForge is my vision-based drone control system. Built with C++20 and OpenCV, it does real-time object detection and autonomous navigation. The cool part is the interactive UI - you can select objects via click-and-drag, and the system handles everything from template matching with Kalman filtering to full PID control. I'm obsessed with performance here - achieving sub-frame latency while maintaining robust safety mechanisms. It's cross-platform too (Windows, macOS, Linux).`,
+        `Let me tell you about AeroForge - it's a framework I'm building for computer vision-based drone control. The tech stack is C++20, OpenCV, and ImGui for the HUD. The system can track objects in real-time with sub-frame latency, which is crucial for responsive drone control. I've implemented comprehensive safety features: geofence, e-stop, speed limits, hold-to-enable control. Plus, there's full test coverage with Catch2. Still actively working on it! You can check it out on GitHub: https://github.com/IdanG7/AeroForge`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    if (projectName.toLowerCase().includes("multiplayer")) {
+      const responses = [
+        `The Multiplayer SDK is a distributed matchmaking and game services platform I built that's actually in production. It's designed to handle 10,000+ concurrent players with sub-100ms matchmaking latency. The architecture is fully microservices-based - separate services for Auth, Lobby, Session management, and Leaderboards. Everything communicates asynchronously via NATS message broker, with PostgreSQL for persistence and Redis for caching. I've also integrated full observability: Prometheus, Grafana, and Jaeger for tracing. It's Kubernetes-ready and demonstrates how to build truly scalable real-time systems.`,
+        `My Multiplayer SDK is a production-grade platform for real-time game session management. Built with C++17 and Python, it handles MMR-based matchmaking with region and latency constraints. The cool part is the performance - sub-100ms matching times even at scale (10K+ concurrent players). I designed it as modular microservices, so each component (Auth, Lobby, Session, Leaderboard) can scale independently. Used NATS for async messaging, and the whole thing is containerized with Docker and ready for Kubernetes deployment.`,
+        `I built a Multiplayer SDK for distributed game matchmaking - think about the backend that powers online multiplayer games. It's a full microservices platform handling player authentication, session allocation, and MMR-based matchmaking. Performance-wise, it maintains sub-100ms latency even with 10,000+ concurrent players. The tech stack is C++17 for the core services, PostgreSQL and Redis for data, NATS for message passing, and FastAPI for REST endpoints. Plus, complete monitoring with Prometheus and Grafana. It's currently in production.`,
+      ];
+      return this.pickRandom(responses);
+    }
+
+    return `${project.name} is a ${project.description}. It's currently ${project.stage}.`;
   }
 
-  if (intents.includes('cpp')) {
-    responses.push("C++ is my primary language! I specialize in C++17/20 development.");
-    responses.push("I use it for firmware engineering, real-time systems, and high-performance applications.");
-    responses.push("Check out my AeroForge and Multiplayer SDK projects to see C++ in action!");
-    suggestions.push("Tell me about AeroForge", "What other languages do you know?");
+  generateEducationResponse(parser: IntentParser): string | null {
+    if (!parser.hasIntent("education")) return null;
+
+    const currentEd = KNOWLEDGE_GRAPH.education[0];
+    const responses = [
+      `I'm currently pursuing a ${currentEd.degree} at ${currentEd.school} (expected graduation: ${currentEd.yearEnd}). Before that, I graduated from ${KNOWLEDGE_GRAPH.education[1].school} in ${KNOWLEDGE_GRAPH.education[1].yearEnd}.`,
+      `Education-wise, I'm working on my ${currentEd.degree} at ${currentEd.school} right now. I'm in my ${new Date().getFullYear() - currentEd.yearStart + 1}${getOrdinalSuffix(new Date().getFullYear() - currentEd.yearStart + 1)} year. Combining school with full-time work has been challenging but rewarding!`,
+      `I'm studying ${currentEd.degree} at ${currentEd.school} in Toronto. Should graduate in ${currentEd.yearEnd}. I'm balancing my studies with my job at ${KNOWLEDGE_GRAPH.experience[0].company}, which gives me great real-world context for what I'm learning.`,
+    ];
+    return this.addVariety(this.pickRandom(responses));
   }
 
-  if (intents.includes('devops')) {
-    responses.push("DevOps is a major part of my work! I currently manage 70+ Jenkins projects.");
-    responses.push("My expertise includes CI/CD pipelines, Docker, Kubernetes, and infrastructure automation.");
-    responses.push("I've reduced deployment errors by 30% through automated integrations.");
-    suggestions.push("What's your current role?", "Tell me about your skills");
+  generateContactResponse(parser: IntentParser): string | null {
+    if (!parser.hasIntent("contact") && !parser.hasIntent("availability")) return null;
+
+    const contact = KNOWLEDGE_GRAPH.contact;
+    const responses = [
+      `I'm ${KNOWLEDGE_GRAPH.identity.status.toLowerCase()}! Best way to reach me is via email at ${contact.email}. You can also connect with me on LinkedIn (${contact.linkedin}) or check out my code on GitHub (${contact.github}). My resume is available at ${contact.resume} if you want the full details.`,
+      `Feel free to reach out! I'm ${KNOWLEDGE_GRAPH.identity.status.toLowerCase()}. You can email me at ${contact.email} or find me on LinkedIn (${contact.linkedin}). All my projects are on GitHub at ${contact.github}. If you want a formal overview, grab my resume from ${contact.resume}.`,
+      `You can contact me at ${contact.email} - that's the quickest way. I'm also active on LinkedIn (${contact.linkedin}) and GitHub (${contact.github}). Currently ${KNOWLEDGE_GRAPH.identity.status.toLowerCase()}, so don't hesitate to reach out!`,
+    ];
+    return this.addVariety(this.pickRandom(responses));
   }
 
-  if (intents.includes('projects')) {
-    responses.push("I'm working on two major projects:\n");
-    responses.push(`1. ${KNOWLEDGE_BASE.projects.aeroforge.name} - ${KNOWLEDGE_BASE.projects.aeroforge.description}`);
-    responses.push(`   Tech: ${KNOWLEDGE_BASE.projects.aeroforge.tech.join(', ')}`);
-    responses.push(`\n2. ${KNOWLEDGE_BASE.projects.multiplayerSdk.name} - ${KNOWLEDGE_BASE.projects.multiplayerSdk.description}`);
-    responses.push(`   Tech: ${KNOWLEDGE_BASE.projects.multiplayerSdk.tech.join(', ')}`);
-    suggestions.push("Tell me more about AeroForge", "Tell me about Multiplayer SDK");
-  }
-
-  if (intents.includes('aeroforge')) {
-    const project = KNOWLEDGE_BASE.projects.aeroforge;
-    responses.push(`${project.name} (${project.status})`);
-    responses.push(project.description);
-    responses.push(`\nTech Stack: ${project.tech.join(', ')}`);
-    responses.push("\nKey Features:");
-    project.features.slice(0, 5).forEach(feature => {
-      responses.push(`  • ${feature}`);
-    });
-    responses.push(`\nGitHub: ${project.github}`);
-    suggestions.push("What other projects do you have?", "What's your experience with OpenCV?");
-  }
-
-  if (intents.includes('multiplayer')) {
-    const project = KNOWLEDGE_BASE.projects.multiplayerSdk;
-    responses.push(`${project.name} (${project.status})`);
-    responses.push(project.description);
-    responses.push(`\nTech Stack: ${project.tech.join(', ')}`);
-    responses.push(`\nPerformance: ${project.metrics.latency} latency, ${project.metrics.concurrentPlayers} concurrent players`);
-    responses.push("\nKey Features:");
-    project.features.slice(0, 5).forEach(feature => {
-      responses.push(`  • ${feature}`);
-    });
-    suggestions.push("Tell me about AeroForge", "What databases do you use?");
-  }
-
-  if (intents.includes('contact')) {
-    responses.push("You can reach me through:");
-    responses.push(`  • Email: ${KNOWLEDGE_BASE.contact.email}`);
-    responses.push(`  • LinkedIn: ${KNOWLEDGE_BASE.contact.linkedin}`);
-    responses.push(`  • GitHub: ${KNOWLEDGE_BASE.contact.github}`);
-    responses.push(`\nI'm ${KNOWLEDGE_BASE.personal.availability.toLowerCase()}!`);
-  }
-
-  if (intents.includes('resume')) {
-    responses.push(`You can download my resume at: ${KNOWLEDGE_BASE.contact.resume}`);
-    responses.push("Or use the command: nano contact");
-  }
-
-  if (intents.includes('linkedin')) {
-    responses.push(`Connect with me on LinkedIn: ${KNOWLEDGE_BASE.contact.linkedin}`);
-  }
-
-  if (intents.includes('github')) {
-    responses.push(`Check out my GitHub: ${KNOWLEDGE_BASE.contact.github}`);
-    responses.push("You'll find AeroForge and other projects there!");
-  }
-
-  if (intents.includes('help')) {
-    responses.push("I can answer questions about:");
-    responses.push("  • My background and experience");
-    responses.push("  • Technical skills and expertise");
-    responses.push("  • Projects (AeroForge, Multiplayer SDK)");
-    responses.push("  • Education and career");
-    responses.push("  • How to contact me");
-    responses.push("\nJust ask naturally, like 'What do you do?' or 'Tell me about your projects'");
-    responses.push("You can also use terminal commands like 'ls', 'cat', 'nano', etc.");
-  }
-
-  if (intents.includes('thanks')) {
-    responses.push("You're welcome! Feel free to ask anything else.");
-    responses.push("Type 'help' to see available commands, or just ask me a question!");
-  }
-
-  // Unknown intent - provide helpful fallback
-  if (intents.includes('unknown') || responses.length === 0) {
-    responses.push("I'm not sure I understand that question.");
-    responses.push("\nHere are some things you can ask me:");
-    suggestions.push(
+  generateFallbackResponse(parser: IntentParser): string {
+    const suggestions = [
       "What do you do?",
       "Tell me about your experience",
-      "What are your skills?",
-      "What projects have you built?",
-      "How can I contact you?"
-    );
+      "What projects are you working on?",
+      "What are your main skills?",
+      "How can I contact you?",
+    ];
+
+    const responses = [
+      `Hmm, I'm not quite sure I understood that question. I can tell you about my background, technical skills, projects, or how to get in touch. What would you like to know?`,
+      `I might need that rephrased - I'm still learning! I'm good at answering questions about my work experience, skills, projects like AeroForge, or how to contact me. What interests you most?`,
+      `That's a bit outside my knowledge base. I'm best at discussing my professional background, technical expertise, the projects I've built, or ways to connect. What would you like to explore?`,
+    ];
+
+    return this.pickRandom(responses);
+  }
+}
+
+// Helper function for ordinal numbers
+function getOrdinalSuffix(num: number): string {
+  const j = num % 10;
+  const k = num % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
+  return "th";
+}
+
+/**
+ * Main chatbot intelligence system
+ */
+export function askChatbot(question: string): ChatbotResponse {
+  const trimmed = question.trim();
+
+  if (!trimmed) {
+    return {
+      answer: "Hey! I'm Idan's computer brain. Ask me anything about his background, skills, projects, or how to reach him!",
+      suggestions: [
+        "What do you do?",
+        "Tell me about your projects",
+        "What are your skills?",
+      ],
+    };
   }
 
+  const parser = new IntentParser(trimmed);
+  const generator = new ResponseGenerator();
+
+  // Try to generate responses based on detected intents
+  const responseAttempts = [
+    () => generator.generatePersonalResponse(parser),
+    () => generator.generateExperienceResponse(parser),
+    () => generator.generateSkillsResponse(parser),
+    () => generator.generateProjectsResponse(parser),
+    () => generator.generateEducationResponse(parser),
+    () => generator.generateContactResponse(parser),
+  ];
+
+  for (const attempt of responseAttempts) {
+    const response = attempt();
+    if (response) {
+      // Generate contextual suggestions
+      const suggestions = generateContextualSuggestions(parser);
+      return { answer: response, suggestions };
+    }
+  }
+
+  // Fallback for unrecognized questions
   return {
-    answer: responses.join('\n'),
-    suggestions: suggestions.length > 0 ? suggestions : undefined
+    answer: generator.generateFallbackResponse(parser),
+    suggestions: [
+      "What's your current role?",
+      "Tell me about AeroForge",
+      "What technologies do you use?",
+      "What's your experience with C++?",
+      "How can I reach you?",
+    ],
   };
 }
 
 /**
- * Main chatbot function - processes a question and returns an answer
+ * Generate smart follow-up suggestions based on context
  */
-export function askChatbot(question: string): ChatbotResponse {
-  // Trim and validate input
-  const trimmedQuestion = question.trim();
+function generateContextualSuggestions(parser: IntentParser): string[] {
+  const suggestions: string[] = [];
 
-  if (!trimmedQuestion) {
-    return {
-      answer: "Please ask me a question! For example:\n  • What do you do?\n  • Tell me about your projects\n  • What are your skills?",
-      suggestions: ["What do you do?", "Tell me about your experience", "What projects have you built?"]
-    };
+  if (parser.hasIntent("experience")) {
+    suggestions.push("What are your main technical skills?", "Tell me about your projects");
+  } else if (parser.hasIntent("skills")) {
+    suggestions.push("What have you built with these skills?", "Tell me about your experience");
+  } else if (parser.hasIntent("projects")) {
+    suggestions.push("What technologies do you use?", "Tell me more about AeroForge");
+  } else if (parser.hasIntent("personal")) {
+    suggestions.push("What do you do professionally?", "What are you passionate about?");
+  } else if (parser.hasIntent("education")) {
+    suggestions.push("What's your work experience?", "What are your career goals?");
+  } else {
+    suggestions.push("What projects are you working on?", "What's your experience with DevOps?");
   }
 
-  // Detect intent and generate response
-  const intents = detectIntent(trimmedQuestion);
-  return generateResponse(intents, trimmedQuestion);
+  return suggestions.slice(0, 3);
 }
 
 /**
- * Check if a command looks like a question (for auto-detection)
+ * Check if input looks like a question
  */
-export function isQuestion(command: string): boolean {
-  const trimmed = command.trim();
-
-  // Check if it ends with a question mark
-  if (trimmed.endsWith('?')) return true;
-
-  // Check if it starts with question words
-  const questionStarters = [
-    'what', 'who', 'where', 'when', 'why', 'how',
-    'can you', 'could you', 'would you',
-    'do you', 'are you', 'is there',
-    'tell me', 'show me', 'explain'
-  ];
-
-  const lowerCommand = trimmed.toLowerCase();
-  return questionStarters.some(starter => lowerCommand.startsWith(starter));
+export function isQuestion(input: string): boolean {
+  const parser = new IntentParser(input);
+  return parser.isQuestion();
 }
