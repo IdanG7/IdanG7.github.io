@@ -42,14 +42,26 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
     {
       command: "",
       output: (
-        <div className="text-primary space-y-2">
-          <div>Welcome to Idan Gurevich's Portfolio Terminal</div>
-          <div className="text-accent text-sm">✨ Now featuring AI-powered chatbot! Ask me anything about my background, skills, or projects.</div>
-          <div className="text-muted-foreground text-sm">
-            Try: <span className="text-primary font-mono">"What do you do?"</span> or <span className="text-primary font-mono">"Tell me about your projects"</span>
+        <div className="text-primary space-y-3">
+          <div className="text-xl font-bold">🧠 Computer Brain Interface v2.0</div>
+          <div className="text-accent">Connecting to Idan's neural network...</div>
+          <div className="text-green-400 text-sm animate-pulse">● ONLINE - AI Assistant Active</div>
+          <div className="border-l-2 border-primary/50 pl-4 space-y-2 mt-3">
+            <div className="text-foreground">Hey there! I'm Idan's AI-powered computer brain.</div>
+            <div className="text-muted-foreground text-sm">
+              I can think, understand context, and have real conversations about:
+            </div>
+            <div className="text-sm ml-2 space-y-1">
+              <div>• My work experience and technical expertise</div>
+              <div>• Projects I'm building (AeroForge, Multiplayer SDK)</div>
+              <div>• Skills, technologies, and how I use them</div>
+              <div>• How to get in touch or collaborate</div>
+            </div>
           </div>
-          <div className="text-muted-foreground text-sm mt-2">Type 'help' to see all available commands</div>
-          <div className="text-muted-foreground text-xs">Version 2.0.0 | Backend Engineer Portfolio with AI Chatbot</div>
+          <div className="text-muted-foreground text-sm mt-3">
+            💬 <span className="text-accent font-semibold">Just ask naturally!</span> Try: <span className="text-primary font-mono">"What do you do?"</span> or <span className="text-primary font-mono">"Tell me about AeroForge"</span>
+          </div>
+          <div className="text-muted-foreground text-xs">Type 'help' for traditional terminal commands</div>
         </div>
       ),
       timestamp: new Date(),
@@ -64,15 +76,23 @@ const TerminalInterface = ({ onStateChange }: TerminalInterfaceProps) => {
 
   const commands = {
     help: () => (
-      <div className="space-y-2">
-        <div className="text-primary font-semibold">Available Commands:</div>
+      <div className="space-y-3">
+        <div className="text-primary font-semibold text-lg">🧠 Computer Brain Commands</div>
         <div className="grid gap-1 text-sm">
-          <div className="text-muted-foreground text-xs mb-2">AI Chatbot:</div>
-          <div>
-            <span className="text-accent font-mono">ask [question]</span> - Ask me anything about my background, skills, or projects
-          </div>
-          <div className="text-muted-foreground text-xs ml-4 mb-2">
-            Or just type naturally! Questions ending with '?' are auto-detected
+          <div className="text-accent font-semibold mb-1">💬 AI Conversation (Primary Mode):</div>
+          <div className="ml-4 space-y-1 mb-3">
+            <div className="text-muted-foreground">
+              Just type naturally! I understand context and can have real conversations.
+            </div>
+            <div className="text-sm space-y-1">
+              <div>• <span className="text-foreground font-mono">What do you do?</span></div>
+              <div>• <span className="text-foreground font-mono">Tell me about AeroForge</span></div>
+              <div>• <span className="text-foreground font-mono">What's your experience with C++?</span></div>
+              <div>• <span className="text-foreground font-mono">How can I contact you?</span></div>
+            </div>
+            <div className="text-xs text-muted-foreground mt-2">
+              Or use: <span className="text-accent font-mono">ask [your question]</span>
+            </div>
           </div>
           <div className="text-muted-foreground text-xs mt-3">Portfolio Navigation:</div>
           <div>
@@ -978,15 +998,16 @@ ${bottomBorder}
               >
               {/* Terminal Header */}
               <div className="flex items-center gap-2 px-4 py-3 bg-primary/10 border-b border-primary/20">
-                <TerminalIcon className="w-4 h-4 text-primary" />
-                <span className="text-sm font-mono text-foreground">portfolio@terminal:~</span>
-                {/* Online Status Indicator */}
+                <span className="text-lg">🧠</span>
+                <span className="text-sm font-mono text-foreground font-semibold">Computer Brain</span>
+                <span className="text-xs text-muted-foreground font-mono">v2.0</span>
+                {/* AI Status Indicator */}
                 <div className="flex items-center gap-1.5 ml-3">
                   <div className="relative">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
                   </div>
-                  <span className="text-xs text-muted-foreground font-mono tracking-wider">ONLINE</span>
+                  <span className="text-xs text-green-400 font-mono tracking-wider font-semibold">AI ACTIVE</span>
                 </div>
                 <div className="ml-auto flex gap-1.5 items-center">
                   {terminalState === "maximized" && (
@@ -1063,7 +1084,7 @@ ${bottomBorder}
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={handleKeyDown}
                             className="flex-1 bg-transparent border-none outline-none text-foreground font-mono caret-primary"
-                            placeholder="Type a command..."
+                            placeholder="Ask me anything or type a command..."
                             autoComplete="off"
                             spellCheck={false}
                             maxLength={500}
