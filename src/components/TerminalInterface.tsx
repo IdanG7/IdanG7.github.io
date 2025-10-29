@@ -447,7 +447,7 @@ ${bottomBorder}
     onStateChange(true);
   };
 
-  const handleCommand = (cmd: string, isQuickCommand = false) => {
+  const handleCommand = async (cmd: string, isQuickCommand = false) => {
     try {
       const validatedCmd = commandSchema.parse(cmd);
       const trimmedCmd = validatedCmd.toLowerCase();
@@ -691,7 +691,7 @@ ${bottomBorder}
       } else if (trimmedCmd.startsWith("ask ")) {
         // Explicit ask command
         const question = trimmedCmd.substring(4).trim();
-        const response = askChatbot(question);
+        const response = await askChatbot(question);
         output = (
           <div className="space-y-2">
             <div className="text-foreground whitespace-pre-wrap">{response.answer}</div>
@@ -709,7 +709,7 @@ ${bottomBorder}
         );
       } else if (isQuestion(trimmedCmd) || validatedCmd.endsWith('?')) {
         // Auto-detect questions
-        const response = askChatbot(validatedCmd);
+        const response = await askChatbot(validatedCmd);
         output = (
           <div className="space-y-2">
             <div className="text-foreground whitespace-pre-wrap">{response.answer}</div>
