@@ -240,7 +240,16 @@ class IntentParser {
 
   isQuestion(): boolean {
     const questionWords = ["what", "who", "where", "when", "why", "how", "can", "do", "are", "is", "tell", "show"];
-    return questionWords.some(w => this.tokens.includes(w)) || this.question.includes("?");
+    const hasQuestionWord = questionWords.some(w => this.tokens.includes(w)) || this.question.includes("?");
+
+    // Also treat casual conversation as "questions" to trigger chatbot
+    const isCasualConversation = this.hasIntent("greeting") ||
+                                  this.hasIntent("howAreYou") ||
+                                  this.hasIntent("thanks") ||
+                                  this.hasIntent("goodbye") ||
+                                  this.hasIntent("smallTalk");
+
+    return hasQuestionWord || isCasualConversation;
   }
 }
 
