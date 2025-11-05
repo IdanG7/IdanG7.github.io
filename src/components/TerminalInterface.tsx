@@ -929,7 +929,7 @@ ${bottomBorder}
         {terminalState !== "closed" && (
           <motion.div
             className={`z-50 ${
-              terminalState === "minimized" ? "fixed w-80 bottom-6 right-6" : "w-full max-w-4xl mx-auto px-4 mb-8"
+              terminalState === "minimized" ? "fixed w-96 bottom-6 right-6" : "w-full max-w-4xl mx-auto px-4 mb-8"
             }`}
             initial={
               isOpening
@@ -992,54 +992,75 @@ ${bottomBorder}
 
               {/* Terminal Window */}
               <motion.div
-                className={`bg-card/95 backdrop-blur-sm border border-primary/30 rounded-xl shadow-[var(--shadow-elegant)] overflow-hidden relative ${
-                  terminalState === "minimized" ? "h-14" : ""
+                className={`backdrop-blur-sm border rounded-xl shadow-[var(--shadow-elegant)] overflow-hidden relative ${
+                  terminalState === "minimized"
+                    ? "h-16 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 border-primary/40 hover:border-primary/60 transition-all duration-300 cursor-pointer group"
+                    : "bg-card/95 border-primary/30"
                 }`}
                 animate={{
                   opacity: isMinimizing ? 0 : 1,
                 }}
                 transition={{ duration: 0.3 }}
+                onClick={terminalState === "minimized" ? handleMaximize : undefined}
               >
               {/* Terminal Header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-primary/10 border-b border-primary/20">
-                <span className="text-lg">🧠</span>
-                <span className="text-sm font-mono text-foreground font-semibold">Computer Brain</span>
-                <span className="text-xs text-muted-foreground font-mono">v2.0</span>
-                {/* AI Status Indicator */}
-                <div className="flex items-center gap-1.5 ml-3">
-                  <div className="relative">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
-                  </div>
-                  <span className="text-xs text-green-400 font-mono tracking-wider font-semibold">AI ACTIVE</span>
-                </div>
-                <div className="ml-auto flex gap-1.5 items-center">
-                  {terminalState === "maximized" && (
-                    <button
-                      onClick={handleClose}
-                      className="h-3 w-3 rounded-full bg-destructive/60 hover:bg-destructive transition-colors"
-                      title="Close"
-                    />
-                  )}
-                    <button
-                      onClick={() => {
-                        if (terminalState === "maximized") {
-                          handleMinimize();
-                        } else {
-                          handleMaximize();
-                        }
-                      }}
-                      className="h-3 w-3 rounded-full bg-yellow-500/60 hover:bg-yellow-500 transition-colors"
-                      title={terminalState === "maximized" ? "Minimize" : "Maximize"}
-                    />
-                    {terminalState === "maximized" && (
+              <div className={`flex items-center gap-2 px-4 border-b ${
+                terminalState === "minimized"
+                  ? "py-4 border-transparent"
+                  : "py-3 bg-primary/10 border-primary/20"
+              }`}>
+                <span className={`${terminalState === "minimized" ? "text-2xl" : "text-lg"}`}>🧠</span>
+                <span className={`font-mono text-foreground font-semibold ${
+                  terminalState === "minimized" ? "text-base" : "text-sm"
+                }`}>Computer Brain</span>
+                {terminalState === "minimized" ? (
+                  <>
+                    {/* Minimized View - More Prominent */}
+                    <div className="flex items-center gap-2 ml-3">
+                      <div className="relative">
+                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
+                        <div className="absolute inset-0 w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
+                      </div>
+                      <span className="text-sm text-green-400 font-mono tracking-wider font-bold">READY</span>
+                    </div>
+                    <div className="ml-auto flex items-center gap-2 px-3 py-1 bg-primary/20 rounded-lg border border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all">
+                      <span className="text-xs text-primary font-mono font-semibold">Click to expand</span>
+                      <svg className="w-3 h-3 text-primary group-hover:translate-y-[-2px] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Maximized View */}
+                    <span className="text-xs text-muted-foreground font-mono">v2.0</span>
+                    <div className="flex items-center gap-1.5 ml-3">
+                      <div className="relative">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                      </div>
+                      <span className="text-xs text-green-400 font-mono tracking-wider font-semibold">AI ACTIVE</span>
+                    </div>
+                    <div className="ml-auto flex gap-1.5 items-center">
+                      <button
+                        onClick={handleClose}
+                        className="h-3 w-3 rounded-full bg-destructive/60 hover:bg-destructive transition-colors"
+                        title="Close"
+                      />
+                      <button
+                        onClick={handleMinimize}
+                        className="h-3 w-3 rounded-full bg-yellow-500/60 hover:bg-yellow-500 transition-colors"
+                        title="Minimize"
+                      />
                       <button
                         className="h-3 w-3 rounded-full bg-primary/60 hover:bg-primary transition-colors"
                         title="Info"
                       />
-                    )}
-                  </div>
+                    </div>
+                  </>
+                )}
                 </div>
+              </div>
 
                 {/* Terminal Content */}
                 <AnimatePresence>

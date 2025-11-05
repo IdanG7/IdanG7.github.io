@@ -567,7 +567,7 @@ function getOrdinalSuffix(num: number): string {
 }
 
 /**
- * Main chatbot intelligence system
+ * Main chatbot intelligence system - LLM-powered only
  */
 export async function askChatbot(question: string): Promise<ChatbotResponse> {
   const trimmed = question.trim();
@@ -583,40 +583,7 @@ export async function askChatbot(question: string): Promise<ChatbotResponse> {
     };
   }
 
-  const parser = new IntentParser(trimmed);
-  const generator = new ResponseGenerator();
-
-  // Try to generate responses based on detected intents
-  // Priority order: Casual → Specific (projects/tech) → Generic (personal/about)
-  const responseAttempts = [
-    // Casual conversation first
-    () => generator.generateGreetingResponse(parser),
-    () => generator.generateHowAreYouResponse(parser),
-    () => generator.generateThanksResponse(parser),
-    () => generator.generateGoodbyeResponse(parser),
-    () => generator.generateSmallTalkResponse(parser),
-
-    // SPECIFIC topics (projects, technologies) - these should override generic "about"
-    () => generator.generateProjectsResponse(parser), // Moved up - checks for specific project names
-    () => generator.generateSkillsResponse(parser),   // Moved up - checks for specific tech names
-
-    // Generic topics last
-    () => generator.generatePersonalResponse(parser), // Moved down - generic "about" fallback
-    () => generator.generateExperienceResponse(parser),
-    () => generator.generateEducationResponse(parser),
-    () => generator.generateContactResponse(parser),
-  ];
-
-  for (const attempt of responseAttempts) {
-    const response = attempt();
-    if (response) {
-      // Generate contextual suggestions
-      const suggestions = generateContextualSuggestions(parser);
-      return { answer: response, suggestions };
-    }
-  }
-
-  // Fallback for unrecognized questions - try LLM first if available
+  // Always use LLM for all responses
   if (isLLMAvailable()) {
     try {
       const llmResponse = await askLLM(trimmed);
@@ -631,20 +598,17 @@ export async function askChatbot(question: string): Promise<ChatbotResponse> {
         };
       }
     } catch (error) {
-      console.error("LLM fallback failed:", error);
-      // Continue to pattern-based fallback
+      console.error("LLM error:", error);
     }
   }
 
-  // Final fallback: pattern-based generic response
+  // Fallback if LLM is not available
   return {
-    answer: generator.generateFallbackResponse(parser),
+    answer: "Sorry, I need an LLM API key to answer questions. Please configure VITE_GROQ_API_KEY in your .env file.",
     suggestions: [
       "What's your current role?",
       "Tell me about AeroForge",
-      "What technologies do you use?",
-      "What's your experience with C++?",
-      "How can I reach you?",
+      "How can I contact you?",
     ],
   };
 }
