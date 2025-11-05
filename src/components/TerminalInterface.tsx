@@ -929,7 +929,7 @@ ${bottomBorder}
         {terminalState !== "closed" && (
           <motion.div
             className={`z-50 ${
-              terminalState === "minimized" ? "fixed w-96 bottom-6 right-6" : "w-full max-w-4xl mx-auto px-4 mb-8"
+              terminalState === "minimized" ? "fixed w-[90%] sm:w-96 bottom-6 right-4 sm:right-6" : "w-full max-w-4xl mx-auto px-4 mb-8"
             }`}
             initial={
               isOpening

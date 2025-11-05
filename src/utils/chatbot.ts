@@ -598,17 +598,19 @@ export async function askChatbot(question: string): Promise<ChatbotResponse> {
         };
       }
     } catch (error) {
-      console.error("LLM error:", error);
+      if (import.meta.env.DEV) {
+        console.error("LLM error:", error);
+      }
     }
   }
 
   // Fallback if LLM is not available
   return {
-    answer: "Sorry, I need an LLM API key to answer questions. Please configure VITE_GROQ_API_KEY in your .env file.",
+    answer: "I'm having trouble connecting to my AI brain right now. Try asking about my projects, skills, or experience using the terminal commands: type 'help' to see what I can do!",
     suggestions: [
-      "What's your current role?",
-      "Tell me about AeroForge",
-      "How can I contact you?",
+      "Type 'help' for commands",
+      "nano experience",
+      "cat skills.json",
     ],
   };
 }

@@ -23,12 +23,16 @@ export async function askLLM(question: string): Promise<string | null> {
 
   // If no API key configured, return null (fallback to pattern system)
   if (!groq) {
-    console.log("🔴 No Groq API key configured - using pattern-based responses only");
-    console.log("💡 Add VITE_GROQ_API_KEY to .env and restart dev server");
+    if (import.meta.env.DEV) {
+      console.log("🔴 No Groq API key configured - using pattern-based responses only");
+      console.log("💡 Add VITE_GROQ_API_KEY to .env and restart dev server");
+    }
     return null;
   }
 
-  console.log("🧠 LLM activated for question:", question);
+  if (import.meta.env.DEV) {
+    console.log("🧠 LLM activated for question:", question);
+  }
 
   try {
     const systemPrompt = createSystemPrompt();
@@ -40,17 +44,21 @@ export async function askLLM(question: string): Promise<string | null> {
       ],
       model: "llama-3.1-8b-instant", // Fast, free-tier friendly model
       temperature: 0.7,
-      max_tokens: 300,
+      max_tokens: 500,
       top_p: 1,
       stream: false,
     });
 
     const response = completion.choices[0]?.message?.content;
-    console.log("✅ LLM response received:", response?.substring(0, 100) + "...");
+    if (import.meta.env.DEV) {
+      console.log("✅ LLM response received:", response?.substring(0, 100) + "...");
+    }
     return response || null;
 
   } catch (error) {
-    console.error("❌ Groq API error:", error);
+    if (import.meta.env.DEV) {
+      console.error("❌ Groq API error:", error);
+    }
     return null; // Gracefully fall back to pattern system on error
   }
 }
