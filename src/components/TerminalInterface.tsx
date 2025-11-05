@@ -1004,10 +1004,10 @@ ${bottomBorder}
                 onClick={terminalState === "minimized" ? handleMaximize : undefined}
               >
               {/* Terminal Header */}
-              <div className={`flex items-center gap-2 px-4 border-b ${
+              <div className={`flex items-center gap-3 px-4 ${
                 terminalState === "minimized"
-                  ? "py-4 border-transparent"
-                  : "py-3 bg-primary/10 border-primary/20"
+                  ? "h-16 border-transparent"
+                  : "py-3 bg-primary/10 border-b border-primary/20"
               }`}>
                 <span className={`${terminalState === "minimized" ? "text-2xl" : "text-lg"}`}>🧠</span>
                 <span className={`font-mono text-foreground font-semibold ${
@@ -1015,7 +1015,7 @@ ${bottomBorder}
                 }`}>Computer Brain</span>
                 {terminalState === "minimized" ? (
                   <>
-                    {/* Minimized View - More Prominent */}
+                    {/* Minimized View - Centered */}
                     <div className="flex items-center gap-2 ml-3">
                       <div className="relative">
                         <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
@@ -1023,7 +1023,7 @@ ${bottomBorder}
                       </div>
                       <span className="text-sm text-green-400 font-mono tracking-wider font-bold">READY</span>
                     </div>
-                    <div className="ml-auto flex items-center gap-2 px-3 py-1 bg-primary/20 rounded-lg border border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all">
+                    <div className="ml-auto flex items-center gap-2 px-3 py-1.5 bg-primary/20 rounded-lg border border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all">
                       <span className="text-xs text-primary font-mono font-semibold">Click to expand</span>
                       <svg className="w-3 h-3 text-primary group-hover:translate-y-[-2px] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -1041,21 +1041,28 @@ ${bottomBorder}
                       </div>
                       <span className="text-xs text-green-400 font-mono tracking-wider font-semibold">AI ACTIVE</span>
                     </div>
-                    <div className="ml-auto flex gap-1.5 items-center">
-                      <button
-                        onClick={handleClose}
-                        className="h-3 w-3 rounded-full bg-destructive/60 hover:bg-destructive transition-colors"
-                        title="Close"
-                      />
+                    <div className="ml-auto flex gap-2 items-center">
+                      {/* Cool futuristic buttons */}
                       <button
                         onClick={handleMinimize}
-                        className="h-3 w-3 rounded-full bg-yellow-500/60 hover:bg-yellow-500 transition-colors"
+                        className="group relative p-1.5 rounded-md border border-primary/30 bg-primary/5 hover:bg-primary/20 hover:border-primary/50 transition-all duration-200"
                         title="Minimize"
-                      />
+                      >
+                        <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                        </svg>
+                        <div className="absolute inset-0 rounded-md bg-primary/20 opacity-0 group-hover:opacity-100 blur-sm transition-opacity" />
+                      </button>
                       <button
-                        className="h-3 w-3 rounded-full bg-primary/60 hover:bg-primary transition-colors"
-                        title="Info"
-                      />
+                        onClick={handleClose}
+                        className="group relative p-1.5 rounded-md border border-destructive/30 bg-destructive/5 hover:bg-destructive/20 hover:border-destructive/50 transition-all duration-200"
+                        title="Close"
+                      >
+                        <svg className="w-3.5 h-3.5 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <div className="absolute inset-0 rounded-md bg-destructive/20 opacity-0 group-hover:opacity-100 blur-sm transition-opacity" />
+                      </button>
                     </div>
                   </>
                 )}
