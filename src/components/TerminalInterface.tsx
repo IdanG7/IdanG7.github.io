@@ -1059,7 +1059,6 @@ ${bottomBorder}
                     </div>
                   </>
                 )}
-                </div>
               </div>
 
                 {/* Terminal Content */}
