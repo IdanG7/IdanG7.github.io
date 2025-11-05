@@ -29,6 +29,18 @@ export const KNOWLEDGE_GRAPH = {
 
   experience: [
     {
+      role: "Embedded Firmware Engineer Intern",
+      company: "AMD",
+      location: "Markham, ON",
+      startDate: "2026-05",
+      endDate: "2027-09",
+      upcoming: true,
+      achievements: [
+        { fact: "upcoming internship focused on embedded firmware development", impact: "firmware engineering" },
+      ],
+      technologies: ["Embedded Systems", "Firmware", "C", "C++"],
+    },
+    {
       role: "Junior Software Developer",
       company: "WDI Wise Device Inc.",
       location: "Vaughan, ON",
@@ -353,23 +365,25 @@ class ResponseGenerator {
   generateExperienceResponse(parser: IntentParser): string | null {
     if (!parser.hasIntent("experience")) return null;
 
-    const current = KNOWLEDGE_GRAPH.experience[0];
+    const upcomingPosition = KNOWLEDGE_GRAPH.experience.find(exp => exp.upcoming);
+    const currentPosition = KNOWLEDGE_GRAPH.experience.find(exp => exp.current);
     const isCurrentQuery = parser.hasIntent("current");
 
-    if (isCurrentQuery) {
-      const achievements = current.achievements.slice(0, 3).map(a => a.fact);
+    if (isCurrentQuery && currentPosition) {
+      const achievements = currentPosition.achievements.slice(0, 3).map(a => a.fact);
       const responses = [
-        `Right now I'm working as a ${current.role} at ${current.company}. I'm ${achievements[0]}, and I've ${achievements[1]}. I also spend time ${achievements[2]}.`,
-        `Currently, I'm a ${current.role} with ${current.company} in ${current.location}. My main focus is ${achievements[0]} - I've been able to ${achievements[1]} through automation improvements.`,
-        `I'm employed as a ${current.role} at ${current.company}. Day-to-day, I'm ${achievements[0]} and ${achievements[1]}. Recently, I've also been ${achievements[2]}.`,
+        `Right now I'm working as a ${currentPosition.role} at ${currentPosition.company}. I'm ${achievements[0]}, and I've ${achievements[1]}. I also spend time ${achievements[2]}.`,
+        `Currently, I'm a ${currentPosition.role} with ${currentPosition.company} in ${currentPosition.location}. My main focus is ${achievements[0]} - I've been able to ${achievements[1]} through automation improvements.`,
+        `I'm employed as a ${currentPosition.role} at ${currentPosition.company}. Day-to-day, I'm ${achievements[0]} and ${achievements[1]}. Recently, I've also been ${achievements[2]}.`,
       ];
       return this.addVariety(this.pickRandom(responses));
     } else {
       const totalExp = `${KNOWLEDGE_GRAPH.identity.yearsExperience}+ years`;
+      const upcomingText = upcomingPosition ? ` I have an upcoming internship lined up at ${upcomingPosition.company} as an ${upcomingPosition.role} starting May 2026.` : '';
       const responses = [
-        `I've got ${totalExp} of professional experience in software engineering. Started as a ${KNOWLEDGE_GRAPH.experience[1].role} and now I'm a ${current.role}, both at ${current.company}. I've been focusing heavily on CI/CD automation and C++ development.`,
-        `Over ${totalExp}, I've worked in backend and firmware engineering. Currently at ${current.company} as a ${current.role}. My journey has taken me from QA automation to managing 70+ Jenkins projects and developing real-time C++ systems.`,
-        `I've spent ${totalExp} in the industry. All my experience has been with ${current.company}, where I progressed from a ${KNOWLEDGE_GRAPH.experience[1].role} to my current position as ${current.role}. I specialize in DevOps and low-level systems programming.`,
+        `I've got ${totalExp} of professional experience in software engineering. Currently I'm a ${currentPosition?.role} at ${currentPosition?.company}. I've been focusing heavily on CI/CD automation and C++ development.${upcomingText}`,
+        `Over ${totalExp}, I've worked in backend and firmware engineering. Currently at ${currentPosition?.company} as a ${currentPosition?.role}. My journey has taken me from QA automation to managing 70+ Jenkins projects and developing real-time C++ systems.${upcomingText}`,
+        `I've spent ${totalExp} in the industry. I'm currently a ${currentPosition?.role} at ${currentPosition?.company}, where I specialize in DevOps and low-level systems programming.${upcomingText}`,
       ];
       return this.addVariety(this.pickRandom(responses));
     }

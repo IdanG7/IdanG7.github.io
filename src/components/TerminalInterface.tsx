@@ -578,6 +578,13 @@ ${bottomBorder}
               <div>{`{`}</div>
               <div className="ml-4">"positions": [</div>
               <div className="ml-8">{`{`}</div>
+              <div className="ml-12">"company": "AMD",</div>
+              <div className="ml-12">"location": "Markham, ON",</div>
+              <div className="ml-12">"title": "Embedded Firmware Engineer Intern",</div>
+              <div className="ml-12">"period": "May 2026 – Sep 2027",</div>
+              <div className="ml-12">"description": "Upcoming internship focused on embedded firmware development."</div>
+              <div className="ml-8">{`},`}</div>
+              <div className="ml-8">{`{`}</div>
               <div className="ml-12">"company": "WDI Wise Device Inc.",</div>
               <div className="ml-12">"location": "Vaughan, ON",</div>
               <div className="ml-12">"title": "Junior Software Developer",</div>
@@ -707,8 +714,9 @@ ${bottomBorder}
             )}
           </div>
         );
-      } else if (isQuestion(trimmedCmd) || validatedCmd.endsWith('?')) {
-        // Auto-detect questions
+      } else {
+        // Default: Send everything else to the LLM/chatbot
+        // This allows any natural language input to work without keyword detection
         const response = await askChatbot(validatedCmd);
         output = (
           <div className="space-y-2">
@@ -724,10 +732,6 @@ ${bottomBorder}
               </div>
             )}
           </div>
-        );
-      } else {
-        output = (
-          <span className="text-destructive">Command not found: {trimmedCmd}. Type 'help' for available commands.</span>
         );
       }
 

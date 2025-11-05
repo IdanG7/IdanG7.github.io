@@ -8,6 +8,14 @@ const Experience = () => {
 
   const experiences = [
     {
+      company: "AMD",
+      location: "Markham, ON",
+      title: "Embedded Firmware Engineer Intern",
+      period: "May 2026 – Sep 2027",
+      icon: Code,
+      description: "Upcoming internship focused on embedded firmware development."
+    },
+    {
       company: "WDI Wise Device Inc.",
       location: "Vaughan, ON",
       title: "Junior Software Developer",
