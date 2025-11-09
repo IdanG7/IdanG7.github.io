@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Terminal, FileText, Briefcase, Award, Clock, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
+import { memo } from "react";
 
 const About = () => {
   const { ref, isVisible } = useScrollAnimation(0.2);
@@ -122,25 +123,25 @@ const About = () => {
             </div>
           </div>
 
-          {/* Highlights */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12">
+          {/* Inline Highlights */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-6 mt-8 text-sm font-mono"
+          >
             {highlights.map((item, index) => {
               const Icon = item.icon;
               return (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.1 * index, duration: 0.5 }}
-                  className="bg-card border border-primary/20 rounded-lg p-6 hover:border-primary/40 transition-all duration-300 text-center group"
-                >
-                  <Icon className="w-6 h-6 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
-                  <div className="text-2xl font-bold font-mono text-primary mb-1">{item.value}</div>
-                  <div className="text-xs font-mono text-muted-foreground">{item.label}</div>
-                </motion.div>
+                <div key={item.label} className="flex items-center gap-2 group">
+                  <Icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                  <span className="text-primary font-bold">{item.value}</span>
+                  <span className="text-muted-foreground">{item.label}</span>
+                  {index < highlights.length - 1 && <span className="text-primary/30 ml-2">|</span>}
+                </div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Resume Button */}
           <div className="mt-12 flex justify-center">
@@ -163,4 +164,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default memo(About);

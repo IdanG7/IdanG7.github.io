@@ -1,6 +1,7 @@
 import { Code2, Cpu, GitBranch, Terminal, Database, Package, Cloud, Layers } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
+import { memo } from "react";
 
 const skillCategories = [
   {
@@ -99,79 +100,101 @@ const Skills = () => {
           </h2>
         </div>
 
-        {/* Skills Grid */}
-        <div className="grid gap-6">
+        {/* Clean Modern Skills Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category, categoryIndex) => {
             const Icon = category.icon;
 
             return (
               <motion.div
                 key={category.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: categoryIndex * 0.05, duration: 0.4 }}
+                transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
                 className="group"
               >
                 <div
-                  className="relative bg-card border border-border rounded-xl p-6 hover:border-primary/40 transition-all duration-300"
+                  className="relative h-full backdrop-blur-xl bg-card/40 border-2 rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
                   style={{
-                    borderLeftColor: category.color,
-                    borderLeftWidth: '4px'
+                    borderColor: `${category.color}40`,
+                    borderLeftWidth: '4px',
+                    borderLeftColor: category.color
                   }}
                 >
-                  {/* Header */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="p-2 rounded-lg"
-                      style={{
-                        backgroundColor: `${category.color}20`,
-                        color: category.color
-                      }}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <h3
-                      className="text-xl font-bold font-mono"
-                      style={{ color: category.color }}
-                    >
-                      {category.title}
-                    </h3>
+                  {/* Animated neon border glow - outline only */}
+                  <div className="absolute inset-0 rounded-2xl pointer-events-none">
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                      boxShadow: `0 0 25px ${category.color}80, 0 0 50px ${category.color}40`
+                    }} />
                   </div>
 
-                  {/* Skills list */}
-                  <ul className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <motion.li
-                        key={skill.name}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          delay: categoryIndex * 0.05 + skillIndex * 0.02,
-                          duration: 0.3
-                        }}
-                        whileHover={{
-                          scale: 1.05,
+                  {/* Subtle accent glow in corner */}
+                  <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-0 group-hover:opacity-20 blur-3xl transition-all duration-500" style={{
+                    backgroundColor: category.color
+                  }} />
+
+                  <div className="relative z-10">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 mb-5">
+                      <div
+                        className="p-2.5 rounded-xl"
+                        style={{
                           backgroundColor: `${category.color}20`,
-                          transition: { duration: 0.2 }
+                          color: category.color
                         }}
-                        className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg text-sm font-mono hover:shadow-md transition-all duration-200 cursor-default"
                       >
-                        {skill.icon && (
-                          <img
-                            src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
-                            alt={skill.name}
-                            className="w-4 h-4"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3
+                        className="text-xl font-bold font-mono"
+                        style={{ color: category.color }}
+                      >
+                        {category.title}
+                      </h3>
+                    </div>
+
+                    {/* Skills badges */}
+                    <div className="flex flex-wrap gap-2.5">
+                      {category.skills.map((skill, skillIndex) => (
+                        <motion.div
+                          key={skill.name}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{
+                            delay: categoryIndex * 0.05 + skillIndex * 0.03,
+                            duration: 0.4
+                          }}
+                          whileHover={{
+                            scale: 1.1,
+                            y: -2,
+                            transition: { duration: 0.2 }
+                          }}
+                          className="group/badge"
+                        >
+                          <div
+                            className="flex items-center gap-2 px-3.5 py-2 backdrop-blur-md bg-card/60 border border-primary/20 rounded-lg text-sm font-mono transition-all duration-300 cursor-default hover:border-primary/40"
+                            style={{
+                              background: `linear-gradient(135deg, ${category.color}10, transparent)`
                             }}
-                          />
-                        )}
-                        <span className="text-foreground">{skill.name}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                          >
+                            {skill.icon && (
+                              <img
+                                src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
+                                alt={skill.name}
+                                className="w-4 h-4 group-hover/badge:scale-110 transition-transform"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            )}
+                            <span className="text-foreground font-medium">{skill.name}</span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             );
@@ -182,4 +205,4 @@ const Skills = () => {
   );
 };
 
-export default Skills;
+export default memo(Skills);

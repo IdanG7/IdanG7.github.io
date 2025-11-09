@@ -36,7 +36,8 @@
       "Bash(timeout:*)",
       "Bash(npm uninstall:*)",
       "Bash(curl -s https://malaypatrav2.vercel.app/)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm run sitemap:*)"
     ],
     "deny": [],
     "ask": []

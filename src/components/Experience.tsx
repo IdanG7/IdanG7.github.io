@@ -1,6 +1,6 @@
 import { Briefcase, Calendar, MapPin, Code, Rocket, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Experience = () => {
@@ -76,7 +76,7 @@ const Experience = () => {
                   } flex-col gap-0`}
                 >
                   {/* Content */}
-                  <div className={`w-full md:w-5/12 ${isLeft ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
+                  <div className={`w-full md:w-5/12 ${isLeft ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'}`}>
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9, y: 30 }}
                       whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -91,9 +91,16 @@ const Experience = () => {
                       whileHover={{ y: -8, scale: 1.03 }}
                       className="group"
                     >
-                      <div className="relative bg-card border-2 border-primary/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:border-primary/40 transition-all duration-300 overflow-hidden">
-                        {/* Decorative gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative backdrop-blur-xl bg-card/40 border-2 border-primary/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                        {/* Animated neon border glow - outline only */}
+                        <div className="absolute inset-0 rounded-2xl pointer-events-none">
+                          <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                            boxShadow: '0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.4)'
+                          }} />
+                        </div>
+
+                        {/* Subtle decorative gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                         {/* Floating shapes */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
@@ -133,7 +140,7 @@ const Experience = () => {
                     </motion.div>
                   </div>
 
-                  {/* Center icon - positioned absolutely over the timeline */}
+                  {/* Center dot on timeline */}
                   <div className="absolute left-0 md:left-1/2 top-0 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-20 flex items-center justify-center">
                     <motion.div
                       initial={{ scale: 0, rotate: -180, opacity: 0 }}
@@ -152,8 +159,8 @@ const Experience = () => {
                       <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse" />
 
                       {/* Icon container */}
-                      <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-2xl border-4 border-background">
-                        <Icon className="w-8 h-8 text-background" />
+                      <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-2xl border-4 border-background">
+                        <Icon className="w-6 h-6 text-background" />
                       </div>
 
                       {/* Orbiting particles */}
@@ -162,7 +169,7 @@ const Experience = () => {
                         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                         className="absolute inset-0"
                       >
-                        <div className="absolute top-0 left-1/2 w-2 h-2 bg-primary/60 rounded-full -translate-x-1/2 shadow-lg" />
+                        <div className="absolute top-0 left-1/2 w-1.5 h-1.5 bg-primary/60 rounded-full -translate-x-1/2 shadow-lg" />
                       </motion.div>
                       <motion.div
                         animate={{ rotate: -360 }}
@@ -186,4 +193,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default memo(Experience);

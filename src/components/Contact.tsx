@@ -1,8 +1,9 @@
-import { Mail, Linkedin, Github, FileText, Terminal, Send, ArrowRight, MapPin, Copy } from "lucide-react";
+import { Mail, Linkedin, Github, FileText, Terminal, Send, ArrowRight, MapPin, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, memo } from "react";
+import { toast } from "sonner";
 
 const socials = [
   {
@@ -44,9 +45,18 @@ const Contact = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const handleCopy = (text: string, index: number) => {
-    navigator.clipboard.writeText(text);
-    setCopiedIndex(index);
-    setTimeout(() => setCopiedIndex(null), 2000);
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+      toast.success('Copied to clipboard!', {
+        description: text,
+        duration: 3000,
+      });
+    }).catch(() => {
+      toast.error('Failed to copy', {
+        description: 'Please try again',
+      });
+    });
   };
 
   return (
@@ -129,7 +139,18 @@ const Contact = () => {
                   <div className={`absolute inset-0 bg-gradient-to-r ${social.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
 
                   {/* Card */}
-                  <div className="relative h-full bg-card border border-primary/20 rounded-2xl p-6 hover:border-primary/40 transition-all duration-300 backdrop-blur-sm">
+                  <div className="relative h-full backdrop-blur-xl bg-card/40 border-2 border-primary/20 rounded-2xl p-6 overflow-hidden transition-all duration-300">
+                    {/* Animated neon border glow - outline only */}
+                    <div className="absolute inset-0 rounded-2xl pointer-events-none">
+                      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                        boxShadow: `0 0 20px ${social.color === 'from-red-500 to-orange-500' ? '#ef4444' : social.color === 'from-blue-500 to-cyan-500' ? '#3b82f6' : social.color === 'from-purple-500 to-pink-500' ? '#a855f7' : '#22c55e'}, 0 0 40px ${social.color === 'from-red-500 to-orange-500' ? '#ef444440' : social.color === 'from-blue-500 to-cyan-500' ? '#3b82f640' : social.color === 'from-purple-500 to-pink-500' ? '#a855f740' : '#22c55e40'}`
+                      }} />
+                    </div>
+
+                    {/* Subtle glassmorphism overlay */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/3 via-transparent to-accent/3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    <div className="relative z-10">
                     <div className="flex items-start justify-between mb-4">
                       <div className={`p-3 rounded-xl ${social.bgColor} transition-colors duration-300`}>
                         <Icon className="w-6 h-6 text-foreground" />
@@ -175,6 +196,7 @@ const Contact = () => {
                       {social.label === "Email" ? "Send Email" : "Visit"}
                       <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                     </a>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -247,4 +269,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default memo(Contact);

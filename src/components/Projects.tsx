@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useMemo } from "react";
 import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -67,7 +67,10 @@ const Projects = () => {
   const [confidence, setConfidence] = useState(98);
   const [queues, setQueues] = useState(24);
 
+  // Only run animations when component is visible for better performance
   useEffect(() => {
+    if (!isVisible) return;
+
     const interval = setInterval(() => {
       setMatchingCount(Math.floor(Math.random() * 100) + 100);
       setAltitude(Number((Math.random() * 10 + 40).toFixed(1)));
@@ -75,7 +78,7 @@ const Projects = () => {
       setQueues(Math.floor(Math.random() * 10) + 20);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isVisible]);
 
 
   const getProjectGraphic = (title: string) => {
@@ -333,15 +336,25 @@ const Projects = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((project, index) => (
+            {projects.map((project, index) => {
+              return (
               <article
                 key={project.title}
-                className={`group relative overflow-hidden rounded-xl bg-card border border-primary/20 hover:border-primary/50 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-700 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
+                className={`group relative overflow-visible rounded-xl backdrop-blur-xl bg-card/40 border-2 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
                   }`}
                 style={{
-                  transitionDelay: isVisible ? `${index * 150}ms` : '0ms'
+                  transitionDelay: isVisible ? `${index * 150}ms` : '0ms',
                 }}
               >
+                {/* Animated neon border glow - outline only */}
+                <div className="absolute inset-0 rounded-xl pointer-events-none">
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                    boxShadow: '0 0 25px hsl(var(--primary)), 0 0 50px hsl(var(--accent) / 0.5)'
+                  }} />
+                </div>
+
+                {/* Subtle glassmorphism overlay */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/3 via-transparent to-accent/3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {/* Status indicator */}
                 <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
@@ -399,7 +412,8 @@ const Projects = () => {
                   </Button>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -497,4 +511,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default memo(Projects);
