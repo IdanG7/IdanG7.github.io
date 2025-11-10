@@ -1,5 +1,5 @@
 import { useState, useEffect, memo, useMemo } from "react";
-import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap } from "lucide-react";
+import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap, TrendingUp, Cpu, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -56,6 +56,25 @@ const projects: Project[] = [
       "FastAPI-based REST endpoints for client integration"
     ],
     github: "https://github.com/IdanG7"
+  },
+  {
+    title: "InfraMind",
+    description: "ML-powered platform that automatically optimizes CI/CD workflows by learning from build history to suggest optimal configurations.",
+    tags: ["FastAPI", "PostgreSQL", "Redis", "ML", "Docker"],
+    status: "Production",
+    metrics: { speedup: "20-40%", setup: "5 min", overhead: "Low" },
+    fullDescription: "InfraMind is an ML-powered platform designed to optimize CI/CD workflows automatically. The system learns from build history to suggest optimal configurations, helping teams achieve faster and more reliable builds across any CI/CD platform.",
+    features: [
+      "Universal REST API compatibility with Jenkins, GitHub Actions, GitLab CI, CircleCI",
+      "ML-driven automatic suggestions for CPU, memory, and concurrency settings",
+      "Low-overhead performance telemetry during builds",
+      "Automatic cache tuning based on historical data",
+      "Grafana-based real-time dashboards for build metrics visualization",
+      "Cost monitoring and resource spending optimization",
+      "5-minute setup with Docker containerization",
+      "C++ telemetry agent for optional low-overhead profiling"
+    ],
+    github: "https://github.com/IdanG7/InfraMind"
   }
 ];
 
@@ -66,18 +85,145 @@ const Projects = () => {
   const [altitude, setAltitude] = useState(45.2);
   const [confidence, setConfidence] = useState(98);
   const [queues, setQueues] = useState(24);
+  const [buildTime, setBuildTime] = useState(145);
+  const [optimizationScore, setOptimizationScore] = useState(87);
+  const [suggestion, setSuggestion] = useState("+2 cores suggested");
 
-  // Only run animations when component is visible for better performance
+  // Pipeline state: 'idle' | 'running' | 'success' | 'failed'
+  const [pipelineStages, setPipelineStages] = useState([
+    { name: 'Build', status: 'idle', progress: 0 },
+    { name: 'Test', status: 'idle', progress: 0 },
+    { name: 'Deploy', status: 'idle', progress: 0 }
+  ]);
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+  const [stageProgress, setStageProgress] = useState(0);
+
+  // Pipeline simulation logic
   useEffect(() => {
     if (!isVisible) return;
 
-    const interval = setInterval(() => {
+    const suggestions = [
+      "+2 cores suggested",
+      "+4GB RAM optimal",
+      "Cache size: 500MB",
+      "Reduce parallelism",
+      "+1 worker thread",
+      "Network latency: 12ms"
+    ];
+
+    // Update metrics periodically
+    const metricsInterval = setInterval(() => {
       setMatchingCount(Math.floor(Math.random() * 100) + 100);
       setAltitude(Number((Math.random() * 10 + 40).toFixed(1)));
       setConfidence(Math.floor(Math.random() * 5) + 95);
       setQueues(Math.floor(Math.random() * 10) + 20);
+      setBuildTime(Math.floor(Math.random() * 50) + 120);
+      setOptimizationScore(Math.floor(Math.random() * 10) + 85);
+      setSuggestion(suggestions[Math.floor(Math.random() * suggestions.length)]);
     }, 2000);
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(metricsInterval);
+    };
+  }, [isVisible]);
+
+  // Separate effect for pipeline progression
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const pipelineInterval = setInterval(() => {
+      setPipelineStages(stages => {
+        const currentStage = stages[currentStageIndex];
+
+        // Only increment if current stage is running
+        if (currentStage.status === 'running') {
+          const newProgress = stageProgress + 5;
+
+          if (newProgress >= 100) {
+            // Stage complete - check for random failure (15% chance)
+            const stageFailed = Math.random() < 0.15;
+
+            if (stageFailed) {
+              // Mark as failed and save current progress
+              const failedStages = stages.map((stage, idx) =>
+                idx === currentStageIndex
+                  ? { ...stage, status: 'failed', progress: newProgress }
+                  : stage
+              );
+
+              // Reset after 2 second delay
+              setTimeout(() => {
+                setPipelineStages([
+                  { name: 'Build', status: 'running', progress: 0 },
+                  { name: 'Test', status: 'idle', progress: 0 },
+                  { name: 'Deploy', status: 'idle', progress: 0 }
+                ]);
+                setCurrentStageIndex(0);
+                setStageProgress(0);
+              }, 2000);
+
+              setStageProgress(newProgress);
+              return failedStages;
+            } else {
+              // Mark as success
+              const successStages = stages.map((stage, idx) =>
+                idx === currentStageIndex
+                  ? { ...stage, status: 'success', progress: 100 }
+                  : stage
+              );
+
+              // Move to next stage or complete
+              if (currentStageIndex < 2) {
+                // Start next stage
+                const nextStages = successStages.map((stage, idx) =>
+                  idx === currentStageIndex + 1
+                    ? { ...stage, status: 'running', progress: 0 }
+                    : stage
+                );
+                setCurrentStageIndex(currentStageIndex + 1);
+                setStageProgress(0);
+                return nextStages;
+              } else {
+                // All complete - reset after delay
+                setTimeout(() => {
+                  setPipelineStages([
+                    { name: 'Build', status: 'running', progress: 0 },
+                    { name: 'Test', status: 'idle', progress: 0 },
+                    { name: 'Deploy', status: 'idle', progress: 0 }
+                  ]);
+                  setCurrentStageIndex(0);
+                  setStageProgress(0);
+                }, 2000);
+
+                setStageProgress(100);
+                return successStages;
+              }
+            }
+          } else {
+            setStageProgress(newProgress);
+          }
+        }
+
+        return stages;
+      });
+    }, 60);
+
+    return () => {
+      clearInterval(pipelineInterval);
+    };
+  }, [isVisible, currentStageIndex, stageProgress]);
+
+  // Initialize first stage as running
+  useEffect(() => {
+    if (!isVisible) return;
+
+    setPipelineStages([
+      { name: 'Build', status: 'running', progress: 0 },
+      { name: 'Test', status: 'idle', progress: 0 },
+      { name: 'Deploy', status: 'idle', progress: 0 }
+    ]);
+    setCurrentStageIndex(0);
+    setStageProgress(0);
   }, [isVisible]);
 
 
@@ -308,6 +454,142 @@ const Projects = () => {
           </div>
         </div>
       );
+    } else if (title === "InfraMind") {
+      return (
+        <div className="aspect-video bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 relative overflow-hidden">
+          {/* Circuit pattern background */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.1)_1px,transparent_1px)] bg-[size:25px_25px]" />
+
+          {/* Pipeline stages */}
+          <div className="absolute inset-0 flex items-center justify-center gap-12 px-8">
+            {pipelineStages.map((stage, idx) => {
+              const isRunning = stage.status === 'running';
+              const isSuccess = stage.status === 'success';
+              const isFailed = stage.status === 'failed';
+              const isIdle = stage.status === 'idle';
+
+              // Color scheme based on status
+              let bgColor = 'bg-slate-700/20'; // idle
+              let borderColor = 'border-slate-500';
+              let textColor = 'text-slate-400';
+              let progressColor = 'bg-slate-400';
+
+              if (isRunning) {
+                bgColor = 'bg-blue-500/20';
+                borderColor = 'border-blue-400';
+                textColor = 'text-blue-400';
+                progressColor = 'bg-blue-400';
+              } else if (isSuccess) {
+                bgColor = 'bg-emerald-500/20';
+                borderColor = 'border-emerald-400';
+                textColor = 'text-emerald-400';
+                progressColor = 'bg-emerald-400';
+              } else if (isFailed) {
+                bgColor = 'bg-red-500/20';
+                borderColor = 'border-red-400';
+                textColor = 'text-red-400';
+                progressColor = 'bg-red-400';
+              }
+
+              // Calculate progress width
+              let progressWidth = '0%';
+              if (isRunning) {
+                progressWidth = `${stageProgress}%`;
+              } else if (isSuccess || isFailed) {
+                progressWidth = `${stage.progress}%`;
+              }
+
+              return (
+                <motion.div
+                  key={stage.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.2 }}
+                  className="flex-1 max-w-[100px] relative"
+                >
+                  {/* Stage box */}
+                  <div className={`${bgColor} border-2 ${borderColor} rounded-lg p-3 backdrop-blur-sm transition-all duration-300`}>
+                    <div className={`text-xs font-mono ${textColor} text-center font-bold`}>
+                      {isFailed ? 'FAILED' : stage.name}
+                    </div>
+                    {/* Progress bar */}
+                    <div className="mt-2 h-1 bg-slate-900 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full ${progressColor} transition-all duration-100 ease-linear`}
+                        style={{ width: progressWidth }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Arrow to next stage - positioned in the gap */}
+                  {idx < 2 && (
+                    <div className="absolute top-1/2 left-full -translate-y-1/2 px-3">
+                      <div className="flex items-center gap-0.5">
+                        <div className={`w-5 h-0.5 ${isSuccess ? 'bg-emerald-400' : 'bg-slate-500'} transition-colors duration-300`} />
+                        <div className={`w-0 h-0 border-l-[6px] ${isSuccess ? 'border-l-emerald-400' : 'border-l-slate-500'} border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent transition-colors duration-300`} />
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Build metrics */}
+          <div className="absolute bottom-4 left-4 space-y-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-teal-400">
+              <Cpu className="w-3 h-3" />
+              <span>CPU: Optimized</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
+              <Database className="w-3 h-3" />
+              <span>Cache: Active</span>
+            </div>
+            <motion.div
+              className="text-xs font-mono text-green-400"
+              key={buildTime}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Time: {buildTime}s
+            </motion.div>
+          </div>
+
+          {/* ML Optimization indicator - moved to bottom right */}
+          <div className="absolute bottom-4 right-4 space-y-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/50 px-2 py-1 rounded border border-emerald-500/30">
+              <TrendingUp className="w-3 h-3" />
+              <span>ML ACTIVE</span>
+            </div>
+            <motion.div
+              className="text-xs font-mono text-green-400 text-right"
+              key={optimizationScore}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Score: {optimizationScore}%
+            </motion.div>
+          </div>
+
+          {/* Floating optimization suggestions - now randomized */}
+          <motion.div
+            className="absolute top-12 left-4 text-[10px] font-mono text-emerald-300/70 bg-emerald-950/50 px-2 py-1 rounded border border-emerald-500/20"
+            animate={{ y: [0, -5, 0], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            key={suggestion}
+          >
+            {suggestion}
+          </motion.div>
+
+          {/* Performance improvement indicator */}
+          <div className="absolute top-4 left-4 flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-yellow-400" />
+            <span className="text-xs font-mono text-yellow-400 font-bold">40% faster</span>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -338,80 +620,80 @@ const Projects = () => {
           <div className="grid md:grid-cols-2 gap-6">
             {projects.map((project, index) => {
               return (
-              <article
-                key={project.title}
-                className={`group relative overflow-visible rounded-xl backdrop-blur-xl bg-card/40 border-2 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
-                  }`}
-                style={{
-                  transitionDelay: isVisible ? `${index * 150}ms` : '0ms',
-                }}
-              >
-                {/* Animated neon border glow - outline only */}
-                <div className="absolute inset-0 rounded-xl pointer-events-none">
-                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                    boxShadow: '0 0 25px hsl(var(--primary)), 0 0 50px hsl(var(--accent) / 0.5)'
-                  }} />
-                </div>
-
-                {/* Subtle glassmorphism overlay */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/3 via-transparent to-accent/3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                {/* Status indicator */}
-                <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 z-10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-xs font-mono text-primary flex items-center gap-1">
-                    {project.isWIP && <Wrench className="w-3 h-3" />}
-                    {project.status}
-                  </span>
-                </div>
-
-                {/* Custom project graphic */}
-                {getProjectGraphic(project.title)}
-
-                <div className="p-6 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <h3 className="text-xl font-medium group-hover:text-primary transition-colors font-mono flex items-center gap-2">
-                      <Terminal className="w-4 h-4 text-primary" />
-                      {project.title}
-                    </h3>
-                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                <article
+                  key={project.title}
+                  className={`group relative overflow-visible rounded-xl backdrop-blur-xl bg-card/40 border-2 shadow-[var(--shadow-elegant)] hover:shadow-[var(--shadow-glow)] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
+                    }`}
+                  style={{
+                    transitionDelay: isVisible ? `${index * 150}ms` : '0ms',
+                  }}
+                >
+                  {/* Animated neon border glow - outline only */}
+                  <div className="absolute inset-0 rounded-xl pointer-events-none">
+                    <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                      boxShadow: '0 0 25px hsl(var(--primary)), 0 0 50px hsl(var(--accent) / 0.5)'
+                    }} />
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed text-sm">
-                    {project.description}
-                  </p>
-
-                  {/* Metrics */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-                    {Object.entries(project.metrics).map(([key, value]) => (
-                      <div key={key} className="text-center p-2 rounded bg-muted/50">
-                        <div className="text-xs text-muted-foreground font-mono mb-1">{key}</div>
-                        <div className="text-sm font-mono text-primary font-medium">{value}</div>
-                      </div>
-                    ))}
+                  {/* Subtle glassmorphism overlay */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/3 via-transparent to-accent/3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  {/* Status indicator */}
+                  <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 z-10">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    <span className="text-xs font-mono text-primary flex items-center gap-1">
+                      {project.isWIP && <Wrench className="w-3 h-3" />}
+                      {project.status}
+                    </span>
                   </div>
 
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 text-xs rounded-md bg-primary/10 text-primary font-mono hover:bg-primary/20 transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Custom project graphic */}
+                  {getProjectGraphic(project.title)}
 
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="group/btn w-full justify-between font-mono text-primary hover:text-primary"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    View Details
-                    <ExternalLink className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                  </Button>
-                </div>
-              </article>
+                  <div className="p-6 space-y-4">
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-xl font-medium group-hover:text-primary transition-colors font-mono flex items-center gap-2">
+                        <Terminal className="w-4 h-4 text-primary" />
+                        {project.title}
+                      </h3>
+                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                    </div>
+
+                    <p className="text-muted-foreground leading-relaxed text-sm">
+                      {project.description}
+                    </p>
+
+                    {/* Metrics */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                      {Object.entries(project.metrics).map(([key, value]) => (
+                        <div key={key} className="text-center p-2 rounded bg-muted/50">
+                          <div className="text-xs text-muted-foreground font-mono mb-1">{key}</div>
+                          <div className="text-sm font-mono text-primary font-medium">{value}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-1 text-xs rounded-md bg-primary/10 text-primary font-mono hover:bg-primary/20 transition-colors"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="group/btn w-full justify-between font-mono text-primary hover:text-primary"
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      View Details
+                      <ExternalLink className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                    </Button>
+                  </div>
+                </article>
               );
             })}
           </div>
