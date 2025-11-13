@@ -1,5 +1,5 @@
 import { useState, useEffect, memo, useMemo } from "react";
-import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap, TrendingUp, Cpu, Database } from "lucide-react";
+import { CheckCircle2, ExternalLink, Terminal, X, Wrench, Eye, Crosshair, Radar, Users, Network, Server, Zap, TrendingUp, Cpu, Database, Cloud, Activity, AlertCircle, CheckCircle, Shield, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -62,7 +62,7 @@ const projects: Project[] = [
     description: "ML-powered platform that automatically optimizes CI/CD workflows by learning from build history to suggest optimal configurations.",
     tags: ["FastAPI", "PostgreSQL", "Redis", "ML", "Docker"],
     status: "Production",
-    metrics: { speedup: "20-40%", setup: "5 min", overhead: "Low" },
+    metrics: { backend: "Python", agent: "C++", speedup: "20-40%" },
     fullDescription: "InfraMind is an ML-powered platform designed to optimize CI/CD workflows automatically. The system learns from build history to suggest optimal configurations, helping teams achieve faster and more reliable builds across any CI/CD platform.",
     features: [
       "Universal REST API compatibility with Jenkins, GitHub Actions, GitLab CI, CircleCI",
@@ -75,6 +75,25 @@ const projects: Project[] = [
       "C++ telemetry agent for optional low-overhead profiling"
     ],
     github: "https://github.com/IdanG7/InfraMind"
+  },
+  {
+    title: "Sentinel",
+    description: "Autonomous infrastructure controller for AI/ML workloads with Claude AI-powered auto-remediation and intelligent Kubernetes management.",
+    tags: ["Python", "Go", "Kubernetes", "Claude AI", "PostgreSQL"],
+    status: "Production",
+    metrics: { orchestrator: "Go", backend: "Python", uptime: "99.9%" },
+    fullDescription: "Sentinel is a production-ready autonomous infrastructure controller designed specifically for AI/ML workloads. It intelligently manages Kubernetes clusters across cloud, on-premises, and edge environments with ML-driven predictions, AI-powered remediation using Claude Sonnet 4, and comprehensive policy enforcement.",
+    features: [
+      "PatchBot: Claude AI agent that automatically fixes CI/CD failures (lint, format, type errors, test failures)",
+      "Multi-cluster orchestration with intelligent GPU scheduling for ML workloads",
+      "Canary deployments with automatic rollbacks and health gates",
+      "Five policy types: resource quotas, security, compliance, cost optimization, ML-specific",
+      "mTLS encryption and HashiCorp Vault integration for secrets management",
+      "Real-time observability with Prometheus, Grafana, and Jaeger tracing",
+      "Chaos engineering testing framework for resilience validation",
+      "Complete audit logging and RBAC for enterprise security"
+    ],
+    github: "https://github.com/IdanG7/Sentinel"
   }
 ];
 
@@ -97,6 +116,25 @@ const Projects = () => {
   ]);
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [stageProgress, setStageProgress] = useState(0);
+
+  // Multiplayer SDK - Enhanced matchmaking queue
+  const [queuedPlayers, setQueuedPlayers] = useState([
+    { id: 1, mmr: 1500, region: 'NA' },
+    { id: 2, mmr: 1520, region: 'NA' },
+    { id: 3, mmr: 1480, region: 'NA' },
+    { id: 4, mmr: 1550, region: 'NA' }
+  ]);
+  const [matchFormed, setMatchFormed] = useState(false);
+
+  // Sentinel - Kubernetes monitoring
+  const [pods, setPods] = useState([
+    { id: 1, status: 'healthy', cpu: 45, name: 'ml-trainer-1' },
+    { id: 2, status: 'healthy', cpu: 78, name: 'api-gateway' },
+    { id: 3, status: 'error', cpu: 92, name: 'worker-node-3' },
+    { id: 4, status: 'healthy', cpu: 34, name: 'database-replica' }
+  ]);
+  const [aiFixing, setAiFixing] = useState(false);
+  const [clusterHealth, setClusterHealth] = useState(92);
 
   // Pipeline simulation logic
   useEffect(() => {
@@ -226,6 +264,84 @@ const Projects = () => {
     setStageProgress(0);
   }, [isVisible]);
 
+  // Multiplayer SDK matchmaking animation
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const matchmakingInterval = setInterval(() => {
+      // Add new players randomly
+      setQueuedPlayers(prev => {
+        if (prev.length >= 8) {
+          // Form match and reset
+          setMatchFormed(true);
+          setTimeout(() => setMatchFormed(false), 2000);
+          return [
+            { id: Math.random(), mmr: Math.floor(Math.random() * 500) + 1300, region: 'NA' },
+            { id: Math.random(), mmr: Math.floor(Math.random() * 500) + 1300, region: 'NA' }
+          ];
+        } else {
+          // Add 1-2 players
+          const newPlayers = Math.random() > 0.5 ? 1 : 2;
+          const additions = Array.from({ length: newPlayers }, () => ({
+            id: Math.random(),
+            mmr: Math.floor(Math.random() * 500) + 1300,
+            region: Math.random() > 0.7 ? 'EU' : 'NA'
+          }));
+          return [...prev, ...additions];
+        }
+      });
+    }, 2500);
+
+    return () => clearInterval(matchmakingInterval);
+  }, [isVisible]);
+
+  // Sentinel AI auto-fix animation
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const sentinelInterval = setInterval(() => {
+      setPods(currentPods => {
+        // Check if there's an error pod
+        const errorPod = currentPods.find(p => p.status === 'error');
+
+        if (errorPod && !aiFixing) {
+          // Start AI fixing
+          setAiFixing(true);
+          setTimeout(() => {
+            // Fix the pod after 3 seconds
+            setPods(pods => pods.map(p =>
+              p.status === 'error' ? { ...p, status: 'healing', cpu: Math.floor(Math.random() * 50) + 30 } : p
+            ));
+            setTimeout(() => {
+              setPods(pods => pods.map(p =>
+                p.status === 'healing' ? { ...p, status: 'healthy' } : p
+              ));
+              setAiFixing(false);
+              setClusterHealth(100);
+            }, 2000);
+          }, 3000);
+        } else if (!errorPod && !aiFixing) {
+          // Randomly introduce an error (20% chance)
+          if (Math.random() < 0.2) {
+            const randomIndex = Math.floor(Math.random() * currentPods.length);
+            const newPods = [...currentPods];
+            newPods[randomIndex] = { ...newPods[randomIndex], status: 'error', cpu: 95 };
+            setClusterHealth(75);
+            return newPods;
+          }
+        }
+
+        // Update CPU values randomly
+        return currentPods.map(p => ({
+          ...p,
+          cpu: p.status === 'healthy' ? Math.floor(Math.random() * 40) + 30 : p.cpu
+        }));
+      });
+    }, 4000);
+
+    return () => clearInterval(sentinelInterval);
+  }, [isVisible, aiFixing]);
+
 
   const getProjectGraphic = (title: string) => {
     if (title === "AeroForge") {
@@ -328,14 +444,52 @@ const Projects = () => {
           {/* Network grid background */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
 
+          {/* Match formed overlay */}
+          {matchFormed && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center bg-purple-500/20 backdrop-blur-sm z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="text-2xl font-mono font-bold text-purple-300 flex items-center gap-3">
+                <CheckCircle className="w-8 h-8" />
+                MATCH FORMED
+              </div>
+            </motion.div>
+          )}
+
+          {/* Matchmaking queue - horizontal */}
+          <div className="absolute left-4 bottom-12 flex flex-wrap gap-1.5 max-w-[60%]">
+            <div className="w-full text-[10px] font-mono text-purple-400 mb-1">QUEUE ({queuedPlayers.length}/8)</div>
+            {queuedPlayers.slice(0, 8).map((player, idx) => (
+              <motion.div
+                key={player.id}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ delay: idx * 0.1 }}
+                className="flex items-center gap-1 bg-purple-900/50 border border-purple-500/30 rounded px-1.5 py-0.5"
+              >
+                <Users className="w-2.5 h-2.5 text-purple-400" />
+                <div className="text-[8px] font-mono text-purple-300">
+                  {player.region} <span className="text-indigo-400">{player.mmr}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
           {/* Central server node */}
           <div className="absolute inset-0 flex items-center justify-center">
             <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={{
+                scale: matchFormed ? [1, 1.3, 1] : [1, 1.1, 1],
+                rotate: matchFormed ? [0, 360] : 0
+              }}
+              transition={{ duration: matchFormed ? 1 : 2, repeat: matchFormed ? 0 : Infinity }}
               className="relative"
             >
-              <div className="w-16 h-16 rounded-full bg-purple-500/30 border-2 border-purple-400 flex items-center justify-center">
+              <div className={`w-16 h-16 rounded-full ${matchFormed ? 'bg-purple-500/50' : 'bg-purple-500/30'} border-2 border-purple-400 flex items-center justify-center`}>
                 <Server className="w-8 h-8 text-purple-400" />
               </div>
               {/* Pulsing ring */}
@@ -346,78 +500,6 @@ const Projects = () => {
               />
             </motion.div>
           </div>
-
-          {/* Animated connection lines with traveling dots */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" style={{ pointerEvents: 'none' }}>
-            <defs>
-              <filter id="glow-dot">
-                <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {[0, 1, 2, 3, 4, 5].map((i) => {
-              const angle = (i * 60 * Math.PI) / 180;
-              const radius = 300; // Extended to reach closer to edges
-              const centerX = 100;
-              const centerY = 100;
-              const endX = 100 + radius * Math.cos(angle);
-              const endY = 100 + radius * Math.sin(angle);
-
-              return (
-                <g key={i}>
-                  {/* Connection line */}
-                  <motion.line
-                    x1={centerX}
-                    y1={centerY}
-                    x2={endX}
-                    y2={endY}
-                    stroke="rgba(139, 92, 246, 0.4)"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: i * 0.3
-                    }}
-                  />
-
-                  {/* Path for dot animation */}
-                  <path
-                    id={`dot-path-${i}`}
-                    d={`M ${centerX} ${centerY} L ${endX} ${endY}`}
-                    fill="none"
-                  />
-
-                  {/* Animated dot */}
-                  <circle
-                    r="3"
-                    fill="rgba(168, 85, 247, 1)"
-                    filter="url(#glow-dot)"
-                  >
-                    <animateMotion
-                      dur="2s"
-                      repeatCount="indefinite"
-                      begin={`${i * 0.4}s`}
-                    >
-                      <mpath xlinkHref={`#dot-path-${i}`} />
-                    </animateMotion>
-                    <animate
-                      attributeName="opacity"
-                      values="0;1;1;0"
-                      dur="2s"
-                      repeatCount="indefinite"
-                      begin={`${i * 0.4}s`}
-                    />
-                  </circle>
-                </g>
-              );
-            })}
-          </svg>
 
           {/* Stats */}
           <div className="absolute bottom-4 right-4 space-y-1 text-right">
@@ -435,22 +517,23 @@ const Projects = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              QUEUES: {queues}
+              ACTIVE QUEUES: {queues}
             </motion.div>
           </div>
 
-          {/* Matchmaking counter */}
+          {/* Matchmaking status */}
           <div className="absolute top-4 left-4 space-y-1">
-            <div className="text-xs font-mono text-purple-400">MATCHING</div>
+            <div className="text-xs font-mono text-purple-400">MATCHMAKING</div>
             <motion.div
-              className="text-lg font-mono font-bold text-indigo-400"
-              key={matchingCount}
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              className={`text-sm font-mono font-bold ${queuedPlayers.length >= 8 ? 'text-green-400' : 'text-indigo-400'}`}
+              animate={{ opacity: queuedPlayers.length >= 8 ? [1, 0.5, 1] : 1 }}
+              transition={{ duration: 0.5, repeat: queuedPlayers.length >= 8 ? Infinity : 0 }}
             >
-              {matchingCount}
+              {queuedPlayers.length >= 8 ? 'FORMING...' : 'SEARCHING'}
             </motion.div>
+            <div className="text-[10px] font-mono text-purple-300">
+              AVG MMR: {Math.round(queuedPlayers.reduce((sum, p) => sum + p.mmr, 0) / queuedPlayers.length)}
+            </div>
           </div>
         </div>
       );
@@ -587,6 +670,135 @@ const Projects = () => {
           <div className="absolute top-4 left-4 flex items-center gap-1.5">
             <Zap className="w-4 h-4 text-yellow-400" />
             <span className="text-xs font-mono text-yellow-400 font-bold">40% faster</span>
+          </div>
+        </div>
+      );
+    } else if (title === "Sentinel") {
+      return (
+        <div className="aspect-video bg-gradient-to-br from-cyan-950 via-slate-900 to-blue-950 relative overflow-hidden">
+          {/* Kubernetes cluster grid background */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.1)_1px,transparent_1px)] bg-[size:35px_35px]" />
+
+          {/* AI Agent indicator */}
+          {aiFixing && (
+            <motion.div
+              className="absolute top-2 left-1/4 -translate-x-1/2 flex items-center gap-2 bg-cyan-500/20 border border-cyan-400 rounded-lg px-4 py-2 z-10"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+            >
+              <span className="text-cyan-300 text-sm">Auto Fixes…</span>
+
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                <Bot className="w-5 h-5 text-cyan-400" />
+              </motion.div>
+              <span className="text-sm font-mono text-cyan-300 font-bold">AI REMEDIATING</span>
+            </motion.div>
+          )}
+
+          {/* Cluster health indicator */}
+          <div className="absolute top-4 left-4 space-y-2">
+            <div className="text-xs font-mono text-cyan-400">CLUSTER HEALTH</div>
+            <div className="flex items-center gap-2">
+              <motion.div
+                className="text-2xl font-mono font-bold"
+                animate={{
+                  color: clusterHealth === 100 ? '#22d3ee' : clusterHealth >= 75 ? '#fbbf24' : '#ef4444'
+                }}
+              >
+                {clusterHealth}%
+              </motion.div>
+              <Shield className={`w-5 h-5 ${clusterHealth === 100 ? 'text-cyan-400' : clusterHealth >= 75 ? 'text-yellow-400' : 'text-red-400'}`} />
+            </div>
+          </div>
+
+          {/* Kubernetes pods grid */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="grid grid-cols-2 gap-4 p-8">
+              {pods.map((pod, idx) => {
+                const isHealthy = pod.status === 'healthy';
+                const isError = pod.status === 'error';
+                const isHealing = pod.status === 'healing';
+
+                // Use hex colors for framer-motion animation
+                let bgColorHex = 'rgba(34, 211, 238, 0.2)'; // cyan
+                let borderColorHex = '#22d3ee'; // cyan
+                let iconColor = 'text-cyan-400';
+                let Icon = CheckCircle;
+
+                if (isError) {
+                  bgColorHex = 'rgba(239, 68, 68, 0.2)'; // red
+                  borderColorHex = '#f87171'; // red
+                  iconColor = 'text-red-400';
+                  Icon = AlertCircle;
+                } else if (isHealing) {
+                  bgColorHex = 'rgba(251, 191, 36, 0.2)'; // yellow
+                  borderColorHex = '#fbbf24'; // yellow
+                  iconColor = 'text-yellow-400';
+                  Icon = Activity;
+                }
+
+                return (
+                  <motion.div
+                    key={pod.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      backgroundColor: bgColorHex,
+                      borderColor: borderColorHex
+                    }}
+                    transition={{
+                      delay: idx * 0.1,
+                      backgroundColor: { duration: 0.5 },
+                      borderColor: { duration: 0.5 }
+                    }}
+                    className="border-2 rounded-lg p-3 min-w-[120px]"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Cloud className={`w-4 h-4 ${iconColor}`} />
+                      <div className="text-[9px] font-mono text-slate-300 truncate">{pod.name}</div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Icon className={`w-5 h-5 ${iconColor}`} />
+                      <div className="text-right">
+                        <div className={`text-[10px] font-mono ${iconColor}`}>
+                          {isError ? 'ERROR' : isHealing ? 'HEALING' : 'HEALTHY'}
+                        </div>
+                        <div className="text-[9px] font-mono text-slate-400">
+                          CPU: {pod.cpu}%
+                        </div>
+                      </div>
+                    </div>
+                    {/* CPU bar */}
+                    <div className="mt-2 h-1 bg-slate-800 rounded-full overflow-hidden">
+                      <motion.div
+                        className={`h-full ${isError ? 'bg-red-400' : isHealing ? 'bg-yellow-400' : 'bg-cyan-400'}`}
+                        animate={{ width: `${pod.cpu}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="absolute bottom-4 right-4 space-y-1 text-right">
+            <div className="text-xs font-mono text-cyan-400 flex items-center gap-2 justify-end">
+              <Cloud className="w-3 h-3" />
+              <span>3 CLUSTERS</span>
+            </div>
+            <div className="text-xs font-mono text-green-400">
+              UPTIME: 99.9%
+            </div>
+            <div className="text-xs font-mono text-blue-400">
+              {pods.filter(p => p.status === 'healthy').length}/{pods.length} HEALTHY
+            </div>
           </div>
         </div>
       );
