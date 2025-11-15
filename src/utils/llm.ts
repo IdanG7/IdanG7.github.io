@@ -111,19 +111,14 @@ TECHNICAL SKILLS:
 
 MAJOR PROJECTS:
 
-1. ${KNOWLEDGE_GRAPH.projects[0].name} (${KNOWLEDGE_GRAPH.projects[0].stage}):
-   - Description: ${KNOWLEDGE_GRAPH.projects[0].description}
-   - Tech Stack: ${KNOWLEDGE_GRAPH.projects[0].tech.join(", ")}
-   - Focus: ${KNOWLEDGE_GRAPH.projects[0].focus}
-   - Key Features: ${KNOWLEDGE_GRAPH.projects[0].highlights.slice(0, 3).join(", ")}
-   - GitHub: ${KNOWLEDGE_GRAPH.projects[0].github}
-
-2. ${KNOWLEDGE_GRAPH.projects[1].name} (${KNOWLEDGE_GRAPH.projects[1].stage}):
-   - Description: ${KNOWLEDGE_GRAPH.projects[1].description}
-   - Tech Stack: ${KNOWLEDGE_GRAPH.projects[1].tech.join(", ")}
-   - Focus: ${KNOWLEDGE_GRAPH.projects[1].focus}
-   - Key Features: ${KNOWLEDGE_GRAPH.projects[1].highlights.slice(0, 3).join(", ")}
-   - GitHub: ${KNOWLEDGE_GRAPH.projects[1].github}
+${KNOWLEDGE_GRAPH.projects.map((proj, idx) => `
+${idx + 1}. ${proj.name} (${proj.stage}):
+   - Description: ${proj.description}
+   - Tech Stack: ${proj.tech.join(", ")}
+   - Focus: ${proj.focus}
+   - Key Features: ${proj.highlights.slice(0, 3).join(", ")}
+   - GitHub: ${proj.github || 'N/A'}
+`).join('')}
 
 CONTACT INFORMATION:
 - Email: ${KNOWLEDGE_GRAPH.contact.email}

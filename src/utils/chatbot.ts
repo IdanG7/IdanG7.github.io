@@ -1,152 +1,83 @@
 /**
  * Intelligent Portfolio Chatbot - "Computer Brain"
  * A thinking, reasoning chatbot that understands context and generates dynamic responses
+ *
+ * NOTE: This chatbot dynamically imports portfolio data from @/data/portfolio
+ * Any updates to projects, experience, skills, etc. are automatically reflected here
  */
 
 import { askLLM, isLLMAvailable } from "./llm";
+import {
+  identity as portfolioIdentity,
+  personality as portfolioPersonality,
+  experiences,
+  education,
+  skillsByProficiency,
+  projects,
+  contact,
+} from "@/data/portfolio";
 
 export interface ChatbotResponse {
   answer: string;
   suggestions?: string[];
 }
 
-// Core knowledge graph - structured for intelligent querying
+// Core knowledge graph - dynamically built from portfolio data
+// This ensures the chatbot always has up-to-date information from the website
 export const KNOWLEDGE_GRAPH = {
   identity: {
-    name: "Idan Gurevich",
+    name: portfolioIdentity.name,
     pronouns: ["I", "me", "my", "Idan", "he"],
-    role: "Backend Engineer & Firmware Whisperer",
-    location: "Toronto, Ontario, Canada",
-    status: "Available for opportunities",
-    yearsExperience: 2,
-    primaryFocus: ["C++", "Firmware Engineering", "DevOps Automation"],
+    role: portfolioIdentity.role,
+    location: portfolioIdentity.location,
+    status: portfolioIdentity.status,
+    yearsExperience: portfolioIdentity.yearsExperience,
+    primaryFocus: portfolioIdentity.primaryFocus,
   },
 
-  personality: {
-    traits: ["technical", "precise", "passionate about performance", "systems thinker"],
-    interests: ["real-time systems", "computer vision", "distributed systems", "automation"],
-  },
+  personality: portfolioPersonality,
 
-  experience: [
-    {
-      role: "Embedded Firmware Engineer Intern",
-      company: "AMD",
-      location: "Markham, ON",
-      startDate: "2026-05",
-      endDate: "2027-09",
-      upcoming: true,
-      achievements: [
-        { fact: "upcoming internship focused on embedded firmware development", impact: "firmware engineering" },
-      ],
-      technologies: ["Embedded Systems", "Firmware", "C", "C++"],
-    },
-    {
-      role: "Junior Software Developer",
-      company: "WDI Wise Device Inc.",
-      location: "Vaughan, ON",
-      startDate: "2025-01",
-      current: true,
-      achievements: [
-        { fact: "managing 70+ Jenkins projects", impact: "infrastructure management" },
-        { fact: "reduced CI/CD errors by 30%", impact: "reliability improvement" },
-        { fact: "developing C++ for NIR imaging systems", impact: "real-time processing" },
-        { fact: "building API-driven testing tools", impact: "automation" },
-        { fact: "mentoring junior developers", impact: "team growth" },
-      ],
-      technologies: ["Jenkins", "C++", "Groovy", "CI/CD", "NIR imaging"],
-    },
-    {
-      role: "Software Co-op Student",
-      company: "WDI Wise Device Inc.",
-      location: "Vaughan, ON",
-      startDate: "2024-05",
-      endDate: "2025-01",
-      achievements: [
-        { fact: "supported large-scale Jenkins infrastructure", impact: "DevOps" },
-        { fact: "developed Groovy automation scripts", impact: "automation" },
-        { fact: "resolved 100+ QA issues", impact: "quality improvement" },
-      ],
-      technologies: ["Jenkins", "Groovy", "QA Tools"],
-    },
-  ],
+  experience: experiences.map(exp => ({
+    role: exp.title,
+    company: exp.company,
+    location: exp.location,
+    startDate: exp.startDate,
+    endDate: exp.endDate,
+    current: exp.current,
+    upcoming: exp.upcoming,
+    achievements: exp.achievements || [],
+    technologies: exp.technologies || [],
+  })),
 
-  education: [
-    {
-      degree: "Bachelor of Computer Science (Honors)",
-      school: "Toronto Metropolitan University",
-      location: "Toronto, Ontario",
-      yearStart: 2023,
-      yearEnd: 2027,
-      inProgress: true,
-    },
-    {
-      degree: "High School Diploma",
-      school: "Stephen Lewis Secondary School",
-      location: "Vaughan, Ontario",
-      yearStart: 2019,
-      yearEnd: 2022,
-      completed: true,
-    },
-  ],
+  education: education.map(edu => ({
+    degree: edu.degree,
+    school: edu.institution,
+    location: edu.location,
+    yearStart: edu.yearStart,
+    yearEnd: edu.yearEnd,
+    inProgress: edu.inProgress,
+    completed: edu.completed,
+  })),
 
-  skills: {
-    expert: ["C++", "C++17", "C++20", "Jenkins", "DevOps", "Firmware"],
-    proficient: ["Python", "Docker", "Git", "CI/CD", "Kubernetes", "C"],
-    familiar: ["C#", "Java", "Bash", "Groovy", "AWS"],
-    domains: {
-      backend: ["C++", "Python", "FastAPI", "NATS"],
-      devops: ["Jenkins", "Docker", "Kubernetes", "GitHub Actions", "SVN"],
-      databases: ["PostgreSQL", "Redis"],
-      monitoring: ["Prometheus", "Grafana", "OpenTelemetry", "JIRA"],
-      vision: ["OpenCV", "Computer Vision", "Real-time Processing"],
-      tools: ["Visual Studio", "VS Code", "IntelliJ", "PyCharm"],
-      systems: ["Linux", "Windows", "Firmware", "Embedded Systems"],
-    },
-  },
+  skills: skillsByProficiency,
 
-  projects: [
-    {
-      name: "AeroForge",
-      status: "active",
-      stage: "Work in Progress",
-      description: "vision-based drone control framework with autonomous navigation",
-      tech: ["C++20", "OpenCV", "Computer Vision", "ImGui", "Kalman Filtering"],
-      focus: "real-time object tracking and autonomous flight control",
-      highlights: [
-        "sub-frame latency processing",
-        "5-layer safety system",
-        "cross-platform (Windows, macOS, Linux)",
-        "interactive object tracking via UI",
-        "full PID control pipeline",
-        "Catch2 test coverage",
-      ],
-      complexity: "high",
-      github: "https://github.com/IdanG7/AeroForge",
-    },
-    {
-      name: "Multiplayer SDK",
-      status: "production",
-      stage: "Production",
-      description: "distributed matchmaking platform for real-time gaming",
-      tech: ["C++17", "Python", "Microservices", "Docker", "NATS", "Redis", "PostgreSQL"],
-      focus: "scalable game session management and MMR-based matchmaking",
-      highlights: [
-        "sub-100ms matchmaking latency",
-        "10,000+ concurrent players support",
-        "modular microservices architecture",
-        "full observability stack (Prometheus, Grafana, Jaeger)",
-        "Kubernetes-ready deployment",
-      ],
-      complexity: "high",
-      github: "https://github.com/IdanG7",
-    },
-  ],
+  projects: projects.map(proj => ({
+    name: proj.title,
+    status: proj.status.toLowerCase() === "production" ? "production" : "active",
+    stage: proj.stage || proj.status,
+    description: proj.description,
+    tech: proj.tech || proj.tags,
+    focus: proj.focus || proj.fullDescription || proj.description,
+    highlights: proj.highlights || proj.features || [],
+    complexity: proj.complexity,
+    github: proj.github,
+  })),
 
   contact: {
-    email: "Idan.gurevich@gmail.com",
-    linkedin: "linkedin.com/in/idan-gurevich-b955861b8",
-    github: "github.com/IdanG7",
-    resume: "/resume.pdf",
+    email: contact.email,
+    linkedin: contact.linkedin,
+    github: contact.github,
+    resume: contact.resume,
   },
 };
 
