@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run sitemap",
+    "build": "vite build && npm run sitemap && npm run copy-404",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sitemap": "node scripts/generate-sitemap.js"
+    "sitemap": "node scripts/generate-sitemap.js",
+    "copy-404": "node scripts/copy-404.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
