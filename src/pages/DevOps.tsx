@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   Terminal,
   Wrench,
@@ -225,6 +226,27 @@ const DevOps = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
+      <Helmet>
+        <title>DevOps & CI/CD Services - Idan Gurevich</title>
+        <meta name="title" content="DevOps & CI/CD Services - Idan Gurevich" />
+        <meta name="description" content="DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence. Jenkins, GitHub Actions, Pipeline Reliability, AI Automation." />
+        <link rel="canonical" href="https://idangurevich.dev/devops" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://idangurevich.dev/devops" />
+        <meta property="og:title" content="DevOps & CI/CD Services - Idan Gurevich" />
+        <meta property="og:description" content="DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence. Expertise in Jenkins, GitHub Actions, Pipeline Reliability, and AI Automation." />
+        <meta property="og:image" content="https://idangurevich.dev/og-image.png" />
+        <meta property="og:site_name" content="Idan Gurevich - DevOps Portfolio" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://idangurevich.dev/devops" />
+        <meta name="twitter:title" content="DevOps & CI/CD Services - Idan Gurevich" />
+        <meta name="twitter:description" content="DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence." />
+        <meta name="twitter:image" content="https://idangurevich.dev/og-image.png" />
+      </Helmet>
       {/* Continuous animated background - moved outside sections */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
         {/* Animated gradient orbs */}

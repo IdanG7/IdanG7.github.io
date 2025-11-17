@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DOMAIN = 'https://idangurevich.com';
+const DOMAIN = 'https://idangurevich.dev';
 
 // Add all your routes here
 const routes = [
@@ -13,6 +13,12 @@ const routes = [
     path: '/',
     changefreq: 'weekly',
     priority: 1.0,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    path: '/devops',
+    changefreq: 'weekly',
+    priority: 0.9,
     lastmod: new Date().toISOString(),
   },
   {
