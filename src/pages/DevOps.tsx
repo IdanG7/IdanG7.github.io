@@ -237,15 +237,13 @@ const DevOps = () => {
         <meta property="og:url" content="https://idangurevich.dev/devops" />
         <meta property="og:title" content="DevOps & CI/CD Services - Idan Gurevich" />
         <meta property="og:description" content="DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence. Expertise in Jenkins, GitHub Actions, Pipeline Reliability, and AI Automation." />
-        <meta property="og:image" content="https://idangurevich.dev/og-image.png" />
         <meta property="og:site_name" content="Idan Gurevich - DevOps Portfolio" />
 
         {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:url" content="https://idangurevich.dev/devops" />
         <meta name="twitter:title" content="DevOps & CI/CD Services - Idan Gurevich" />
         <meta name="twitter:description" content="DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence." />
-        <meta name="twitter:image" content="https://idangurevich.dev/og-image.png" />
       </Helmet>
       {/* Continuous animated background - moved outside sections */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
