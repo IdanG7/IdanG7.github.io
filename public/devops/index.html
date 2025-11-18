@@ -33,7 +33,7 @@
       // The main index.html will restore this path
       (function(l) {
         if (l.pathname === '/devops' || l.pathname === '/devops/') {
-          var redirect = '/?' + l.pathname.slice(1);
+          var redirect = '/?' + l.pathname;
           l.replace(redirect);
         }
       }(window.location));
@@ -105,7 +105,7 @@
         DevOps Engineer & CI/CD Specialist. Fix failing pipelines, accelerate builds, and ship with confidence.
       </p>
       <p style="margin-top: 2rem; font-size: 0.875rem;">
-        Redirecting to the main site... If you are not redirected, <a href="/?/devops">click here</a>.
+        Redirecting to the main site... If you are not redirected, <a href="/?/devops/">click here</a>.
       </p>
     </div>
   </body>
