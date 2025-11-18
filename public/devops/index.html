@@ -29,12 +29,13 @@
 
     <!-- Redirect script for SPA - works with spa-github-pages -->
     <script type="text/javascript">
-      // Store the devops path and redirect to root
-      // The main index.html will restore this path
+      // Redirect to root with path in query string
+      // Format: /?/path (required by spa-github-pages script)
       (function(l) {
-        if (l.pathname === '/devops' || l.pathname === '/devops/') {
-          var redirect = '/?' + l.pathname;
-          l.replace(redirect);
+        if (l.pathname.startsWith('/devops')) {
+          // Remove trailing slash and redirect to /?/devops
+          var path = l.pathname.replace(/\/$/, '');
+          l.replace('/?' + path);
         }
       }(window.location));
     </script>
