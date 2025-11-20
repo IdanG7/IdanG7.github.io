@@ -115,23 +115,18 @@ const Skills = () => {
                 className="group"
               >
                 <div
-                  className="relative h-full backdrop-blur-xl bg-card/40 border-2 rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
+                  className="relative h-full bg-card/80 border-2 rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
                   style={{
                     borderColor: `${category.color}40`,
                     borderLeftWidth: '4px',
-                    borderLeftColor: category.color
+                    borderLeftColor: category.color,
+                    willChange: 'transform'
                   }}
                 >
-                  {/* Animated neon border glow - outline only */}
-                  <div className="absolute inset-0 rounded-2xl pointer-events-none">
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                      boxShadow: `0 0 25px ${category.color}80, 0 0 50px ${category.color}40`
-                    }} />
-                  </div>
-
                   {/* Subtle accent glow in corner */}
-                  <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-0 group-hover:opacity-20 blur-3xl transition-all duration-500" style={{
-                    backgroundColor: category.color
+                  <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500" style={{
+                    backgroundColor: category.color,
+                    willChange: 'opacity'
                   }} />
 
                   <div className="relative z-10">
@@ -156,34 +151,23 @@ const Skills = () => {
 
                     {/* Skills badges */}
                     <div className="flex flex-wrap gap-2.5">
-                      {category.skills.map((skill, skillIndex) => (
-                        <motion.div
+                      {category.skills.map((skill) => (
+                        <div
                           key={skill.name}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{
-                            delay: categoryIndex * 0.05 + skillIndex * 0.03,
-                            duration: 0.4
-                          }}
-                          whileHover={{
-                            scale: 1.1,
-                            y: -2,
-                            transition: { duration: 0.2 }
-                          }}
-                          className="group/badge"
+                          className="group/badge skill-badge"
                         >
                           <div
-                            className="flex items-center gap-2 px-3.5 py-2 backdrop-blur-md bg-card/60 border border-primary/20 rounded-lg text-sm font-mono transition-all duration-300 cursor-default hover:border-primary/40"
+                            className="flex items-center gap-2 px-3.5 py-2 bg-card/60 border border-primary/20 rounded-lg text-sm font-mono transition-all duration-200 cursor-default hover:border-primary/40 hover:scale-105 hover:-translate-y-0.5"
                             style={{
-                              background: `linear-gradient(135deg, ${category.color}10, transparent)`
+                              background: `linear-gradient(135deg, ${category.color}10, transparent)`,
+                              willChange: 'transform'
                             }}
                           >
                             {skill.icon && (
                               <img
                                 src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
                                 alt={skill.name}
-                                className="w-4 h-4 group-hover/badge:scale-110 transition-transform"
+                                className="w-4 h-4 transition-transform duration-200 group-hover/badge:scale-110"
                                 onError={(e) => {
                                   e.currentTarget.style.display = 'none';
                                 }}
@@ -191,7 +175,7 @@ const Skills = () => {
                             )}
                             <span className="text-foreground font-medium">{skill.name}</span>
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </div>
