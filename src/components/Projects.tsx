@@ -351,7 +351,7 @@ const Projects = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-transparent" />
 
           {/* Grid overlay for targeting */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:40px_40px]" />
 
           {/* Moving target with tracking box and crosshair */}
           <motion.div
@@ -368,7 +368,7 @@ const Projects = () => {
           >
             {/* Target box */}
             <motion.div
-              className="relative w-16 h-16 border-2 border-cyan-400 rounded"
+              className="relative w-10 h-10 sm:w-16 sm:h-16 border-2 border-cyan-400 rounded"
               animate={{
                 borderColor: ["#22d3ee", "#06b6d4", "#22d3ee"],
                 scale: [1, 1.05, 1]
@@ -376,41 +376,41 @@ const Projects = () => {
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               {/* Corner brackets */}
-              <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-cyan-300" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-cyan-300" />
-              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-cyan-300" />
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-cyan-300" />
+              <div className="absolute -top-1 -left-1 w-2 h-2 sm:w-3 sm:h-3 border-t-2 border-l-2 border-cyan-300" />
+              <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 border-t-2 border-r-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -left-1 w-2 h-2 sm:w-3 sm:h-3 border-b-2 border-l-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 border-b-2 border-r-2 border-cyan-300" />
 
               {/* Target label - centered above box */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-cyan-400 whitespace-nowrap">TARGET LOCKED</div>
+              <div className="absolute -top-4 sm:-top-6 left-1/2 -translate-x-1/2 text-[8px] sm:text-xs font-mono text-cyan-400 whitespace-nowrap">TARGET LOCKED</div>
 
               {/* Tracking crosshair with center dot */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 flex items-center justify-center">
-                <Crosshair className="w-20 h-20 text-blue-400" strokeWidth={1.5} />
+                <Crosshair className="w-12 h-12 sm:w-20 sm:h-20 text-blue-400" strokeWidth={1.5} />
                 {/* Center dot - perfectly centered */}
                 <motion.div
-                  className="absolute w-2 h-2 bg-red-500 rounded-full"
+                  className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"
                   animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
               </div>
 
               {/* Tracking lines extending from target */}
-              <div className="absolute top-1/2 -left-8 w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
-              <div className="absolute top-1/2 -right-8 w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
-              <div className="absolute left-1/2 -top-8 h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
-              <div className="absolute left-1/2 -bottom-8 h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+              <div className="absolute top-1/2 -left-4 sm:-left-8 w-4 sm:w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute top-1/2 -right-4 sm:-right-8 w-4 sm:w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute left-1/2 -top-4 sm:-top-8 h-4 sm:h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+              <div className="absolute left-1/2 -bottom-4 sm:-bottom-8 h-4 sm:h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
             </motion.div>
           </motion.div>
 
           {/* Telemetry data */}
-          <div className="absolute bottom-4 left-4 space-y-1">
-            <div className="text-xs font-mono text-cyan-400 flex items-center gap-2">
-              <Eye className="w-3 h-3" />
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400 flex items-center gap-1 sm:gap-2">
+              <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               <span>VIS: ACTIVE</span>
             </div>
             <motion.div
-              className="text-xs font-mono text-green-400"
+              className="text-[8px] sm:text-xs font-mono text-green-400"
               key={altitude}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
@@ -418,16 +418,16 @@ const Projects = () => {
             >
               ALT: {altitude}m
             </motion.div>
-            <div className="text-xs font-mono text-orange-400">
+            <div className="text-[8px] sm:text-xs font-mono text-orange-400">
               TRACK: STABLE
             </div>
           </div>
 
           {/* FPS and confidence */}
-          <div className="absolute top-4 left-4 space-y-1">
-            <div className="text-xs font-mono text-blue-400">FPS: 60</div>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-blue-400">FPS: 60</div>
             <motion.div
-              className="text-xs font-mono text-green-400"
+              className="text-[8px] sm:text-xs font-mono text-green-400"
               key={confidence}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
@@ -442,7 +442,7 @@ const Projects = () => {
       return (
         <div className="aspect-video bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 relative overflow-hidden">
           {/* Network grid background */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:30px_30px]" />
 
           {/* Match formed overlay */}
           {matchFormed && (
@@ -452,16 +452,16 @@ const Projects = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div className="text-2xl font-mono font-bold text-purple-300 flex items-center gap-3">
-                <CheckCircle className="w-8 h-8" />
+              <div className="text-sm sm:text-2xl font-mono font-bold text-purple-300 flex items-center gap-2 sm:gap-3">
+                <CheckCircle className="w-5 h-5 sm:w-8 sm:h-8" />
                 MATCH FORMED
               </div>
             </motion.div>
           )}
 
           {/* Matchmaking queue - horizontal */}
-          <div className="absolute left-4 bottom-12 flex flex-wrap gap-1.5 max-w-[60%]">
-            <div className="w-full text-[10px] font-mono text-purple-400 mb-1">QUEUE ({queuedPlayers.length}/8)</div>
+          <div className="absolute left-2 sm:left-4 bottom-8 sm:bottom-12 flex flex-wrap gap-1 sm:gap-1.5 max-w-[70%] sm:max-w-[60%]">
+            <div className="w-full text-[8px] sm:text-[10px] font-mono text-purple-400 mb-0.5 sm:mb-1">QUEUE ({queuedPlayers.length}/8)</div>
             {queuedPlayers.slice(0, 8).map((player, idx) => (
               <motion.div
                 key={player.id}
@@ -469,10 +469,10 @@ const Projects = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ delay: idx * 0.1 }}
-                className="flex items-center gap-1 bg-purple-900/50 border border-purple-500/30 rounded px-1.5 py-0.5"
+                className="flex items-center gap-0.5 sm:gap-1 bg-purple-900/50 border border-purple-500/30 rounded px-1 sm:px-1.5 py-0.5"
               >
-                <Users className="w-2.5 h-2.5 text-purple-400" />
-                <div className="text-[8px] font-mono text-purple-300">
+                <Users className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-purple-400" />
+                <div className="text-[7px] sm:text-[8px] font-mono text-purple-300">
                   {player.region} <span className="text-indigo-400">{player.mmr}</span>
                 </div>
               </motion.div>
@@ -489,8 +489,8 @@ const Projects = () => {
               transition={{ duration: matchFormed ? 1 : 2, repeat: matchFormed ? 0 : Infinity }}
               className="relative"
             >
-              <div className={`w-16 h-16 rounded-full ${matchFormed ? 'bg-purple-500/50' : 'bg-purple-500/30'} border-2 border-purple-400 flex items-center justify-center`}>
-                <Server className="w-8 h-8 text-purple-400" />
+              <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full ${matchFormed ? 'bg-purple-500/50' : 'bg-purple-500/30'} border-2 border-purple-400 flex items-center justify-center`}>
+                <Server className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
               </div>
               {/* Pulsing ring */}
               <motion.div
@@ -502,36 +502,39 @@ const Projects = () => {
           </div>
 
           {/* Stats */}
-          <div className="absolute bottom-4 right-4 space-y-1 text-right">
-            <div className="text-xs font-mono text-purple-400 flex items-center gap-2 justify-end">
-              <Network className="w-3 h-3" />
-              <span>10K+ PLAYERS</span>
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1 text-right">
+            <div className="text-[8px] sm:text-xs font-mono text-purple-400 flex items-center gap-1 sm:gap-2 justify-end">
+              <Network className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span className="hidden sm:inline">10K+ PLAYERS</span>
+              <span className="sm:hidden">10K+</span>
             </div>
-            <div className="text-xs font-mono text-green-400">
-              LATENCY: &lt;100ms
+            <div className="text-[8px] sm:text-xs font-mono text-green-400">
+              <span className="hidden sm:inline">LATENCY: &lt;100ms</span>
+              <span className="sm:hidden">&lt;100ms</span>
             </div>
             <motion.div
-              className="text-xs font-mono text-indigo-400"
+              className="text-[8px] sm:text-xs font-mono text-indigo-400"
               key={queues}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              ACTIVE QUEUES: {queues}
+              <span className="hidden sm:inline">ACTIVE QUEUES: {queues}</span>
+              <span className="sm:hidden">Q: {queues}</span>
             </motion.div>
           </div>
 
           {/* Matchmaking status */}
-          <div className="absolute top-4 left-4 space-y-1">
-            <div className="text-xs font-mono text-purple-400">MATCHMAKING</div>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-purple-400">MATCHMAKING</div>
             <motion.div
-              className={`text-sm font-mono font-bold ${queuedPlayers.length >= 8 ? 'text-green-400' : 'text-indigo-400'}`}
+              className={`text-xs sm:text-sm font-mono font-bold ${queuedPlayers.length >= 8 ? 'text-green-400' : 'text-indigo-400'}`}
               animate={{ opacity: queuedPlayers.length >= 8 ? [1, 0.5, 1] : 1 }}
               transition={{ duration: 0.5, repeat: queuedPlayers.length >= 8 ? Infinity : 0 }}
             >
               {queuedPlayers.length >= 8 ? 'FORMING...' : 'SEARCHING'}
             </motion.div>
-            <div className="text-[10px] font-mono text-purple-300">
+            <div className="text-[8px] sm:text-[10px] font-mono text-purple-300">
               AVG MMR: {Math.round(queuedPlayers.reduce((sum, p) => sum + p.mmr, 0) / queuedPlayers.length)}
             </div>
           </div>
@@ -541,10 +544,10 @@ const Projects = () => {
       return (
         <div className="aspect-video bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 relative overflow-hidden">
           {/* Circuit pattern background */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.1)_1px,transparent_1px)] bg-[size:25px_25px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.1)_1px,transparent_1px)] bg-[size:15px_15px] sm:bg-[size:25px_25px]" />
 
           {/* Pipeline stages */}
-          <div className="absolute inset-0 flex items-center justify-center gap-12 px-8">
+          <div className="absolute inset-0 flex items-center justify-center gap-4 sm:gap-12 px-2 sm:px-8">
             {pipelineStages.map((stage, idx) => {
               const isRunning = stage.status === 'running';
               const isSuccess = stage.status === 'success';
@@ -588,15 +591,15 @@ const Projects = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.2 }}
-                  className="flex-1 max-w-[100px] relative"
+                  className="flex-1 max-w-[60px] sm:max-w-[100px] relative"
                 >
                   {/* Stage box */}
-                  <div className={`${bgColor} border-2 ${borderColor} rounded-lg p-3 backdrop-blur-sm transition-all duration-300`}>
-                    <div className={`text-xs font-mono ${textColor} text-center font-bold`}>
+                  <div className={`${bgColor} border-2 ${borderColor} rounded-lg p-1.5 sm:p-3 backdrop-blur-sm transition-all duration-300`}>
+                    <div className={`text-[8px] sm:text-xs font-mono ${textColor} text-center font-bold`}>
                       {isFailed ? 'FAILED' : stage.name}
                     </div>
                     {/* Progress bar */}
-                    <div className="mt-2 h-1 bg-slate-900 rounded-full overflow-hidden">
+                    <div className="mt-1 sm:mt-2 h-0.5 sm:h-1 bg-slate-900 rounded-full overflow-hidden">
                       <div
                         className={`h-full ${progressColor} transition-all duration-100 ease-linear`}
                         style={{ width: progressWidth }}
@@ -606,10 +609,10 @@ const Projects = () => {
 
                   {/* Arrow to next stage - positioned in the gap */}
                   {idx < 2 && (
-                    <div className="absolute top-1/2 left-full -translate-y-1/2 px-3">
+                    <div className="absolute top-1/2 left-full -translate-y-1/2 px-1 sm:px-3">
                       <div className="flex items-center gap-0.5">
-                        <div className={`w-5 h-0.5 ${isSuccess ? 'bg-emerald-400' : 'bg-slate-500'} transition-colors duration-300`} />
-                        <div className={`w-0 h-0 border-l-[6px] ${isSuccess ? 'border-l-emerald-400' : 'border-l-slate-500'} border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent transition-colors duration-300`} />
+                        <div className={`w-2 sm:w-5 h-0.5 ${isSuccess ? 'bg-emerald-400' : 'bg-slate-500'} transition-colors duration-300`} />
+                        <div className={`w-0 h-0 border-l-[4px] sm:border-l-[6px] ${isSuccess ? 'border-l-emerald-400' : 'border-l-slate-500'} border-t-[2px] sm:border-t-[3px] border-t-transparent border-b-[2px] sm:border-b-[3px] border-b-transparent transition-colors duration-300`} />
                       </div>
                     </div>
                   )}
@@ -619,17 +622,17 @@ const Projects = () => {
           </div>
 
           {/* Build metrics */}
-          <div className="absolute bottom-4 left-4 space-y-1">
-            <div className="flex items-center gap-2 text-xs font-mono text-teal-400">
-              <Cpu className="w-3 h-3" />
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-teal-400">
+              <Cpu className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               <span>CPU: Optimized</span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-              <Database className="w-3 h-3" />
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-emerald-400">
+              <Database className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               <span>Cache: Active</span>
             </div>
             <motion.div
-              className="text-xs font-mono text-green-400"
+              className="text-[8px] sm:text-xs font-mono text-green-400"
               key={buildTime}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
@@ -640,13 +643,13 @@ const Projects = () => {
           </div>
 
           {/* ML Optimization indicator - moved to bottom right */}
-          <div className="absolute bottom-4 right-4 space-y-1">
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/50 px-2 py-1 rounded border border-emerald-500/30">
-              <TrendingUp className="w-3 h-3" />
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1">
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-emerald-400 bg-emerald-950/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-500/30">
+              <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               <span>ML ACTIVE</span>
             </div>
             <motion.div
-              className="text-xs font-mono text-green-400 text-right"
+              className="text-[8px] sm:text-xs font-mono text-green-400 text-right"
               key={optimizationScore}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
@@ -658,7 +661,7 @@ const Projects = () => {
 
           {/* Floating optimization suggestions - now randomized */}
           <motion.div
-            className="absolute top-12 left-4 text-[10px] font-mono text-emerald-300/70 bg-emerald-950/50 px-2 py-1 rounded border border-emerald-500/20"
+            className="absolute top-8 sm:top-12 left-2 sm:left-4 text-[8px] sm:text-[10px] font-mono text-emerald-300/70 bg-emerald-950/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-500/20"
             animate={{ y: [0, -5, 0], opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 3, repeat: Infinity }}
             key={suggestion}
@@ -667,9 +670,9 @@ const Projects = () => {
           </motion.div>
 
           {/* Performance improvement indicator */}
-          <div className="absolute top-4 left-4 flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-yellow-400" />
-            <span className="text-xs font-mono text-yellow-400 font-bold">40% faster</span>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-1 sm:gap-1.5">
+            <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+            <span className="text-[8px] sm:text-xs font-mono text-yellow-400 font-bold">40% faster</span>
           </div>
         </div>
       );
@@ -677,47 +680,47 @@ const Projects = () => {
       return (
         <div className="aspect-video bg-gradient-to-br from-cyan-950 via-slate-900 to-blue-950 relative overflow-hidden">
           {/* Kubernetes cluster grid background */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.1)_1px,transparent_1px)] bg-[size:35px_35px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:35px_35px]" />
 
           {/* AI Agent indicator */}
           {aiFixing && (
             <motion.div
-              className="absolute top-2 left-1/4 -translate-x-1/2 flex items-center gap-2 bg-cyan-500/20 border border-cyan-400 rounded-lg px-4 py-2 z-10"
+              className="absolute top-2 left-1/2 sm:left-1/4 -translate-x-1/2 flex items-center gap-1 sm:gap-2 bg-cyan-500/20 border border-cyan-400 rounded-lg px-2 sm:px-4 py-1 sm:py-2 z-10"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
             >
-              <span className="text-cyan-300 text-sm">Auto Fixes…</span>
+              <span className="text-cyan-300 text-[8px] sm:text-sm hidden sm:inline">Auto Fixes…</span>
 
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               >
-                <Bot className="w-5 h-5 text-cyan-400" />
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
               </motion.div>
-              <span className="text-sm font-mono text-cyan-300 font-bold">AI REMEDIATING</span>
+              <span className="text-[8px] sm:text-sm font-mono text-cyan-300 font-bold">AI FIXING</span>
             </motion.div>
           )}
 
           {/* Cluster health indicator */}
-          <div className="absolute top-4 left-4 space-y-2">
-            <div className="text-xs font-mono text-cyan-400">CLUSTER HEALTH</div>
-            <div className="flex items-center gap-2">
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-1 sm:space-y-2">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400">CLUSTER HEALTH</div>
+            <div className="flex items-center gap-1 sm:gap-2">
               <motion.div
-                className="text-2xl font-mono font-bold"
+                className="text-lg sm:text-2xl font-mono font-bold"
                 animate={{
                   color: clusterHealth === 100 ? '#22d3ee' : clusterHealth >= 75 ? '#fbbf24' : '#ef4444'
                 }}
               >
                 {clusterHealth}%
               </motion.div>
-              <Shield className={`w-5 h-5 ${clusterHealth === 100 ? 'text-cyan-400' : clusterHealth >= 75 ? 'text-yellow-400' : 'text-red-400'}`} />
+              <Shield className={`w-4 h-4 sm:w-5 sm:h-5 ${clusterHealth === 100 ? 'text-cyan-400' : clusterHealth >= 75 ? 'text-yellow-400' : 'text-red-400'}`} />
             </div>
           </div>
 
           {/* Kubernetes pods grid */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 p-8">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 p-2 sm:p-8">
               {pods.map((pod, idx) => {
                 const isHealthy = pod.status === 'healthy';
                 const isError = pod.status === 'error';
@@ -756,25 +759,25 @@ const Projects = () => {
                       backgroundColor: { duration: 0.5 },
                       borderColor: { duration: 0.5 }
                     }}
-                    className="border-2 rounded-lg p-3 min-w-[120px]"
+                    className="border-2 rounded-lg p-1.5 sm:p-3 min-w-[70px] sm:min-w-[120px]"
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Cloud className={`w-4 h-4 ${iconColor}`} />
-                      <div className="text-[9px] font-mono text-slate-300 truncate">{pod.name}</div>
+                    <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                      <Cloud className={`w-3 h-3 sm:w-4 sm:h-4 ${iconColor}`} />
+                      <div className="text-[7px] sm:text-[9px] font-mono text-slate-300 truncate">{pod.name}</div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <Icon className={`w-5 h-5 ${iconColor}`} />
+                      <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${iconColor}`} />
                       <div className="text-right">
-                        <div className={`text-[10px] font-mono ${iconColor}`}>
+                        <div className={`text-[8px] sm:text-[10px] font-mono ${iconColor}`}>
                           {isError ? 'ERROR' : isHealing ? 'HEALING' : 'HEALTHY'}
                         </div>
-                        <div className="text-[9px] font-mono text-slate-400">
+                        <div className="text-[7px] sm:text-[9px] font-mono text-slate-400">
                           CPU: {pod.cpu}%
                         </div>
                       </div>
                     </div>
                     {/* CPU bar */}
-                    <div className="mt-2 h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="mt-1 sm:mt-2 h-0.5 sm:h-1 bg-slate-800 rounded-full overflow-hidden">
                       <motion.div
                         className={`h-full ${isError ? 'bg-red-400' : isHealing ? 'bg-yellow-400' : 'bg-cyan-400'}`}
                         animate={{ width: `${pod.cpu}%` }}
@@ -788,15 +791,15 @@ const Projects = () => {
           </div>
 
           {/* Stats */}
-          <div className="absolute bottom-4 right-4 space-y-1 text-right">
-            <div className="text-xs font-mono text-cyan-400 flex items-center gap-2 justify-end">
-              <Cloud className="w-3 h-3" />
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1 text-right">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400 flex items-center gap-1 sm:gap-2 justify-end">
+              <Cloud className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               <span>3 CLUSTERS</span>
             </div>
-            <div className="text-xs font-mono text-green-400">
+            <div className="text-[8px] sm:text-xs font-mono text-green-400">
               UPTIME: 99.9%
             </div>
-            <div className="text-xs font-mono text-blue-400">
+            <div className="text-[8px] sm:text-xs font-mono text-blue-400">
               {pods.filter(p => p.status === 'healthy').length}/{pods.length} HEALTHY
             </div>
           </div>
