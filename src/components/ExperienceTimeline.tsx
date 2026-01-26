@@ -234,14 +234,6 @@ export default function ExperienceTimeline() {
                 whileHover={{ scale: 1.15 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <Image
-                  alt="Profile"
-                  src="/images/my-image/Main-Avatar.jpeg"
-                  fill
-                  className="object-cover"
-                  sizes="36px"
-                  priority
-                />
               </motion.div>
             </motion.div>
           </div>

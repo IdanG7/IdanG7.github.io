@@ -6,9 +6,8 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
+  type ReactNode,
 } from "react";
-import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -18,14 +17,27 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import {
+  Activity,
+  AlertCircle,
+  Bot,
+  CheckCircle,
+  Cloud,
+  Cpu,
+  Crosshair,
+  Database,
+  Eye,
+  Network,
+  Server,
+  Shield,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 
 type Project = {
   id: number;
   title: string;
-  image: string;
-  image2: string;
-  mobile1: string;
-  mobile2: string;
   url: string;
 };
 
@@ -34,6 +46,11 @@ type ProjectStyle = {
   textColor: string;
   shadow: string;
   headerText: string;
+  themeColors: {
+    primary: string;
+    secondary: string;
+    background: string;
+  };
 };
 
 type ProjectTech = {
@@ -54,43 +71,51 @@ type ProjectCardProps = {
   style: ProjectStyle;
   details: ProjectDetail;
   isIPad: boolean;
+  graphic: ReactNode;
+};
+
+type PipelineStageStatus = "idle" | "running" | "success" | "failed";
+
+type PipelineStage = {
+  name: string;
+  status: PipelineStageStatus;
+  progress: number;
+};
+
+type QueuedPlayer = {
+  id: number;
+  mmr: number;
+  region: string;
+};
+
+type PodStatus = "healthy" | "error" | "healing";
+
+type Pod = {
+  id: number;
+  status: PodStatus;
+  cpu: number;
+  name: string;
 };
 
 const PROJECTS: Project[] = [
   {
     id: 1,
     title: "AeroForge",
-    image: "/images/projects/Project Images/1rune.codes.png",
-    image2: "/images/projects/Project Images/2rune.codes.png",
-    mobile1: "/images/projects/Project Images/Mobile/Mobile_Rune1.PNG",
-    mobile2: "/images/projects/Project Images/Mobile/Mobile_Rune2.PNG",
     url: "https://github.com/IdanG7/AeroForge",
   },
   {
     id: 2,
     title: "Multiplayer SDK",
-    image: "/images/projects/Project Images/1runeai.png",
-    image2: "/images/projects/Project Images/2runeai.png",
-    mobile1: "/images/projects/Project Images/Mobile/Mobile_RuneAI1.PNG",
-    mobile2: "/images/projects/Project Images/Mobile/Mobile_RuneAI2.PNG",
-    url: "https://github.com/IdanG7",
+    url: "https://github.com/IdanG7/matchmaker-platform",
   },
   {
     id: 3,
     title: "InfraMind",
-    image: "/images/projects/Project Images/1runehub.png",
-    image2: "/images/projects/Project Images/2runehub.png",
-    mobile1: "/images/projects/Project Images/Mobile/Mobile_RuneHub1.PNG",
-    mobile2: "/images/projects/Project Images/Mobile/Mobile_RuneHub2.PNG",
     url: "https://github.com/IdanG7/InfraMind",
   },
   {
     id: 4,
     title: "Sentinel",
-    image: "/images/projects/1Portfolio.png",
-    image2: "/images/projects/1Portfolio.png",
-    mobile1: "/images/projects/Project Images/Mobile/Mobile_Porto1.PNG",
-    mobile2: "/images/projects/Project Images/Mobile/Mobile_Porto2.png",
     url: "https://github.com/IdanG7/Sentinel",
   },
 ];
@@ -103,6 +128,11 @@ const PROJECT_STYLES: ProjectStyle[] = [
     shadow: "shadow-[0_0_30px_#DC2626]",
     headerText:
       "C++20 vision pipeline for drone control with real-time object tracking and safety layers.",
+    themeColors: {
+      primary: "#0891b2",
+      secondary: "#06b6d4",
+      background: "#0c4a6e",
+    },
   },
   {
     gradient:
@@ -111,6 +141,11 @@ const PROJECT_STYLES: ProjectStyle[] = [
     shadow: "shadow-[0_0_30px_#F97316]",
     headerText:
       "Distributed matchmaking and game services stack supporting sub-100ms sessions at scale.",
+    themeColors: {
+      primary: "#7c3aed",
+      secondary: "#a855f7",
+      background: "#4c1d95",
+    },
   },
   {
     gradient:
@@ -119,6 +154,11 @@ const PROJECT_STYLES: ProjectStyle[] = [
     shadow: "shadow-[0_0_30px_#2932CB]",
     headerText:
       "ML platform optimizing CI/CD workflows with telemetry, caching, and automated tuning.",
+    themeColors: {
+      primary: "#10b981",
+      secondary: "#059669",
+      background: "#064e3b",
+    },
   },
   {
     gradient:
@@ -127,6 +167,11 @@ const PROJECT_STYLES: ProjectStyle[] = [
     shadow: "shadow-[0_0_30px_#DB2777]",
     headerText:
       "Autonomous infrastructure controller for AI workloads with AI-driven remediation.",
+    themeColors: {
+      primary: "#22d3ee",
+      secondary: "#0891b2",
+      background: "#164e63",
+    },
   },
 ];
 
@@ -335,14 +380,6 @@ const MobileProjectInfo = ({ details }: { details: ProjectDetail }) => {
             key={tech.name}
             className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-black/30 border border-black/10 dark:border-white/[0.14] rounded-lg sm:rounded-xl px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs text-neutral-600 dark:text-gray-300 font-outfit"
           >
-            <Image
-              className="w-2.5 h-2.5 sm:w-3 sm:h-3 object-contain"
-              height={12}
-              width={12}
-              alt={tech.name}
-              src={tech.icon}
-              unoptimized
-            />
             {tech.name}
           </div>
         ))}
@@ -432,98 +469,11 @@ const HoverRing = ({
   </AnimatePresence>
 );
 
-const MobileDeviceCard = ({
-  imageSrc,
-  alt,
-  gradient,
-  delay = 0,
-}: {
-  imageSrc: string;
-  alt: string;
-  gradient: string;
-  delay?: number;
-}) => (
-  <motion.div
-    className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg"
-    style={{ background: gradient, height: "190.41px" }}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay }}
-  >
-    <div className="absolute inset-x-0 top-4 sm:top-5 flex justify-center">
-      <div className="relative w-[55%] max-w-[190px]" style={{ padding: "2px" }}>
-        <div
-          className="absolute inset-0 rounded-[18px] sm:rounded-[22px]"
-          style={{
-            background:
-              "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-            boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4)",
-          }}
-        />
-        <div
-          className="absolute left-0 top-[10%] bottom-0 w-[2px] rounded-l-full"
-          style={{
-            background:
-              "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-          }}
-        />
-        <div
-          className="absolute right-0 top-[10%] bottom-0 w-[2px] rounded-r-full"
-          style={{
-            background:
-              "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-          }}
-        />
-        <div
-          className="absolute top-0 left-[15%] right-[15%] h-[2px] rounded-t-full"
-          style={{
-            background:
-              "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-          }}
-        />
-        <div
-          className="absolute top-[18%] -left-[1.5px] w-[3px] h-[8%] rounded-l-sm"
-          style={{ background: "linear-gradient(90deg, #777, #333)" }}
-        />
-        <div
-          className="absolute top-[30%] -left-[1.5px] w-[3px] h-[12%] rounded-l-sm"
-          style={{ background: "linear-gradient(90deg, #777, #333)" }}
-        />
-        <div
-          className="absolute top-[25%] -right-[1.5px] w-[3px] h-[15%] rounded-r-sm"
-          style={{ background: "linear-gradient(270deg, #777, #333)" }}
-        />
-        <div
-          className="absolute top-1.5 left-1/2 -translate-x-1/2 w-10 sm:w-12 h-2.5 sm:h-3 bg-black rounded-full z-20"
-          style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-        />
-        <div
-          className="relative bg-white rounded-[14px] sm:rounded-[18px] overflow-hidden"
-          style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-        >
-          <Image
-            src={imageSrc}
-            alt={alt}
-            width={280}
-            height={580}
-            className="w-full h-auto object-cover object-top"
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/6 via-transparent to-transparent pointer-events-none" />
-        </div>
-      </div>
-    </div>
-  </motion.div>
-);
-
 const DesktopDeviceCard = ({
-  imageSrc,
-  alt,
+  graphic,
   gradient,
 }: {
-  imageSrc: string;
-  alt: string;
+  graphic: ReactNode;
   gradient: string;
 }) => (
   <motion.div
@@ -541,16 +491,8 @@ const DesktopDeviceCard = ({
               <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#111] ring-1 ring-white/20 opacity-80 shadow-inner" />
               <div className="absolute right-[25%] top-[50%] w-0.5 h-0.5 rounded-full bg-blue-900/40" />
             </div>
-            <div className="relative w-full h-full bg-white">
-              <Image
-                src={imageSrc}
-                alt={alt}
-                width={1200}
-                height={750}
-                className="w-full h-full object-cover object-top"
-                unoptimized
-                priority
-              />
+            <div className="relative w-full h-full bg-black">
+              {graphic}
               <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none mix-blend-overlay z-10 opacity-50" />
             </div>
           </div>
@@ -562,7 +504,7 @@ const DesktopDeviceCard = ({
 );
 
 const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
-  ({ project, style, details, isIPad }, ref) => {
+  ({ project, style, details, isIPad, graphic }, ref) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const frameRef = useRef<HTMLDivElement>(null);
@@ -642,33 +584,15 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
                   setIsHovered(false);
                 }}
               >
-                <div className="hidden sm:grid sm:grid-cols-[minmax(160px,28%)_minmax(0,1fr)] lg:grid-cols-[minmax(200px,262px)_minmax(400px,1fr)] gap-3 sm:gap-4 lg:gap-5 h-full justify-center w-full">
-                  <div className="flex flex-col gap-4 lg:gap-[30px]">
-                    <MobileDeviceCard
-                      imageSrc={project.mobile1}
-                      alt={`${project.title} Mobile View 1`}
-                      gradient={gradient}
-                      delay={0}
-                    />
-                    <MobileDeviceCard
-                      imageSrc={project.mobile2}
-                      alt={`${project.title} Mobile View 2`}
-                      gradient={gradient}
-                      delay={0.15}
-                    />
-                  </div>
-                  <div className="h-full">
-                    <DesktopDeviceCard
-                      imageSrc={project.image}
-                      alt={project.title}
-                      gradient={gradient}
-                    />
-                  </div>
+                <div className="hidden sm:block h-full">
+                  <DesktopDeviceCard
+                    graphic={graphic}
+                    gradient={gradient}
+                  />
                 </div>
                 <div className="sm:hidden aspect-[16/10]">
                   <DesktopDeviceCard
-                    imageSrc={project.image}
-                    alt={project.title}
+                    graphic={graphic}
                     gradient={gradient}
                   />
                 </div>
@@ -694,21 +618,6 @@ const ProjectDetails = ({
   isIPad: boolean;
 }) => {
   const styles = getColorStyle(details.color);
-  const [hasMounted, setHasMounted] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-
-  useEffect(() => {
-    setHasMounted(true);
-    const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-    updateTheme();
-    const observer = new MutationObserver(updateTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
-
-  const showDarkAssets = !hasMounted || isDark;
 
   if (!isIPad && !isActive) {
     return null;
@@ -739,36 +648,14 @@ const ProjectDetails = ({
           ))}
         </ul>
         <div className="mt-6 lg:mt-8 flex flex-wrap gap-2 lg:gap-3 text-xs lg:text-sm">
-          {details.tech.map((tech) => {
-            let icon = tech.icon;
-            let iconStyle: CSSProperties = {};
-
-            if (!showDarkAssets) {
-              if (icon.includes("nextjs_icon_dark")) {
-                iconStyle = { filter: "invert(1)" };
-              } else if (icon.includes("_dark")) {
-                icon = icon.replace("_dark", "_light");
-              }
-            }
-
-            return (
-              <div
-                key={tech.name}
-                className="flex items-center gap-1.5 lg:gap-2 rounded-xl border border-black/10 dark:border-white/[0.14] bg-neutral-100 dark:bg-neutral-900 px-2.5 py-1 lg:px-3 lg:py-1 font-outfit text-neutral-700 dark:text-gray-300"
-              >
-                <Image
-                  height={16}
-                  width={16}
-                  alt={tech.name}
-                  src={icon}
-                  className="h-3.5 w-3.5 lg:h-4 lg:w-4 object-contain"
-                  style={iconStyle}
-                  unoptimized
-                />
-                {tech.name}
-              </div>
-            );
-          })}
+          {details.tech.map((tech) => (
+            <div
+              key={tech.name}
+              className="flex items-center gap-1.5 lg:gap-2 rounded-xl border border-black/10 dark:border-white/[0.14] bg-neutral-100 dark:bg-neutral-900 px-2.5 py-1 lg:px-3 lg:py-1 font-outfit text-neutral-700 dark:text-gray-300"
+            >
+              {tech.name}
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -806,6 +693,34 @@ export default function VentureShowcase({
   const [isIPad, setIsIPad] = useState(false);
   const [isIPad11, setIsIPad11] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [altitude, setAltitude] = useState(45.2);
+  const [confidence, setConfidence] = useState(98);
+  const [queues, setQueues] = useState(24);
+  const [buildTime, setBuildTime] = useState(145);
+  const [optimizationScore, setOptimizationScore] = useState(87);
+  const [suggestion, setSuggestion] = useState("+2 cores suggested");
+  const [pipelineStages, setPipelineStages] = useState<PipelineStage[]>([
+    { name: "Build", status: "idle", progress: 0 },
+    { name: "Test", status: "idle", progress: 0 },
+    { name: "Deploy", status: "idle", progress: 0 },
+  ]);
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+  const [stageProgress, setStageProgress] = useState(0);
+  const [queuedPlayers, setQueuedPlayers] = useState<QueuedPlayer[]>([
+    { id: 1, mmr: 1500, region: "NA" },
+    { id: 2, mmr: 1520, region: "NA" },
+    { id: 3, mmr: 1480, region: "NA" },
+    { id: 4, mmr: 1550, region: "NA" },
+  ]);
+  const [matchFormed, setMatchFormed] = useState(false);
+  const [pods, setPods] = useState<Pod[]>([
+    { id: 1, status: "healthy", cpu: 45, name: "ml-trainer-1" },
+    { id: 2, status: "healthy", cpu: 78, name: "api-gateway" },
+    { id: 3, status: "error", cpu: 92, name: "worker-node-3" },
+    { id: 4, status: "healthy", cpu: 34, name: "database-replica" },
+  ]);
+  const [aiFixing, setAiFixing] = useState(false);
+  const [clusterHealth, setClusterHealth] = useState(92);
 
   useEffect(() => {
     const update = () => {
@@ -818,6 +733,670 @@ export default function VentureShowcase({
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+
+  useEffect(() => {
+    const suggestions = [
+      "+2 cores suggested",
+      "+4GB RAM optimal",
+      "Cache size: 500MB",
+      "Reduce parallelism",
+      "+1 worker thread",
+      "Network latency: 12ms",
+    ];
+
+    const metricsInterval = window.setInterval(() => {
+      setAltitude(Number((Math.random() * 10 + 40).toFixed(1)));
+      setConfidence(Math.floor(Math.random() * 5) + 95);
+      setQueues(Math.floor(Math.random() * 10) + 20);
+      setBuildTime(Math.floor(Math.random() * 50) + 120);
+      setOptimizationScore(Math.floor(Math.random() * 10) + 85);
+      setSuggestion(suggestions[Math.floor(Math.random() * suggestions.length)]);
+    }, 2000);
+
+    return () => {
+      window.clearInterval(metricsInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    const pipelineInterval = window.setInterval(() => {
+      setPipelineStages((stages) => {
+        const currentStage = stages[currentStageIndex];
+
+        if (currentStage.status === "running") {
+          const nextProgress = stageProgress + 5;
+
+          if (nextProgress >= 100) {
+            const stageFailed = Math.random() < 0.15;
+
+            if (stageFailed) {
+              const failedStages = stages.map((stage, idx) =>
+                idx === currentStageIndex
+                  ? { ...stage, status: "failed", progress: nextProgress }
+                  : stage
+              );
+
+              window.setTimeout(() => {
+                setPipelineStages([
+                  { name: "Build", status: "running", progress: 0 },
+                  { name: "Test", status: "idle", progress: 0 },
+                  { name: "Deploy", status: "idle", progress: 0 },
+                ]);
+                setCurrentStageIndex(0);
+                setStageProgress(0);
+              }, 2000);
+
+              setStageProgress(nextProgress);
+              return failedStages;
+            }
+
+            const successStages = stages.map((stage, idx) =>
+              idx === currentStageIndex
+                ? { ...stage, status: "success", progress: 100 }
+                : stage
+            );
+
+            if (currentStageIndex < 2) {
+              const nextStages = successStages.map((stage, idx) =>
+                idx === currentStageIndex + 1
+                  ? { ...stage, status: "running", progress: 0 }
+                  : stage
+              );
+              setCurrentStageIndex(currentStageIndex + 1);
+              setStageProgress(0);
+              return nextStages;
+            }
+
+            window.setTimeout(() => {
+              setPipelineStages([
+                { name: "Build", status: "running", progress: 0 },
+                { name: "Test", status: "idle", progress: 0 },
+                { name: "Deploy", status: "idle", progress: 0 },
+              ]);
+              setCurrentStageIndex(0);
+              setStageProgress(0);
+            }, 2000);
+
+            setStageProgress(100);
+            return successStages;
+          }
+
+          setStageProgress(nextProgress);
+        }
+
+        return stages;
+      });
+    }, 60);
+
+    return () => {
+      window.clearInterval(pipelineInterval);
+    };
+  }, [currentStageIndex, stageProgress]);
+
+  useEffect(() => {
+    setPipelineStages([
+      { name: "Build", status: "running", progress: 0 },
+      { name: "Test", status: "idle", progress: 0 },
+      { name: "Deploy", status: "idle", progress: 0 },
+    ]);
+    setCurrentStageIndex(0);
+    setStageProgress(0);
+  }, []);
+
+  useEffect(() => {
+    const matchmakingInterval = window.setInterval(() => {
+      setQueuedPlayers((prev) => {
+        if (prev.length >= 8) {
+          setMatchFormed(true);
+          window.setTimeout(() => setMatchFormed(false), 2000);
+          return [
+            {
+              id: Math.random(),
+              mmr: Math.floor(Math.random() * 500) + 1300,
+              region: "NA",
+            },
+            {
+              id: Math.random(),
+              mmr: Math.floor(Math.random() * 500) + 1300,
+              region: "NA",
+            },
+          ];
+        }
+
+        const newPlayers = Math.random() > 0.5 ? 1 : 2;
+        const additions = Array.from({ length: newPlayers }, () => ({
+          id: Math.random(),
+          mmr: Math.floor(Math.random() * 500) + 1300,
+          region: Math.random() > 0.7 ? "EU" : "NA",
+        }));
+        return [...prev, ...additions];
+      });
+    }, 2500);
+
+    return () => window.clearInterval(matchmakingInterval);
+  }, []);
+
+  useEffect(() => {
+    const sentinelInterval = window.setInterval(() => {
+      setPods((currentPods) => {
+        const errorPod = currentPods.find((pod) => pod.status === "error");
+
+        if (errorPod && !aiFixing) {
+          setAiFixing(true);
+          window.setTimeout(() => {
+            setPods((podsState) =>
+              podsState.map((pod) =>
+                pod.status === "error"
+                  ? {
+                    ...pod,
+                    status: "healing",
+                    cpu: Math.floor(Math.random() * 50) + 30,
+                  }
+                  : pod
+              )
+            );
+            window.setTimeout(() => {
+              setPods((podsState) =>
+                podsState.map((pod) =>
+                  pod.status === "healing" ? { ...pod, status: "healthy" } : pod
+                )
+              );
+              setAiFixing(false);
+              setClusterHealth(100);
+            }, 2000);
+          }, 3000);
+        } else if (!errorPod && !aiFixing) {
+          if (Math.random() < 0.2) {
+            const randomIndex = Math.floor(Math.random() * currentPods.length);
+            const newPods = [...currentPods];
+            newPods[randomIndex] = {
+              ...newPods[randomIndex],
+              status: "error",
+              cpu: 95,
+            };
+            setClusterHealth(75);
+            return newPods;
+          }
+        }
+
+        return currentPods.map((pod) => ({
+          ...pod,
+          cpu:
+            pod.status === "healthy"
+              ? Math.floor(Math.random() * 40) + 30
+              : pod.cpu,
+        }));
+      });
+    }, 4000);
+
+    return () => window.clearInterval(sentinelInterval);
+  }, [aiFixing]);
+
+  const getProjectGraphic = (title: string) => {
+    if (title === "AeroForge") {
+      return (
+        <div className="relative h-full w-full bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:40px_40px]" />
+          <motion.div
+            className="absolute top-0 left-0"
+            animate={{
+              left: ["20%", "50%", "60%", "30%", "45%", "20%"],
+              top: ["20%", "40%", "25%", "50%", "35%", "20%"],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <motion.div
+              className="relative w-10 h-10 sm:w-16 sm:h-16 border-2 border-cyan-400 rounded"
+              animate={{
+                borderColor: ["#22d3ee", "#06b6d4", "#22d3ee"],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <div className="absolute -top-1 -left-1 w-2 h-2 sm:w-3 sm:h-3 border-t-2 border-l-2 border-cyan-300" />
+              <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 border-t-2 border-r-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -left-1 w-2 h-2 sm:w-3 sm:h-3 border-b-2 border-l-2 border-cyan-300" />
+              <div className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 border-b-2 border-r-2 border-cyan-300" />
+              <div className="absolute -top-4 sm:-top-6 left-1/2 -translate-x-1/2 text-[8px] sm:text-xs font-mono text-cyan-400 whitespace-nowrap">
+                TARGET LOCKED
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-20 flex items-center justify-center">
+                <Crosshair className="w-12 h-12 sm:w-20 sm:h-20 text-blue-400" strokeWidth={1.5} />
+                <motion.div
+                  className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"
+                  animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+              </div>
+              <div className="absolute top-1/2 -left-4 sm:-left-8 w-4 sm:w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute top-1/2 -right-4 sm:-right-8 w-4 sm:w-8 h-0.5 bg-cyan-400/50 -translate-y-1/2" />
+              <div className="absolute left-1/2 -top-4 sm:-top-8 h-4 sm:h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+              <div className="absolute left-1/2 -bottom-4 sm:-bottom-8 h-4 sm:h-8 w-0.5 bg-cyan-400/50 -translate-x-1/2" />
+            </motion.div>
+          </motion.div>
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400 flex items-center gap-1 sm:gap-2">
+              <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>VIS: ACTIVE</span>
+            </div>
+            <motion.div
+              className="text-[8px] sm:text-xs font-mono text-green-400"
+              key={altitude}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              ALT: {altitude}m
+            </motion.div>
+            <div className="text-[8px] sm:text-xs font-mono text-orange-400">
+              TRACK: STABLE
+            </div>
+          </div>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-blue-400">FPS: 60</div>
+            <motion.div
+              className="text-[8px] sm:text-xs font-mono text-green-400"
+              key={confidence}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              CONF: {confidence}%
+            </motion.div>
+          </div>
+        </div>
+      );
+    }
+
+    if (title === "Multiplayer SDK") {
+      return (
+        <div className="relative h-full w-full bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:30px_30px]" />
+          {matchFormed && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center bg-purple-500/20 backdrop-blur-sm z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="text-sm sm:text-2xl font-mono font-bold text-purple-300 flex items-center gap-2 sm:gap-3">
+                <CheckCircle className="w-5 h-5 sm:w-8 sm:h-8" />
+                MATCH FORMED
+              </div>
+            </motion.div>
+          )}
+          <div className="absolute left-2 sm:left-4 bottom-8 sm:bottom-12 flex flex-wrap gap-1 sm:gap-1.5 max-w-[70%] sm:max-w-[60%]">
+            <div className="w-full text-[8px] sm:text-[10px] font-mono text-purple-400 mb-0.5 sm:mb-1">
+              QUEUE ({queuedPlayers.length}/8)
+            </div>
+            {queuedPlayers.slice(0, 8).map((player, idx) => (
+              <motion.div
+                key={player.id}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ delay: idx * 0.1 }}
+                className="flex items-center gap-0.5 sm:gap-1 bg-purple-900/50 border border-purple-500/30 rounded px-1 sm:px-1.5 py-0.5"
+              >
+                <Users className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-purple-400" />
+                <div className="text-[7px] sm:text-[8px] font-mono text-purple-300">
+                  {player.region} <span className="text-indigo-400">{player.mmr}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              animate={{
+                scale: matchFormed ? [1, 1.3, 1] : [1, 1.1, 1],
+                rotate: matchFormed ? [0, 360] : 0,
+              }}
+              transition={{
+                duration: matchFormed ? 1 : 2,
+                repeat: matchFormed ? 0 : Infinity,
+              }}
+              className="relative"
+            >
+              <div
+                className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full ${matchFormed ? "bg-purple-500/50" : "bg-purple-500/30"
+                  } border-2 border-purple-400 flex items-center justify-center`}
+              >
+                <Server className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
+              </div>
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-purple-400"
+                animate={{ scale: [1, 2, 1], opacity: [1, 0, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+          </div>
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1 text-right">
+            <div className="text-[8px] sm:text-xs font-mono text-purple-400 flex items-center gap-1 sm:gap-2 justify-end">
+              <Network className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span className="hidden sm:inline">10K+ PLAYERS</span>
+              <span className="sm:hidden">10K+</span>
+            </div>
+            <div className="text-[8px] sm:text-xs font-mono text-green-400">
+              <span className="hidden sm:inline">LATENCY: &lt;100ms</span>
+              <span className="sm:hidden">&lt;100ms</span>
+            </div>
+            <motion.div
+              className="text-[8px] sm:text-xs font-mono text-indigo-400"
+              key={queues}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <span className="hidden sm:inline">ACTIVE QUEUES: {queues}</span>
+              <span className="sm:hidden">Q: {queues}</span>
+            </motion.div>
+          </div>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="text-[8px] sm:text-xs font-mono text-purple-400">MATCHMAKING</div>
+            <motion.div
+              className={`text-xs sm:text-sm font-mono font-bold ${queuedPlayers.length >= 8 ? "text-green-400" : "text-indigo-400"
+                }`}
+              animate={{ opacity: queuedPlayers.length >= 8 ? [1, 0.5, 1] : 1 }}
+              transition={{ duration: 0.5, repeat: queuedPlayers.length >= 8 ? Infinity : 0 }}
+            >
+              {queuedPlayers.length >= 8 ? "FORMING..." : "SEARCHING"}
+            </motion.div>
+            <div className="text-[8px] sm:text-[10px] font-mono text-purple-300">
+              AVG MMR:{" "}
+              {Math.round(
+                queuedPlayers.reduce((sum, player) => sum + player.mmr, 0) /
+                queuedPlayers.length
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (title === "InfraMind") {
+      return (
+        <div className="relative h-full w-full bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.1)_1px,transparent_1px)] bg-[size:15px_15px] sm:bg-[size:25px_25px]" />
+          <div className="absolute inset-0 flex items-center justify-center gap-4 sm:gap-12 px-2 sm:px-8">
+            {pipelineStages.map((stage, idx) => {
+              const isRunning = stage.status === "running";
+              const isSuccess = stage.status === "success";
+              const isFailed = stage.status === "failed";
+
+              let bgColor = "bg-slate-700/20";
+              let borderColor = "border-slate-500";
+              let textColor = "text-slate-400";
+              let progressColor = "bg-slate-400";
+
+              if (isRunning) {
+                bgColor = "bg-blue-500/20";
+                borderColor = "border-blue-400";
+                textColor = "text-blue-400";
+                progressColor = "bg-blue-400";
+              } else if (isSuccess) {
+                bgColor = "bg-emerald-500/20";
+                borderColor = "border-emerald-400";
+                textColor = "text-emerald-400";
+                progressColor = "bg-emerald-400";
+              } else if (isFailed) {
+                bgColor = "bg-red-500/20";
+                borderColor = "border-red-400";
+                textColor = "text-red-400";
+                progressColor = "bg-red-400";
+              }
+
+              let progressWidth = "0%";
+              if (isRunning) {
+                progressWidth = `${stageProgress}%`;
+              } else if (isSuccess || isFailed) {
+                progressWidth = `${stage.progress}%`;
+              }
+
+              return (
+                <motion.div
+                  key={stage.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.2 }}
+                  className="flex-1 max-w-[60px] sm:max-w-[100px] relative"
+                >
+                  <div
+                    className={`${bgColor} border-2 ${borderColor} rounded-lg p-1.5 sm:p-3 backdrop-blur-sm transition-all duration-300`}
+                  >
+                    <div
+                      className={`text-[8px] sm:text-xs font-mono ${textColor} text-center font-bold`}
+                    >
+                      {isFailed ? "FAILED" : stage.name}
+                    </div>
+                    <div className="mt-1 sm:mt-2 h-0.5 sm:h-1 bg-slate-900 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full ${progressColor} transition-all duration-100 ease-linear`}
+                        style={{ width: progressWidth }}
+                      />
+                    </div>
+                  </div>
+                  {idx < 2 && (
+                    <div className="absolute top-1/2 left-full -translate-y-1/2 px-1 sm:px-3">
+                      <div className="flex items-center gap-0.5">
+                        <div
+                          className={`w-2 sm:w-5 h-0.5 ${isSuccess ? "bg-emerald-400" : "bg-slate-500"
+                            } transition-colors duration-300`}
+                        />
+                        <div
+                          className={`w-0 h-0 border-l-[4px] sm:border-l-[6px] ${isSuccess ? "border-l-emerald-400" : "border-l-slate-500"
+                            } border-t-[2px] sm:border-t-[3px] border-t-transparent border-b-[2px] sm:border-b-[3px] border-b-transparent transition-colors duration-300`}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 space-y-0.5 sm:space-y-1">
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-teal-400">
+              <Cpu className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>CPU: Optimized</span>
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-emerald-400">
+              <Database className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>Cache: Active</span>
+            </div>
+            <motion.div
+              className="text-[8px] sm:text-xs font-mono text-green-400"
+              key={buildTime}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Time: {buildTime}s
+            </motion.div>
+          </div>
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1">
+            <div className="flex items-center gap-1 sm:gap-2 text-[8px] sm:text-xs font-mono text-emerald-400 bg-emerald-950/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-500/30">
+              <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>ML ACTIVE</span>
+            </div>
+            <motion.div
+              className="text-[8px] sm:text-xs font-mono text-green-400 text-right"
+              key={optimizationScore}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Score: {optimizationScore}%
+            </motion.div>
+          </div>
+          <motion.div
+            className="absolute top-8 sm:top-12 left-2 sm:left-4 text-[8px] sm:text-[10px] font-mono text-emerald-300/70 bg-emerald-950/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-500/20"
+            animate={{ y: [0, -5, 0], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            key={suggestion}
+          >
+            {suggestion}
+          </motion.div>
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-1 sm:gap-1.5">
+            <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+            <span className="text-[8px] sm:text-xs font-mono text-yellow-400 font-bold">
+              40% faster
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    if (title === "Sentinel") {
+      return (
+        <div className="relative h-full w-full bg-gradient-to-br from-cyan-950 via-slate-900 to-blue-950 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.1)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:35px_35px]" />
+          {aiFixing && (
+            <motion.div
+              className="absolute top-2 left-1/2 sm:left-1/4 -translate-x-1/2 flex items-center gap-1 sm:gap-2 bg-cyan-500/20 border border-cyan-400 rounded-lg px-2 sm:px-4 py-1 sm:py-2 z-10"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+            >
+              <span className="text-cyan-300 text-[8px] sm:text-sm hidden sm:inline">
+                Auto Fixes…
+              </span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
+              </motion.div>
+              <span className="text-[8px] sm:text-sm font-mono text-cyan-300 font-bold">
+                AI FIXING
+              </span>
+            </motion.div>
+          )}
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 space-y-1 sm:space-y-2">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400">
+              CLUSTER HEALTH
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <motion.div
+                className="text-lg sm:text-2xl font-mono font-bold"
+                animate={{
+                  color:
+                    clusterHealth === 100
+                      ? "#22d3ee"
+                      : clusterHealth >= 75
+                        ? "#fbbf24"
+                        : "#ef4444",
+                }}
+              >
+                {clusterHealth}%
+              </motion.div>
+              <Shield
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${clusterHealth === 100
+                  ? "text-cyan-400"
+                  : clusterHealth >= 75
+                    ? "text-yellow-400"
+                    : "text-red-400"
+                  }`}
+              />
+            </div>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 p-2 sm:p-8">
+              {pods.map((pod, idx) => {
+                const isError = pod.status === "error";
+                const isHealing = pod.status === "healing";
+
+                let bgColorHex = "rgba(34, 211, 238, 0.2)";
+                let borderColorHex = "#22d3ee";
+                let iconColor = "text-cyan-400";
+                let Icon = CheckCircle;
+
+                if (isError) {
+                  bgColorHex = "rgba(239, 68, 68, 0.2)";
+                  borderColorHex = "#f87171";
+                  iconColor = "text-red-400";
+                  Icon = AlertCircle;
+                } else if (isHealing) {
+                  bgColorHex = "rgba(251, 191, 36, 0.2)";
+                  borderColorHex = "#fbbf24";
+                  iconColor = "text-yellow-400";
+                  Icon = Activity;
+                }
+
+                return (
+                  <motion.div
+                    key={pod.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      backgroundColor: bgColorHex,
+                      borderColor: borderColorHex,
+                    }}
+                    transition={{
+                      delay: idx * 0.1,
+                      backgroundColor: { duration: 0.5 },
+                      borderColor: { duration: 0.5 },
+                    }}
+                    className="border-2 rounded-lg p-1.5 sm:p-3 min-w-[70px] sm:min-w-[120px]"
+                  >
+                    <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                      <Cloud className={`w-3 h-3 sm:w-4 sm:h-4 ${iconColor}`} />
+                      <div className="text-[7px] sm:text-[9px] font-mono text-slate-300 truncate">
+                        {pod.name}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${iconColor}`} />
+                      <div className="text-right">
+                        <div className={`text-[8px] sm:text-[10px] font-mono ${iconColor}`}>
+                          {isError ? "ERROR" : isHealing ? "HEALING" : "HEALTHY"}
+                        </div>
+                        <div className="text-[7px] sm:text-[9px] font-mono text-slate-400">
+                          CPU: {pod.cpu}%
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-1 sm:mt-2 h-0.5 sm:h-1 bg-slate-800 rounded-full overflow-hidden">
+                      <motion.div
+                        className={`h-full ${isError
+                          ? "bg-red-400"
+                          : isHealing
+                            ? "bg-yellow-400"
+                            : "bg-cyan-400"
+                          }`}
+                        animate={{ width: `${pod.cpu}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 space-y-0.5 sm:space-y-1 text-right">
+            <div className="text-[8px] sm:text-xs font-mono text-cyan-400 flex items-center gap-1 sm:gap-2 justify-end">
+              <Cloud className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>3 CLUSTERS</span>
+            </div>
+            <div className="text-[8px] sm:text-xs font-mono text-green-400">UPTIME: 99.9%</div>
+            <div className="text-[8px] sm:text-xs font-mono text-blue-400">
+              {pods.filter((pod) => pod.status === "healthy").length}/{pods.length} HEALTHY
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative h-full w-full bg-neutral-900/90">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:26px_26px]" />
+      </div>
+    );
+  };
 
   const isTablet = isIPad || isIPad11;
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -975,7 +1554,6 @@ export default function VentureShowcase({
   });
 
   const progressScale = useTransform(progressSpring, [0, 100], [0, 1]);
-  const progressTop = useTransform(progressSpring, (value) => `${value}%`);
   const progressOpacity = useTransform(progressSpring, (value) => (value > 0 ? 1 : 0));
 
   return (
@@ -1018,25 +1596,6 @@ export default function VentureShowcase({
                       style={{ scaleY: progressScale, opacity: progressOpacity }}
                     />
                   </div>
-                  <motion.div
-                    className="absolute -right-0.5 z-10 flex"
-                    style={{ top: progressTop, height: "36px", y: "-50%" }}
-                  >
-                    <motion.div
-                      className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-white dark:border-neutral-900 bg-white dark:bg-neutral-900 shadow-md"
-                      whileHover={{ scale: 1.15 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    >
-                      <Image
-                        alt="Profile"
-                        src="/images/my-image/Main-Avatar.jpeg"
-                        fill
-                        className="object-cover"
-                        sizes="36px"
-                        priority
-                      />
-                    </motion.div>
-                  </motion.div>
                 </div>
               </div>
               <div className="flex-1 w-full">
@@ -1056,6 +1615,7 @@ export default function VentureShowcase({
               const style = PROJECT_STYLES[index];
               const details = PROJECT_DETAILS[index];
               if (!style || !details) return null;
+              const graphic = getProjectGraphic(project.title);
 
               return (
                 <ProjectCard
@@ -1065,6 +1625,7 @@ export default function VentureShowcase({
                   style={style}
                   details={details}
                   isIPad={isTablet}
+                  graphic={graphic}
                 />
               );
             })}

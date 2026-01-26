@@ -10,20 +10,6 @@ export default function Footer() {
           <div className="flex flex-col gap-4 md:gap-8 flex-1">
             <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-neutral-900 dark:text-white tracking-tight leading-[0.9] font-clash">
               <span className="inline-flex items-center gap-2 md:gap-4">
-                <div>
-                  <img
-                    alt="Avatar"
-                    loading="lazy"
-                    width={80}
-                    height={80}
-                    decoding="async"
-                    data-nimg="1"
-                    className="rounded-full cursor-pointer w-12 h-12 md:w-20 md:h-20 border-2 border-white dark:border-transparent shadow-lg dark:shadow-none"
-                    style={{ color: "transparent" }}
-                    srcSet="/_next/image?url=%2Fimages%2Fmy-image%2FMain-Avatar.jpeg&w=96&q=75 1x, /_next/image?url=%2Fimages%2Fmy-image%2FMain-Avatar.jpeg&w=256&q=75 2x"
-                    src="/_next/image?url=%2Fimages%2Fmy-image%2FMain-Avatar.jpeg&w=256&q=75"
-                  />
-                </div>
                 Let&apos;s create
               </span>
               <br />

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -95,21 +93,6 @@ const socialLinks = [
   },
 ];
 
-const carouselItems = [
-  {
-    alt: "Firmware development and embedded systems",
-    src: "/images/webp/EAT.webp",
-  },
-  {
-    alt: "DevOps automation and deployment pipelines",
-    src: "/images/webp/TRAVEL.webp",
-  },
-  {
-    alt: "Real-time systems and performance engineering",
-    src: "/images/webp/CODE.webp",
-  },
-];
-
 type AboutVariant = "home" | "about";
 
 const aboutCopy: Record<
@@ -150,16 +133,7 @@ const aboutCopy: Record<
 };
 
 export default function About({ variant = "home" }: { variant?: AboutVariant }) {
-  const [activeIndex, setActiveIndex] = useState(1);
   const content = aboutCopy[variant];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % carouselItems.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="relative w-full z-30 mt-12 md:mt-20 px-4 sm:px-6 lg:px-8">
@@ -169,9 +143,9 @@ export default function About({ variant = "home" }: { variant?: AboutVariant }) 
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
-          className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12 xl:gap-16"
+          className="flex flex-col gap-8 lg:gap-12 xl:gap-16"
         >
-          <div className="w-full lg:w-1/2 xl:w-3/5">
+          <div className="w-full">
             <motion.h2
               variants={itemVariants}
               className="relative z-2 mb-6 md:mb-8 lg:mb-12 font-medium tracking-tight text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl text-center lg:text-left text-balance"
@@ -266,49 +240,6 @@ export default function About({ variant = "home" }: { variant?: AboutVariant }) 
             </motion.div>
           </div>
 
-          <motion.div
-            variants={itemVariants}
-            className="w-full lg:w-1/2 xl:w-2/5 flex justify-center lg:justify-end xl:justify-center"
-          >
-            <div className="relative h-[250px] w-[200px] xs:h-[280px] xs:w-[220px] sm:h-[320px] sm:w-[250px] md:h-[380px] md:w-[300px] lg:h-[400px] lg:w-[280px] xl:h-[450px] xl:w-[320px] lg:mt-24 lg:ml-8 xl:ml-12">
-              <div className="relative h-full w-full">
-                <div className="relative h-full w-full" style={{ perspective: "1000px" }}>
-                  <div className="relative h-full w-full" style={{ transformStyle: "preserve-3d" }}>
-                    {carouselItems.map((item, index) => {
-                      const rotation =
-                        ((index - activeIndex + 1 + carouselItems.length) % carouselItems.length) *
-                        120;
-                      const isActive = index === activeIndex;
-
-                      return (
-                        <div
-                          key={item.src}
-                          className="absolute inset-0 transition-all duration-1000 ease-in-out"
-                          style={{
-                            transform: `rotateY(${rotation}deg) translateZ(150px) scale(${
-                              isActive ? 1.1 : 0.9
-                            })`,
-                            opacity: 1,
-                            zIndex: isActive ? 10 : 5,
-                          }}
-                        >
-                          <div className="relative h-full w-full overflow-hidden rounded-3xl bg-white/10 backdrop-blur-sm">
-                            <Image
-                              alt={item.alt}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 640px) 180px, (max-width: 1024px) 200px, 270px"
-                              src={item.src}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </section>

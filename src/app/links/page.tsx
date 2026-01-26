@@ -124,7 +124,7 @@ export default function LinksPage() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 192px, (max-width: 1024px) 256px, 320px"
-                  src="/images/my-image/Main-Avatar.jpeg"
+                  src=""
                 />
               </div>
             </div>

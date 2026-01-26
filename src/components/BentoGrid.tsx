@@ -203,18 +203,7 @@ export default function BentoGrid() {
                 </div>
               </div>
             </div>
-            <div className="relative z-20 flex-1 min-h-[140px] lg:min-h-[180px] -mt-4 lg:-mt-12 -mb-4 lg:-mb-8 -mx-6 sm:-mx-8">
-              <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/my-image/Main-Avatar.jpeg"
-                  alt="Idan Gurevich"
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-            <div className="relative z-10 flex justify-center gap-3 px-6 sm:px-8 py-3 lg:py-4 border-t border-black/5 dark:border-white/5">
+            <div className="relative z-10 mt-auto flex justify-center gap-3 px-6 sm:px-8 py-3 lg:py-4 border-t border-black/5 dark:border-white/5">
               <a
                 href="https://www.linkedin.com/in/idangurevich/"
                 rel="noopener noreferrer"
@@ -595,18 +584,14 @@ export default function BentoGrid() {
                         </defs>
                       </svg>
                     </div>
-                    <div className="relative py-2 flex-1">
+                    <div className="relative py-2 flex-1 min-w-0">
                       <p
-                        className="text-[25px] text-neutral-900 dark:text-white tracking-tight flex overflow-hidden"
+                        className="text-[clamp(16px,2.1vw,24px)] text-neutral-900 dark:text-white tracking-tight whitespace-nowrap"
                         style={{ fontFamily: "var(--font-snell-roundhand)" }}
                       >
-                        {emailAddress.split("").map((char, index) => (
-                          <span key={`${char}-${index}`} className="inline-block">
-                            {char}
-                          </span>
-                        ))}
+                        {emailAddress}
                       </p>
-                      <div className="absolute bottom-0 left-0 right-5 h-[3px] rounded-full origin-left bg-gradient-animated scale-x-0 group-hover/email:scale-x-100 transition-transform duration-500" />
+                      <div className="absolute bottom-0 left-0 right-0 h-[3px] rounded-full origin-left bg-gradient-animated scale-x-0 group-hover/email:scale-x-100 transition-transform duration-500" />
                       <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl pointer-events-none opacity-0 group-hover/email:opacity-100 transition-opacity duration-500" />
                     </div>
                   </div>
@@ -664,424 +649,70 @@ export default function BentoGrid() {
                           animation: "gradient-x 6s infinite",
                         }}
                       >
-                        AeroForge
+                        resilient infrastructure
                       </span>
                       <div className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-neutral-300 via-neutral-200 to-transparent dark:from-white/60 dark:via-white/30 dark:to-transparent w-full" />
                     </span>
                   </h3>
                   <p className="text-neutral-500 dark:text-white/40 text-sm mt-2 font-serif tracking-wide italic">
-                    <span>&lt;</span> Real-time vision &amp; control <span>/&gt;</span>
+                    <span>&lt;</span> Infrastructure &amp; automation <span>/&gt;</span>
                   </p>
                 </div>
-
-                <div className="hidden lg:flex absolute right-0 bottom-[-10%] w-full h-full items-end justify-center pointer-events-none px-6">
-                  <div
-                    className="w-[26%] aspect-[9/19] -mr-12 mb-8 z-10 origin-bottom-right pointer-events-auto"
-                    style={{ transform: "translateY(100px) rotate(-15deg)" }}
-                  >
-                    <div className="relative h-full w-full" style={{ padding: "3px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[28px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.5)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[3px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[3px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[3px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[2px] w-[4px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[45%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[2px] w-[4px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[24px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_RuneHub1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 flex items-end justify-start px-6 pb-6 pt-24">
+                  <div className="relative w-full max-w-[420px] h-[180px] sm:h-[210px] rounded-2xl bg-white/70 dark:bg-black/60 border border-black/10 dark:border-white/10 overflow-hidden">
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:24px_24px]" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10" />
+                    <div className="absolute left-4 bottom-4">
+                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                        Edge
                       </div>
-                      <div
-                        className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[30%] h-[14px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="w-[30%] aspect-[9/19] -mb-4 z-20 shadow-2xl pointer-events-auto"
-                    style={{ transform: "translateY(50px)" }}
-                  >
-                    <div className="relative h-full w-full" style={{ padding: "3px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[28px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.5)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[3px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[3px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[3px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[2px] w-[4px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[45%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[2px] w-[4px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[24px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_RuneAI1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
+                      <div className="mt-2 flex flex-col gap-2">
+                        <div className="relative w-24 h-10 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                          <div className="absolute top-2 left-2 right-2 h-[2px] bg-neutral-300 dark:bg-white/20" />
+                          <div className="absolute top-5 left-2 right-4 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                          <div className="absolute bottom-2 left-2 flex gap-1">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: "0.4s" }} />
+                            <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: "0.8s" }} />
+                          </div>
+                        </div>
+                        <div className="relative w-24 h-10 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                          <div className="absolute top-2 left-2 right-6 h-[2px] bg-neutral-300 dark:bg-white/20" />
+                          <div className="absolute top-5 left-2 right-2 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                          <div className="absolute bottom-2 left-2 flex gap-1">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: "0.6s" }} />
+                          </div>
+                        </div>
                       </div>
-                      <div
-                        className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[30%] h-[14px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
                     </div>
-                  </div>
-                  <div
-                    className="w-[26%] aspect-[9/19] -ml-12 mb-8 z-10 origin-bottom-left pointer-events-auto"
-                    style={{ transform: "translateY(100px) rotate(15deg)" }}
-                  >
-                    <div className="relative h-full w-full" style={{ padding: "3px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[28px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.5)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[3px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[3px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[3px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[2px] w-[4px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[45%] -left-[2px] w-[4px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[2px] w-[4px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[24px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_Rune1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                      <div className="relative">
+                        <div className="size-12 rounded-full border border-emerald-400/40 bg-white/80 dark:bg-black/80 animate-pulse-glow" />
+                        <div className="absolute inset-2 rounded-full bg-emerald-400/20" />
                       </div>
-                      <div
-                        className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[30%] h-[14px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
+                      <span className="mt-2 text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                        Core
+                      </span>
                     </div>
-                  </div>
-                </div>
-
-                <div className="flex lg:hidden absolute left-1/2 -translate-x-1/2 top-[38%] items-center justify-center pointer-events-none z-30">
-                  <div
-                    className="w-[80px] h-[160px] -mr-3 z-10 pointer-events-auto flex-shrink-0"
-                    style={{ transform: "rotate(-8deg) translateY(8px)" }}
-                  >
-                    <div className="relative h-full w-full" style={{ padding: "2px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[14px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[2px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[2px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[2px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[1px] w-[2px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[1px] w-[2px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[1px] w-[2px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[12px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_RuneHub1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute right-4 top-4 text-right">
+                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                        Cloud
                       </div>
-                      <div
-                        className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[25%] h-[8px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-[88px] h-[176px] z-20 shadow-2xl pointer-events-auto flex-shrink-0">
-                    <div className="relative h-full w-full" style={{ padding: "2px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[14px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[2px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[2px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[2px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[1px] w-[2px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[1px] w-[2px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[1px] w-[2px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[12px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_RuneAI1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
+                      <div className="mt-2 grid grid-cols-2 gap-2">
+                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
+                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
+                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
+                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
                       </div>
-                      <div
-                        className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[25%] h-[8px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
                     </div>
-                  </div>
-                  <div
-                    className="w-[80px] h-[160px] -ml-3 z-10 pointer-events-auto flex-shrink-0"
-                    style={{ transform: "rotate(8deg) translateY(8px)" }}
-                  >
-                    <div className="relative h-full w-full" style={{ padding: "2px" }}>
-                      <div
-                        className="absolute inset-0 rounded-[14px]"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, #5a5a5a 0%, #2a2a2a 20%, #1a1a1a 40%, #3a3a3a 60%, #4a4a4a 80%, #2a2a2a 100%)",
-                          boxShadow:
-                            "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                      <div
-                        className="absolute left-0 top-[10%] bottom-[10%] w-[2px] rounded-l-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #666 0%, #999 20%, #777 40%, #aaa 60%, #888 80%, #555 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute right-0 top-[10%] bottom-[10%] w-[2px] rounded-r-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #555 0%, #888 20%, #666 40%, #999 60%, #777 80%, #666 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-0 left-[15%] right-[15%] h-[2px] rounded-t-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #444 0%, #888 30%, #bbb 50%, #888 70%, #444 100%)",
-                        }}
-                      />
-                      <div
-                        className="absolute top-[18%] -left-[1px] w-[2px] h-[8%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[30%] -left-[1px] w-[2px] h-[12%] rounded-l-sm"
-                        style={{ background: "linear-gradient(90deg, #777, #333)" }}
-                      />
-                      <div
-                        className="absolute top-[35%] -right-[1px] w-[2px] h-[15%] rounded-r-sm"
-                        style={{ background: "linear-gradient(270deg, #777, #333)" }}
-                      />
-                      <div
-                        className="relative w-full h-full overflow-hidden rounded-[12px] bg-black"
-                        style={{ border: "1px solid rgba(0,0,0,0.8)" }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          alt="App Interface"
-                          loading="lazy"
-                          src="/images/projects/Project Images/Mobile/Mobile_Rune1.PNG"
-                          className="object-cover absolute inset-0 h-full w-full"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none" />
-                      </div>
-                      <div
-                        className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[25%] h-[8px] bg-black rounded-full z-20"
-                        style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.8)" }}
-                      />
-                    </div>
+                    <div className="absolute left-[110px] right-[110px] top-1/2 h-px bg-gradient-to-r from-emerald-500/40 via-blue-500/30 to-purple-500/40" />
+                    <div className="absolute left-[44%] top-[35%] h-[46px] w-px bg-gradient-to-b from-blue-500/30 to-transparent" />
+                    <div className="absolute left-[55%] top-[52%] size-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                    <div
+                      className="absolute right-[34%] top-[38%] size-2 rounded-full bg-purple-400/80 animate-pulse"
+                      style={{ animationDelay: "0.5s" }}
+                    />
                   </div>
                 </div>
               </div>
