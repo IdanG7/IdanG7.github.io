@@ -145,6 +145,13 @@ export default function RootLayout({
         {/* Preconnect for faster resource loading */}
         <link rel="preconnect" href="https://github.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
+
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
         className={`${agile.variable} ${nyghtSerif.variable} ${outfit.variable} ${clashDisplay.variable} ${snellRoundhand.variable} ${fjallaOne.variable} ${helvetica.variable} ${elicitScript.variable} ${autography.variable} antialiased bg-neutral-50 dark:bg-black text-neutral-900 dark:text-[#ededed] font-outfit`}

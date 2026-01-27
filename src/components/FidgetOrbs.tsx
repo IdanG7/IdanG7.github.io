@@ -11,6 +11,7 @@ interface Orb {
   baseRadius: number;
   lightness: number;
   orbitAngle: number;
+  baseAngle: number;
   orbitRadius: number;
   orbitSpeed: number;
   grabbed: boolean;
@@ -56,6 +57,8 @@ export default function FidgetOrbs() {
   const grabbedOrbRef = useRef<number | null>(null);
   const orbitCenterRef = useRef({ x: 0, y: 0 });
   const orbitRadiiRef = useRef({ x: 0, y: 0 });
+  const lastInteractionRef = useRef(0);
+  const globalRotationRef = useRef(0);
 
   const initOrbs = useCallback((width: number, height: number) => {
     const orbs: Orb[] = [];
@@ -83,6 +86,7 @@ export default function FidgetOrbs() {
         baseRadius,
         lightness: 40 + Math.random() * 30,
         orbitAngle,
+        baseAngle: orbitAngle,
         orbitRadius: 1,
         orbitSpeed: ORBIT_SPEED,
         grabbed: false,
@@ -215,6 +219,16 @@ export default function FidgetOrbs() {
         }
       }
 
+      // Calculate idle time for self-correction ramp
+      const idleFrames = timeRef.current - lastInteractionRef.current;
+      // After ~120 frames (~2s), start ramping correction; fully settled by ~300 frames (~5s)
+      const idleFactor = Math.min(Math.max((idleFrames - 120) / 180, 0), 1);
+      const currentReturnSpeed = RETURN_SPEED + idleFactor * 0.12;
+      const currentFriction = 0.94 - idleFactor * 0.06;
+
+      // Advance global rotation counter for ideal spacing
+      globalRotationRef.current += ORBIT_SPEED;
+
       // Update and draw orbs
       orbsRef.current.forEach((orb, index) => {
         const isGrabbed = grabbedOrbRef.current === index;
@@ -242,20 +256,30 @@ export default function FidgetOrbs() {
           // Update orbit angle (continuous spinning)
           orb.orbitAngle += orb.orbitSpeed;
 
+          // When idle, lerp orbit angle toward ideal evenly-spaced position
+          if (idleFactor > 0) {
+            const idealAngle = orb.baseAngle + globalRotationRef.current;
+            let angleDiff = idealAngle - orb.orbitAngle;
+            // Normalize to [-PI, PI] for shortest rotation path
+            while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+            while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+            orb.orbitAngle += angleDiff * idleFactor * 0.05;
+          }
+
           // Calculate target position on the flat ellipse orbit
           const center = orbitCenterRef.current;
           const radii = orbitRadiiRef.current;
           const targetX = center.x + Math.cos(orb.orbitAngle) * radii.x;
           const targetY = center.y + Math.sin(orb.orbitAngle) * radii.y;
 
-          // Smoothly move towards orbit position
-          orb.vx += (targetX - orb.x) * RETURN_SPEED;
-          orb.vy += (targetY - orb.y) * RETURN_SPEED;
+          // Smoothly move towards orbit position (ramps up when idle)
+          orb.vx += (targetX - orb.x) * currentReturnSpeed;
+          orb.vy += (targetY - orb.y) * currentReturnSpeed;
         }
 
-        // Apply velocity with less friction for bouncier feel
-        orb.vx *= 0.94;
-        orb.vy *= 0.94;
+        // Apply velocity with friction (tightens when idle to settle faster)
+        orb.vx *= currentFriction;
+        orb.vy *= currentFriction;
         orb.x += orb.vx;
         orb.y += orb.vy;
 
@@ -419,6 +443,7 @@ export default function FidgetOrbs() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       mouseRef.current.clicking = true;
+      lastInteractionRef.current = timeRef.current;
 
       const orbIndex = findOrbUnderMouse(x, y);
       if (orbIndex !== null) {
@@ -432,10 +457,10 @@ export default function FidgetOrbs() {
   };
 
   const handleMouseUp = () => {
+    lastInteractionRef.current = timeRef.current;
     if (grabbedOrbRef.current !== null) {
       const orb = orbsRef.current[grabbedOrbRef.current];
-      // Throw with momentum
-      const throwMultiplier = 2;
+      const throwMultiplier = 1.5;
       orb.vx *= throwMultiplier;
       orb.vy *= throwMultiplier;
       orb.grabbed = false;
@@ -456,6 +481,7 @@ export default function FidgetOrbs() {
       const x = e.touches[0].clientX - rect.left;
       const y = e.touches[0].clientY - rect.top;
       mouseRef.current = { x, y, active: true, clicking: true };
+      lastInteractionRef.current = timeRef.current;
 
       const orbIndex = findOrbUnderMouse(x, y);
       if (orbIndex !== null) {
@@ -477,10 +503,11 @@ export default function FidgetOrbs() {
   };
 
   const handleTouchEnd = () => {
+    lastInteractionRef.current = timeRef.current;
     if (grabbedOrbRef.current !== null) {
       const orb = orbsRef.current[grabbedOrbRef.current];
-      orb.vx *= 2;
-      orb.vy *= 2;
+      orb.vx *= 1.5;
+      orb.vy *= 1.5;
       orb.grabbed = false;
       createBurst(orb.x, orb.y, orb.lightness, 8);
     }

@@ -135,7 +135,7 @@ function NavPill({
 }
 
 export default function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isMoreHovered, setIsMoreHovered] = useState(false);
   const pathname = usePathname();
@@ -415,39 +415,15 @@ export default function Navigation() {
             </div>
           </div>
 
-          {/* Right: Command Menu Button */}
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{
-              opacity: isScrolled ? 0 : 1,
-              x: isScrolled ? 50 : 0,
-            }}
-            transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-            style={{ transform: "translateZ(0)" }}
-            className={cn(
-              "hidden md:flex items-center justify-end w-[200px] will-change-transform",
-              isScrolled && "pointer-events-none"
-            )}
-          >
-            <button
-              onClick={() => setIsMenuOpen(true)}
-              className="group relative flex items-center justify-center w-11 h-11 rounded-full bg-white dark:bg-black/90 backdrop-blur-xl border border-neutral-200 dark:border-white/10 shadow-lg shadow-black/5 dark:shadow-black/20 hover:bg-white dark:hover:bg-black transition-colors duration-150 cursor-pointer"
-              aria-label="Open Command Menu"
-            >
-              <span className="text-neutral-700 dark:text-white group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-                </svg>
-              </span>
-            </button>
-          </motion.div>
+          {/* Right: Spacer to keep nav centered */}
+          <div className="hidden md:block w-[200px] shrink-0" aria-hidden="true" />
         </div>
       </nav>
 
       {/* Mobile Navigation */}
       <div className="md:hidden fixed top-4 left-4 right-4 z-[100]">
         <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-white dark:bg-black/90 backdrop-blur-xl border border-neutral-200 dark:border-white/10 shadow-lg transition-colors duration-150"
           aria-label="Toggle Menu"
         >
@@ -457,7 +433,7 @@ export default function Navigation() {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            {isMenuOpen ? (
+            {isMobileMenuOpen ? (
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -477,7 +453,7 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         <AnimatePresence>
-          {isMenuOpen && (
+          {isMobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -491,7 +467,7 @@ export default function Navigation() {
                   <Link
                     href="/"
                     className="relative z-30 font-outfit text-neutral-800 dark:text-white/90 text-xs font-medium tracking-wide flex-1"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Idan Gurevich
                   </Link>
@@ -503,7 +479,7 @@ export default function Navigation() {
                     <TransitionLink
                       key={link.label}
                       href={link.href}
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
                         "flex items-center gap-3 px-4 py-3 rounded-xl font-outfit transition-all",
                         isActive(link.href)
@@ -521,7 +497,7 @@ export default function Navigation() {
                     <TransitionLink
                       key={link.label}
                       href={link.href}
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
                         "flex items-center gap-3 px-4 py-3 rounded-xl font-outfit transition-all",
                         link.featured
@@ -541,6 +517,7 @@ export default function Navigation() {
           )}
         </AnimatePresence>
       </div>
+
     </>
   );
 }

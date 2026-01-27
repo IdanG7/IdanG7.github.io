@@ -471,6 +471,185 @@ img {
   }
 }
 
+@keyframes infra-dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -180;
+  }
+}
+
+@keyframes infra-pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes about-stage-1 {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  8%,
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  34%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes about-stage-2 {
+  0%,
+  32% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  38%,
+  62% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes about-stage-3 {
+  0%,
+  64% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  70%,
+  92% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes about-code-line {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  60%,
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes about-caret {
+  0%,
+  49% {
+    opacity: 0;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes about-packet {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  33% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  46% {
+    opacity: 1;
+    transform: translateX(100px);
+  }
+
+  52% {
+    opacity: 0;
+    transform: translateX(118px);
+  }
+
+  54%,
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes about-arm-swing {
+  0%,
+  66% {
+    transform: rotate(0deg);
+  }
+
+  72% {
+    transform: rotate(-12deg);
+  }
+
+  86% {
+    transform: rotate(18deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes about-fore-swing {
+  0%,
+  66% {
+    transform: rotate(0deg);
+  }
+
+  72% {
+    transform: rotate(16deg);
+  }
+
+  86% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -546,6 +725,95 @@ img {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+.infra-svg {
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.15));
+}
+
+.infra-path {
+  stroke-dasharray: 8 14;
+  animation: infra-dash 10s linear infinite;
+}
+
+.infra-node {
+  transform-origin: center;
+  animation: infra-pulse 2.6s ease-in-out infinite;
+}
+
+.about-story-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.about-stage {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.about-stage-code {
+  opacity: 1;
+  animation: about-stage-1 9s ease-in-out infinite;
+}
+
+.about-stage-upload {
+  animation: about-stage-2 9s ease-in-out infinite;
+}
+
+.about-stage-arm {
+  animation: about-stage-3 9s ease-in-out infinite;
+}
+
+.about-code-line {
+  transform-origin: left center;
+  transform-box: fill-box;
+  animation: about-code-line 1.8s ease-out infinite;
+}
+
+.about-code-line-2 {
+  animation-delay: 0.2s;
+}
+
+.about-code-line-3 {
+  animation-delay: 0.35s;
+}
+
+.about-code-line-4 {
+  animation-delay: 0.55s;
+}
+
+.about-code-caret {
+  animation: about-caret 0.9s steps(2, jump-none) infinite;
+}
+
+.about-packet {
+  animation: about-packet 9s ease-in-out infinite;
+}
+
+.about-packet-2 {
+  animation-delay: 0.5s;
+}
+
+.about-packet-3 {
+  animation-delay: 1s;
+}
+
+.about-arm-upper {
+  transform-origin: 0% 50%;
+  transform-box: fill-box;
+  animation: about-arm-swing 9s ease-in-out infinite;
+}
+
+.about-arm-fore {
+  transform-origin: 0% 100%;
+  transform-box: fill-box;
+  animation: about-fore-swing 9s ease-in-out infinite;
+}
+
+.about-arm-silhouette {
+  transform-origin: 30% 80%;
+  transform-box: fill-box;
+  animation: about-arm-swing 9s ease-in-out infinite;
+}
+
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
@@ -560,6 +828,32 @@ img {
 
 .animate-scale-in {
   animation: scale-in 0.3s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infra-path,
+  .infra-node,
+  .infra-dot,
+  .about-stage-code,
+  .about-stage-upload,
+  .about-stage-arm,
+  .about-code-line,
+  .about-code-caret,
+  .about-packet,
+  .about-arm-upper,
+  .about-arm-fore,
+  .about-arm-silhouette {
+    animation: none !important;
+  }
+
+  .about-stage {
+    transform: none;
+  }
+
+  .about-stage-upload,
+  .about-stage-arm {
+    opacity: 0;
+  }
 }
 
 /* Scrollbar Hide */

@@ -633,9 +633,9 @@ export default function BentoGrid() {
             <div className="relative w-full min-h-[340px] h-auto lg:absolute lg:right-[2.67%] lg:top-[50.67%] lg:w-[46.17%] lg:h-[45.78%] isolate rounded-[24px] overflow-hidden group cursor-pointer">
               <div className="absolute inset-0 border-2 border-black/50 dark:border-white/10 rounded-[24px] bg-neutral-100 dark:bg-black pointer-events-none shadow-[inset_0_0_80px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_0_80px_rgba(255,255,255,0.08)]" />
               <div className="hidden lg:block absolute left-[-31.95%] top-[-41.26%] w-[58.84%] h-[79.13%] rounded-full bg-neutral-50 dark:bg-black border border-black/80 dark:border-white/20 z-[60]" />
-              <div className="relative z-20 w-full h-full">
-                <div className="absolute top-6 right-6 text-right z-50">
-                  <h3 className="text-neutral-900 dark:text-white text-3xl font-bold tracking-tighter relative">
+              <div className="relative z-20 flex h-full flex-col">
+                <div className="px-6 pt-6 text-right z-50 self-end">
+                  <h3 className="text-neutral-900 dark:text-white text-[clamp(20px,3vw,30px)] font-bold tracking-tighter relative leading-tight">
                     Building{" "}
                     <span className="relative inline-block">
                       <span
@@ -654,65 +654,87 @@ export default function BentoGrid() {
                       <div className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-neutral-300 via-neutral-200 to-transparent dark:from-white/60 dark:via-white/30 dark:to-transparent w-full" />
                     </span>
                   </h3>
-                  <p className="text-neutral-500 dark:text-white/40 text-sm mt-2 font-serif tracking-wide italic">
+                  <p className="text-neutral-500 dark:text-white/40 text-xs sm:text-sm mt-2 font-serif tracking-wide italic">
                     <span>&lt;</span> Infrastructure &amp; automation <span>/&gt;</span>
                   </p>
                 </div>
-                <div className="absolute inset-0 flex items-end justify-start px-6 pb-6 pt-24">
-                  <div className="relative w-full max-w-[420px] h-[180px] sm:h-[210px] rounded-2xl bg-white/70 dark:bg-black/60 border border-black/10 dark:border-white/10 overflow-hidden">
+                <div className="flex items-center justify-end gap-4 sm:gap-6 px-6 pt-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] text-neutral-500 dark:text-white/50 font-outfit tracking-wide">99.9% uptime</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                    <span className="text-[10px] text-neutral-500 dark:text-white/50 font-outfit tracking-wide">&lt;50ms p99</span>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
+                    <span className="text-[10px] text-neutral-500 dark:text-white/50 font-outfit tracking-wide">Auto-scaling</span>
+                  </div>
+                </div>
+                <div className="flex-1 flex items-end justify-center px-6 pb-6 pt-4">
+                  <div className="relative w-full h-[clamp(140px,28vw,210px)] rounded-2xl bg-white/70 dark:bg-black/60 border border-black/10 dark:border-white/10 overflow-hidden">
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:24px_24px]" />
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10" />
-                    <div className="absolute left-4 bottom-4">
-                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                    {/* Edge section - left */}
+                    <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col items-start gap-3">
+                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
                         Edge
                       </div>
-                      <div className="mt-2 flex flex-col gap-2">
-                        <div className="relative w-24 h-10 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                      <div className="flex flex-col gap-1.5">
+                        <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
                           <div className="absolute top-2 left-2 right-2 h-[2px] bg-neutral-300 dark:bg-white/20" />
-                          <div className="absolute top-5 left-2 right-4 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
-                          <div className="absolute bottom-2 left-2 flex gap-1">
+                          <div className="absolute top-[18px] left-2 right-4 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                          <div className="absolute bottom-1.5 left-2 flex gap-1">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: "0.4s" }} />
-                            <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: "0.8s" }} />
+                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
                           </div>
                         </div>
-                        <div className="relative w-24 h-10 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                        <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
                           <div className="absolute top-2 left-2 right-6 h-[2px] bg-neutral-300 dark:bg-white/20" />
-                          <div className="absolute top-5 left-2 right-2 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
-                          <div className="absolute bottom-2 left-2 flex gap-1">
+                          <div className="absolute top-[18px] left-2 right-2 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                          <div className="absolute bottom-1.5 left-2 flex gap-1">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: "0.6s" }} />
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                    {/* Connection: Edge -> Core */}
+                    <div className="absolute left-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-r from-emerald-500/30 to-emerald-500/50" />
+                    {/* Connection: Core -> Cloud */}
+                    <div className="absolute right-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-l from-purple-500/30 to-blue-500/50" />
+                    {/* Core - center */}
+                    <div className="absolute left-1/2 top-[calc(50%-8px)] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
                       <div className="relative">
                         <div className="size-12 rounded-full border border-emerald-400/40 bg-white/80 dark:bg-black/80 animate-pulse-glow" />
-                        <div className="absolute inset-2 rounded-full bg-emerald-400/20" />
+                        <div className="absolute inset-2 rounded-full bg-emerald-400/20 flex items-center justify-center">
+                          <span className="h-2 w-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                        </div>
                       </div>
-                      <span className="mt-2 text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                      <span className="mt-2 text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
                         Core
                       </span>
                     </div>
-                    <div className="absolute right-4 top-4 text-right">
-                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50">
+                    {/* Cloud section - right */}
+                    <div className="absolute right-[5%] top-1/2 -translate-y-1/2 flex flex-col items-end gap-3">
+                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
                         Cloud
                       </div>
-                      <div className="mt-2 grid grid-cols-2 gap-2">
-                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
-                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
-                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
-                        <div className="h-10 w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70" />
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                          <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
+                        </div>
+                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                          <span className="h-1.5 w-1.5 rounded-full bg-blue-400/70 animate-pulse" />
+                        </div>
+                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70 animate-pulse" />
+                        </div>
+                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                          <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
+                        </div>
                       </div>
                     </div>
-                    <div className="absolute left-[110px] right-[110px] top-1/2 h-px bg-gradient-to-r from-emerald-500/40 via-blue-500/30 to-purple-500/40" />
-                    <div className="absolute left-[44%] top-[35%] h-[46px] w-px bg-gradient-to-b from-blue-500/30 to-transparent" />
-                    <div className="absolute left-[55%] top-[52%] size-2 rounded-full bg-emerald-400/80 animate-pulse" />
-                    <div
-                      className="absolute right-[34%] top-[38%] size-2 rounded-full bg-purple-400/80 animate-pulse"
-                      style={{ animationDelay: "0.5s" }}
-                    />
                   </div>
                 </div>
               </div>
