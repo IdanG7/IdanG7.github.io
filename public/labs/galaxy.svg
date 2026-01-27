@@ -1,0 +1,22 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="galaxyCore" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#e0e7ff" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#6366f1" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.1" />
+    </radialGradient>
+    <linearGradient id="galaxyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" rx="120" fill="url(#galaxyBg)" />
+  <circle cx="300" cy="260" r="180" fill="url(#galaxyCore)" />
+  <g fill="#e0e7ff" opacity="0.7">
+    <circle cx="170" cy="180" r="6" />
+    <circle cx="420" cy="150" r="5" />
+    <circle cx="470" cy="310" r="4" />
+    <circle cx="210" cy="390" r="5" />
+    <circle cx="360" cy="430" r="3" />
+  </g>
+</svg>

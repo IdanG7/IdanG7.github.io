@@ -718,6 +718,7 @@ export default function BentoGrid() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

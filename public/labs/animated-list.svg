@@ -1,0 +1,23 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="listBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+    <linearGradient id="listAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" rx="120" fill="url(#listBg)" />
+  <g fill="url(#listAccent)" opacity="0.85">
+    <rect x="140" y="170" width="320" height="48" rx="24" />
+    <rect x="140" y="260" width="280" height="48" rx="24" />
+    <rect x="140" y="350" width="320" height="48" rx="24" />
+  </g>
+  <g fill="#1f2937" opacity="0.15">
+    <circle cx="130" cy="194" r="18" />
+    <circle cx="130" cy="284" r="18" />
+    <circle cx="130" cy="374" r="18" />
+  </g>
+</svg>

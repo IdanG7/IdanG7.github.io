@@ -1,14 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import FidgetOrbs from "./FidgetOrbs";
 
 export default function Footer() {
   return (
     <footer className="w-full bg-neutral-100 dark:bg-black pt-10 md:pt-20 pb-6 md:pb-10 px-4 md:px-10 border-t border-black/5 dark:border-neutral-900 transition-colors duration-500">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-2 md:gap-10 mb-12 md:mb-32">
-        <div className="flex flex-row items-end justify-between w-full md:w-2/3 gap-2">
+      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-end gap-2 md:gap-4 mb-12 md:mb-32 min-h-[300px] md:min-h-[300px]">
+        {/* Orbs layer - covers section */}
+        <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+          <div className="w-full h-full pointer-events-auto">
+            <FidgetOrbs />
+          </div>
+        </div>
+
+        <div className="flex flex-row items-end justify-between w-full md:w-auto gap-2" style={{ zIndex: 2 }}>
           <div className="flex flex-col gap-4 md:gap-8 flex-1">
-            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-neutral-900 dark:text-white tracking-tight leading-[0.9] font-clash">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-neutral-900 dark:text-white tracking-tight leading-[0.9] font-clash pointer-events-none">
               <span className="inline-flex items-center gap-2 md:gap-4">
                 Let&apos;s create
               </span>
@@ -16,12 +24,11 @@ export default function Footer() {
               <span className="text-neutral-500">something real.</span>
             </h2>
           </div>
-          <div className="flex-shrink-0 md:hidden -mb-2">
-            <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden" />
+          <div className="flex-shrink-0 md:hidden">
+            <div className="relative w-[150px] h-[150px]">
+              <FidgetOrbs />
+            </div>
           </div>
-        </div>
-        <div className="hidden md:flex w-auto justify-end pb-2">
-          <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden" />
         </div>
       </div>
 
