@@ -106,7 +106,7 @@ const getLatestPush = async (): Promise<
     };
   }
 
-  const isPrivate = latestPush.public === false || (token && latestPush.public !== true);
+  const isPrivate = latestPush.public === false || Boolean(token && latestPush.public !== true);
   const repoName = latestPush.repo?.name?.split("/").pop() ?? "Private work";
   const commits = latestPush.payload?.commits ?? [];
   const commitMessage = commits[commits.length - 1]?.message ?? "Pushed updates";
