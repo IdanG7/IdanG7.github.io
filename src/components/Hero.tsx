@@ -117,7 +117,7 @@ export default function Hero() {
           >
             <span className="text-neutral-900 dark:text-white font-medium">BACKEND ENGINEER,</span>
             <br />
-            <span className="text-neutral-500 dark:text-white/50">FIRMWARE &amp; DEVOPS</span>
+            <span className="text-neutral-500 dark:text-white/50">FIRMWARE - EMBEDDED - DEVOPS</span>
           </div>
         </div>
       </motion.div>

@@ -118,6 +118,11 @@ const PROJECTS: Project[] = [
     title: "Sentinel",
     url: "https://github.com/IdanG7/Sentinel",
   },
+  {
+    id: 5,
+    title: "HIL Robotics Simulator",
+    url: "https://github.com/IdanG7/hil-robotics-simulator",
+  },
 ];
 
 const PROJECT_STYLES: ProjectStyle[] = [
@@ -171,6 +176,19 @@ const PROJECT_STYLES: ProjectStyle[] = [
       primary: "#22d3ee",
       secondary: "#0891b2",
       background: "#164e63",
+    },
+  },
+  {
+    gradient:
+      "linear-gradient(10deg, rgb(4, 120, 87) 49.9%, rgb(4, 120, 87) 81.7%, rgb(110, 231, 183) 99.88%, rgb(249, 215, 147) 113.5%)",
+    textColor: "text-emerald-300",
+    shadow: "shadow-[0_0_30px_#059669]",
+    headerText:
+      "Hardware-in-the-loop robotics simulator syncing MuJoCo physics with STM32 firmware for sim-to-real validation.",
+    themeColors: {
+      primary: "#10b981",
+      secondary: "#059669",
+      background: "#064e3b",
     },
   },
 ];
@@ -251,6 +269,25 @@ const PROJECT_DETAILS: ProjectDetail[] = [
       { name: "Grafana", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg" },
     ],
     color: "pink",
+  },
+  {
+    title: "HIL Robotics Simulator",
+    description:
+      "Hardware-in-the-loop robotics simulator that syncs a MuJoCo 2-DOF arm with STM32 firmware for real-time sim-to-real validation. In development.",
+    features: [
+      "Bidirectional loop: simulation commands hardware, hardware corrects simulation state",
+      "Deterministic 50Hz control loop with CRC-8 protocol and latency monitoring",
+      "Telemetry dashboard for joint angles, IMU orientation, and link health (target <50ms)",
+    ],
+    tech: [
+      { name: "C/C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
+      { name: "STM32 HAL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
+      { name: "MuJoCo", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+      { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+      { name: "pySerial", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+      { name: "Controls/PID", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
+    ],
+    color: "emerald",
   },
 ];
 
@@ -1114,6 +1151,95 @@ export default function VentureShowcase({
               )}
             </div>
           </div>
+        </div>
+      );
+    }
+
+    if (title === "HIL Robotics Simulator") {
+      return (
+        <div className="relative h-full w-full bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.18),transparent_45%),radial-gradient(circle_at_80%_90%,rgba(34,197,94,0.16),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.07)_1px,transparent_1px)] bg-[size:20px_20px] sm:bg-[size:26px_26px]" />
+          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 text-[8px] sm:text-[10px] font-mono text-emerald-300/90">
+            SIM-TO-REAL
+          </div>
+          <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 flex flex-col gap-1 text-[8px] sm:text-[10px] font-mono text-emerald-300/80">
+            <div className="flex items-center gap-1">
+              <Activity className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              50Hz LOOP
+            </div>
+            <div className="flex items-center gap-1">
+              <Network className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              CRC-8 OK
+            </div>
+            <div className="flex items-center gap-1">
+              <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              LAT &lt;50ms
+            </div>
+          </div>
+          <svg viewBox="0 0 320 180" className="absolute inset-0 h-full w-full">
+            <defs>
+              <linearGradient id="hil-link" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#34d399" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#22c55e" stopOpacity="0.2" />
+              </linearGradient>
+              <linearGradient id="hil-panel" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0b1f1c" stopOpacity="0.95" />
+                <stop offset="100%" stopColor="#081312" stopOpacity="0.9" />
+              </linearGradient>
+              <filter id="hil-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feColorMatrix
+                  in="blur"
+                  type="matrix"
+                  values="0 0 0 0 0.1  0 0 0 0 0.8  0 0 0 0 0.5  0 0 0 0.6 0"
+                />
+              </filter>
+            </defs>
+            <motion.path
+              d="M110 62 C150 34 170 34 210 62"
+              stroke="url(#hil-link)"
+              strokeWidth="3"
+              fill="none"
+              strokeDasharray="6 10"
+              animate={{ strokeDashoffset: [0, -80] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.path
+              d="M110 118 C150 146 170 146 210 118"
+              stroke="url(#hil-link)"
+              strokeWidth="3"
+              fill="none"
+              strokeDasharray="10 14"
+              animate={{ strokeDashoffset: [0, 100] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "linear" }}
+            />
+            <rect x="24" y="46" width="112" height="88" rx="16" fill="url(#hil-panel)" stroke="#10b981" strokeOpacity="0.35" strokeWidth="1.4" />
+            <rect x="184" y="46" width="112" height="88" rx="16" fill="url(#hil-panel)" stroke="#10b981" strokeOpacity="0.35" strokeWidth="1.4" />
+            <rect x="38" y="64" width="84" height="8" rx="4" fill="#10b981" opacity="0.25" />
+            <rect x="38" y="80" width="68" height="6" rx="3" fill="#34d399" opacity="0.3" />
+            <rect x="38" y="94" width="76" height="6" rx="3" fill="#22c55e" opacity="0.25" />
+            <rect x="198" y="66" width="86" height="10" rx="5" fill="#0f172a" opacity="0.7" />
+            <rect x="198" y="82" width="72" height="6" rx="3" fill="#22c55e" opacity="0.25" />
+            <rect x="198" y="96" width="64" height="6" rx="3" fill="#34d399" opacity="0.3" />
+            <text x="80" y="60" textAnchor="middle" className="fill-emerald-200 text-[8px] font-mono" opacity="0.8">
+              MuJoCo
+            </text>
+            <text x="240" y="60" textAnchor="middle" className="fill-emerald-200 text-[8px] font-mono" opacity="0.8">
+              STM32
+            </text>
+            <circle cx="160" cy="90" r="18" stroke="#22c55e" strokeOpacity="0.35" strokeWidth="2" fill="none" />
+            <motion.circle
+              cx="160"
+              cy="90"
+              r="6"
+              fill="#22c55e"
+              animate={{ r: [5, 8, 5], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+              filter="url(#hil-glow)"
+            />
+          </svg>
         </div>
       );
     }

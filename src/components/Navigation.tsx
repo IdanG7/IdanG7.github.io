@@ -232,7 +232,7 @@ export default function Navigation() {
                   Backend Engineer
                 </span>
                 <span className="font-outfit text-[9px] tracking-[0.15em] text-green-600 uppercase mt-1 whitespace-nowrap font-medium">
-                  Firmware &amp; DevOps
+                  Firmware - Embedded - DevOps
                 </span>
               </div>
             </div>

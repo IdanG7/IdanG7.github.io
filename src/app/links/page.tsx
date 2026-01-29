@@ -122,9 +122,9 @@ export default function LinksPage() {
                 <Image
                   alt="Idan Gurevich"
                   fill
-                  className="object-cover"
+                  className="object-cover object-[50%_40%] scale-[1.12]"
                   sizes="(max-width: 768px) 192px, (max-width: 1024px) 256px, 320px"
-                  src=""
+                  src="/images/main.png"
                 />
               </div>
             </div>

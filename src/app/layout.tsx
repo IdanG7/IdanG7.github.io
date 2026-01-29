@@ -78,13 +78,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Idan Gurevich - Backend Engineer & Firmware Whisperer",
   description:
-    "Backend engineer specializing in C++ development, firmware engineering, and DevOps automation. Focused on reliable systems and real-time infrastructure.",
+    "Backend engineer specializing in C++ development, firmware engineering, and infrastructure automation. Focused on reliable systems and real-time infrastructure.",
   keywords: [
     "Idan Gurevich",
     "Backend Engineer",
     "Firmware Engineer",
     "C++",
-    "DevOps",
+    "Infrastructure",
     "CI/CD",
     "Automation",
     "Distributed Systems",
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
     url: "https://github.com/IdanG7",
     title: "Idan Gurevich - Backend Engineer & Firmware Whisperer",
     description:
-      "Backend engineer specializing in C++ development, firmware engineering, and DevOps automation. Focused on reliable systems and real-time infrastructure.",
+      "Backend engineer specializing in C++ development, firmware engineering, and infrastructure automation. Focused on reliable systems and real-time infrastructure.",
     siteName: "Idan Gurevich",
     images: [
       {
@@ -119,7 +119,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Idan Gurevich - Backend Engineer & Firmware Whisperer",
     description:
-      "Backend engineer specializing in C++ development, firmware engineering, and DevOps automation. Focused on reliable systems and real-time infrastructure.",
+      "Backend engineer specializing in C++ development, firmware engineering, and infrastructure automation. Focused on reliable systems and real-time infrastructure.",
     creator: "@IdanG7",
     images: ["https://github.com/idang7.png"],
   },

@@ -9,6 +9,7 @@ type GithubPushPayload = {
 type GithubEvent = {
   type: string;
   created_at: string;
+  public?: boolean;
   repo?: {
     name?: string;
   };
@@ -20,6 +21,13 @@ const FALLBACK_RESPONSE = {
   message: "Optimizing firmware and CI/CD automation...",
   repo: "AeroForge",
   isPrivate: false,
+};
+
+type GithubFetchError = {
+  status: number;
+  message: string;
+  rateLimitRemaining?: number | null;
+  rateLimitReset?: number | null;
 };
 
 const formatRelativeTime = (timestamp: string) => {
@@ -36,43 +44,104 @@ const formatRelativeTime = (timestamp: string) => {
   return `${Math.floor(diffSeconds / 86400)}d ago`;
 };
 
-const getLatestPush = async () => {
+const parseBooleanFlag = (value?: string | null) => {
+  if (!value) return false;
+  const normalized = value.trim().toLowerCase();
+  return normalized === "true" || normalized === "1" || normalized === "yes" || normalized === "on";
+};
+
+const getLatestPush = async (): Promise<
+  | { latest: typeof FALLBACK_RESPONSE; error: null }
+  | { latest: null; error: GithubFetchError }
+> => {
   const username = process.env.GITHUB_USERNAME ?? "IdanG7";
   const token = process.env.GITHUB_TOKEN;
-  const response = await fetch(`https://api.github.com/users/${username}/events/public`, {
+  const showPrivateDetails = parseBooleanFlag(process.env.GITHUB_SHOW_PRIVATE);
+  const endpoint = token
+    ? `https://api.github.com/users/${username}/events?per_page=100`
+    : `https://api.github.com/users/${username}/events/public?per_page=100`;
+
+  const response = await fetch(endpoint, {
     headers: {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "NewPortfolio",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     next: { revalidate: 60 },
   });
 
   if (!response.ok) {
-    return null;
+    const remainingHeader = response.headers.get("x-ratelimit-remaining");
+    const resetHeader = response.headers.get("x-ratelimit-reset");
+    const rateLimitRemaining =
+      remainingHeader === null ? null : Number.parseInt(remainingHeader, 10);
+    const rateLimitReset = resetHeader === null ? null : Number.parseInt(resetHeader, 10);
+    return {
+      latest: null,
+      error: {
+        status: response.status,
+        message: "request_failed",
+        rateLimitRemaining: Number.isNaN(rateLimitRemaining) ? null : rateLimitRemaining,
+        rateLimitReset: Number.isNaN(rateLimitReset) ? null : rateLimitReset,
+      },
+    };
   }
 
   const events = (await response.json()) as GithubEvent[];
-  const latestPush = events.find((event) => event.type === "PushEvent");
+  const latestPush = events
+    .filter((event) => event.type === "PushEvent")
+    .sort((a, b) => {
+      const aTime = Number.isNaN(Date.parse(a.created_at)) ? 0 : Date.parse(a.created_at);
+      const bTime = Number.isNaN(Date.parse(b.created_at)) ? 0 : Date.parse(b.created_at);
+      return bTime - aTime;
+    })[0];
   if (!latestPush) {
-    return null;
+    return {
+      latest: null,
+      error: {
+        status: 200,
+        message: "no_push_event",
+      },
+    };
   }
 
+  const isPrivate = latestPush.public === false || (token && latestPush.public !== true);
   const repoName = latestPush.repo?.name?.split("/").pop() ?? "Private work";
-  const commitMessage = latestPush.payload?.commits?.[0]?.message ?? "Pushed updates";
+  const commits = latestPush.payload?.commits ?? [];
+  const commitMessage = commits[commits.length - 1]?.message ?? "Pushed updates";
+  const safeRepoName = isPrivate && !showPrivateDetails ? "Private work" : repoName;
+  const safeMessage = isPrivate && !showPrivateDetails ? "Private updates" : commitMessage;
 
   return {
-    time: formatRelativeTime(latestPush.created_at),
-    message: commitMessage,
-    repo: repoName,
-    isPrivate: false,
+    latest: {
+      time: formatRelativeTime(latestPush.created_at),
+      message: safeMessage,
+      repo: safeRepoName,
+      isPrivate,
+    },
+    error: null,
   };
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const latest = await getLatestPush();
-    return NextResponse.json(latest ?? FALLBACK_RESPONSE);
+    const { searchParams } = new URL(request.url);
+    const debug = searchParams.get("debug") === "1";
+    const result = await getLatestPush();
+    if (result.latest) {
+      return NextResponse.json(result.latest);
+    }
+    if (debug) {
+      return NextResponse.json({
+        ok: false,
+        reason: result.error.message,
+        status: result.error.status,
+        rateLimitRemaining: result.error.rateLimitRemaining ?? undefined,
+        rateLimitReset: result.error.rateLimitReset ?? undefined,
+      });
+    }
+    return NextResponse.json(FALLBACK_RESPONSE);
   } catch {
     return NextResponse.json(FALLBACK_RESPONSE);
   }

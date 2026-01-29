@@ -44,16 +44,37 @@ const FALLBACK_RESPONSE = {
   url: "https://open.spotify.com/track/01V9eIxh3ctGIuRxcS7Ppg",
 };
 
-const getAccessToken = async () => {
+type TokenResult = {
+  token: string | null;
+  error: string | null;
+  errorDescription?: string;
+  status?: number;
+};
+
+const encodeBasicAuth = (clientId: string, clientSecret: string) => {
+  const raw = `${clientId}:${clientSecret}`;
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(raw).toString("base64");
+  }
+  if (typeof btoa !== "undefined") {
+    return btoa(raw);
+  }
+  return null;
+};
+
+const getAccessToken = async (): Promise<TokenResult> => {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
-    return null;
+    return { token: null, error: "missing_env" };
   }
 
-  const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const authHeader = encodeBasicAuth(clientId, clientSecret);
+  if (!authHeader) {
+    return { token: null, error: "missing_base64_encoder" };
+  }
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -69,10 +90,23 @@ const getAccessToken = async () => {
 
   const payload = (await response.json()) as SpotifyTokenResponse;
   if (!response.ok) {
-    return null;
+    return {
+      token: null,
+      error: payload.error ?? "token_exchange_failed",
+      errorDescription: payload.error_description,
+      status: response.status,
+    };
   }
 
-  return payload.access_token ?? null;
+  if (!payload.access_token) {
+    return {
+      token: null,
+      error: "missing_access_token",
+      status: response.status,
+    };
+  }
+
+  return { token: payload.access_token, error: null };
 };
 
 const toNowPlayingPayload = (track: SpotifyTrack, isPlaying: boolean) => ({
@@ -136,23 +170,25 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const debug = searchParams.get("debug") === "1";
-    const token = await getAccessToken();
-    if (!token) {
+    const tokenResult = await getAccessToken();
+    if (!tokenResult.token) {
       if (debug) {
         return NextResponse.json({
           ok: false,
-          reason: "missing_token",
+          reason: tokenResult.error ?? "missing_token",
+          errorDescription: tokenResult.errorDescription,
+          status: tokenResult.status,
         });
       }
       return NextResponse.json(FALLBACK_RESPONSE);
     }
 
-    const nowPlaying = await getCurrentlyPlaying(token);
+    const nowPlaying = await getCurrentlyPlaying(tokenResult.token);
     if (nowPlaying.payload) {
       return NextResponse.json(nowPlaying.payload);
     }
 
-    const recentlyPlayed = await getRecentlyPlayed(token);
+    const recentlyPlayed = await getRecentlyPlayed(tokenResult.token);
     if (recentlyPlayed.payload) {
       return NextResponse.json(recentlyPlayed.payload);
     }

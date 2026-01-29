@@ -19,7 +19,7 @@ const philosophyTabs = [
   },
   {
     id: "devops",
-    label: "DevOps",
+    label: "Infrastructure",
     accent: "bg-green-600",
     activeText: "text-neutral-500 dark:text-white/60",
   },
@@ -49,8 +49,8 @@ const philosophyContent = {
     metricDescription: "Stable behavior across hardware constraints and edge cases.",
   },
   devops: {
-    label: "DevOps workflows",
-    title: "DevOps",
+    label: "Infrastructure workflows",
+    title: "Infrastructure",
     subtitle: "that scales.",
     summary: "CI/CD, infrastructure, and tooling that keep delivery fast and safe.",
     metricTitle: "Observability",
@@ -68,7 +68,7 @@ const philosophyContent = {
 
 const CLOCK_NUMBERS = Array.from({ length: 12 }).map((_, index) => {
   const value = index === 0 ? 12 : index;
-  const angle = (index * 30 - 60) * (Math.PI / 180);
+  const angle = (index * 30 - 90) * (Math.PI / 180);
   const x = 50 + Math.cos(angle) * 28;
   const y = 50 + Math.sin(angle) * 28;
   return {
@@ -172,7 +172,7 @@ export default function BentoGrid() {
             <div className="absolute inset-0 border-2 border-black/50 dark:border-white/10 rounded-[24px] bg-white/5 dark:bg-transparent pointer-events-none transition-colors duration-500 group-hover:border-black/60 dark:group-hover:border-white/20 shadow-[inset_0_0_80px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_0_80px_rgba(255,255,255,0.08)]" />
             <div className="relative z-10 flex flex-col gap-1 mb-4 lg:mb-8">
               <div className="flex justify-between items-start">
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full">
                   <h1 className="font-outfit text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-white tracking-tight leading-none">
                     Idan{" "}
                     <span className="text-neutral-400 dark:text-white/40 font-serif italic font-normal">
@@ -199,6 +199,16 @@ export default function BentoGrid() {
                     <span className="font-outfit text-xs uppercase tracking-wider font-medium">
                       Toronto, ON • {isMounted ? localTime : "--:--"}
                     </span>
+                  </div>
+                  <div className="mt-7 flex w-full justify-center">
+                    <div className="relative h-46 w-46 sm:h-44 sm:w-44 lg:h-48 lg:w-48 rounded-full overflow-hidden border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/40 shadow-md">
+                      <img
+                        src="/images/main.png"
+                        alt="Idan Gurevich"
+                        className="h-full w-full object-cover object-[50%_40%] scale-[1.18]"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -586,7 +596,7 @@ export default function BentoGrid() {
                     </div>
                     <div className="relative py-2 flex-1 min-w-0">
                       <p
-                        className="text-[clamp(16px,2.1vw,24px)] text-neutral-900 dark:text-white tracking-tight whitespace-nowrap"
+                        className="text-[clamp(13px,1.6vw,20px)] text-neutral-900 dark:text-white tracking-tight whitespace-nowrap"
                         style={{ fontFamily: "var(--font-snell-roundhand)" }}
                       >
                         {emailAddress}
@@ -673,65 +683,65 @@ export default function BentoGrid() {
                   </div>
                 </div>
                 <div className="flex-1 flex items-end justify-center px-6 pb-6 pt-4">
-                  <div className="relative w-full h-[clamp(140px,28vw,210px)] rounded-2xl bg-white/70 dark:bg-black/60 border border-black/10 dark:border-white/10 overflow-hidden">
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:24px_24px]" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10" />
-                    {/* Edge section - left */}
-                    <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col items-start gap-3">
-                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
-                        Edge
-                      </div>
-                      <div className="flex flex-col gap-1.5">
-                        <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
-                          <div className="absolute top-2 left-2 right-2 h-[2px] bg-neutral-300 dark:bg-white/20" />
-                          <div className="absolute top-[18px] left-2 right-4 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
-                          <div className="absolute bottom-1.5 left-2 flex gap-1">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                  <div className="relative w-full h-[clamp(170px,32vw,250px)] rounded-2xl overflow-hidden">
+                    <div className="absolute inset-0 scale-[1.08] sm:scale-[1.12] origin-center">
+                      {/* Edge section - left */}
+                      <div className="absolute left-[8%] top-1/2 -translate-y-1/2 flex flex-col items-start gap-3">
+                        <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
+                          Edge
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                            <div className="absolute top-2 left-2 right-2 h-[2px] bg-neutral-300 dark:bg-white/20" />
+                            <div className="absolute top-[18px] left-2 right-4 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                            <div className="absolute bottom-1.5 left-2 flex gap-1">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                            </div>
+                          </div>
+                          <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
+                            <div className="absolute top-2 left-2 right-6 h-[2px] bg-neutral-300 dark:bg-white/20" />
+                            <div className="absolute top-[18px] left-2 right-2 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
+                            <div className="absolute bottom-1.5 left-2 flex gap-1">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            </div>
                           </div>
                         </div>
-                        <div className="relative w-20 sm:w-24 h-9 rounded-lg border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70">
-                          <div className="absolute top-2 left-2 right-6 h-[2px] bg-neutral-300 dark:bg-white/20" />
-                          <div className="absolute top-[18px] left-2 right-2 h-[2px] bg-neutral-300/80 dark:bg-white/15" />
-                          <div className="absolute bottom-1.5 left-2 flex gap-1">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      </div>
+                      {/* Connection: Edge -> Core */}
+                      <div className="absolute left-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-r from-emerald-500/30 to-emerald-500/50" />
+                      {/* Connection: Core -> Cloud */}
+                      <div className="absolute right-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-l from-purple-500/30 to-blue-500/50" />
+                      {/* Core - center */}
+                      <div className="absolute left-1/2 top-[calc(50%-8px)] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+                        <div className="relative">
+                          <div className="size-12 rounded-full border border-emerald-400/40 bg-white/80 dark:bg-black/80 animate-pulse-glow" />
+                          <div className="absolute inset-2 rounded-full bg-emerald-400/20 flex items-center justify-center">
+                            <span className="h-2 w-2 rounded-full bg-emerald-400/80 animate-pulse" />
                           </div>
                         </div>
+                        <span className="mt-2 text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
+                          Core
+                        </span>
                       </div>
-                    </div>
-                    {/* Connection: Edge -> Core */}
-                    <div className="absolute left-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-r from-emerald-500/30 to-emerald-500/50" />
-                    {/* Connection: Core -> Cloud */}
-                    <div className="absolute right-[26%] w-[18%] top-[calc(50%-8px)] h-px bg-gradient-to-l from-purple-500/30 to-blue-500/50" />
-                    {/* Core - center */}
-                    <div className="absolute left-1/2 top-[calc(50%-8px)] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-10">
-                      <div className="relative">
-                        <div className="size-12 rounded-full border border-emerald-400/40 bg-white/80 dark:bg-black/80 animate-pulse-glow" />
-                        <div className="absolute inset-2 rounded-full bg-emerald-400/20 flex items-center justify-center">
-                          <span className="h-2 w-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                      {/* Cloud section - right */}
+                      <div className="absolute right-[5%] top-1/2 -translate-y-1/2 flex flex-col items-end gap-3">
+                        <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
+                          Cloud
                         </div>
-                      </div>
-                      <span className="mt-2 text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
-                        Core
-                      </span>
-                    </div>
-                    {/* Cloud section - right */}
-                    <div className="absolute right-[5%] top-1/2 -translate-y-1/2 flex flex-col items-end gap-3">
-                      <div className="text-[9px] uppercase tracking-[0.3em] text-neutral-500 dark:text-white/50 font-medium">
-                        Cloud
-                      </div>
-                      <div className="grid grid-cols-2 gap-1.5">
-                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
-                          <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
-                        </div>
-                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
-                          <span className="h-1.5 w-1.5 rounded-full bg-blue-400/70 animate-pulse" />
-                        </div>
-                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70 animate-pulse" />
-                        </div>
-                        <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
-                          <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
+                        <div className="grid grid-cols-2 gap-1.5">
+                          <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                            <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
+                          </div>
+                          <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400/70 animate-pulse" />
+                          </div>
+                          <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70 animate-pulse" />
+                          </div>
+                          <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-md border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/70 flex items-center justify-center">
+                            <div className="w-4 h-3 rounded-sm border border-black/10 dark:border-white/15 bg-neutral-200/60 dark:bg-white/10" />
+                          </div>
                         </div>
                       </div>
                     </div>

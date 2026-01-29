@@ -18,11 +18,11 @@ const personSchema = {
     name: "WDI Wise Device Inc.",
   },
   description:
-    "Backend engineer specializing in C++ development, firmware engineering, and DevOps automation. Focused on reliable systems and real-time infrastructure.",
+    "Backend engineer specializing in C++ development, firmware engineering, and infrastructure automation. Focused on reliable systems and real-time infrastructure.",
   knowsAbout: [
     "C++",
     "Firmware Engineering",
-    "DevOps Automation",
+    "Infrastructure Automation",
     "CI/CD",
     "Computer Vision",
     "Distributed Systems",
@@ -35,7 +35,7 @@ const websiteSchema = {
   url: "https://github.com/IdanG7",
   name: "Idan Gurevich",
   description:
-    "Backend engineer specializing in C++ development, firmware engineering, and DevOps automation.",
+    "Backend engineer specializing in C++ development, firmware engineering, and infrastructure automation.",
   inLanguage: "en",
   publisher: {
     "@type": "Person",

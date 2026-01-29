@@ -41,7 +41,7 @@ export default function Footer() {
               </h3>
             </Link>
             <p className="text-neutral-500 dark:text-neutral-400 text-sm md:text-base leading-relaxed font-fjalla max-w-md">
-              Backend engineer specializing in C++ development, firmware engineering, and DevOps
+              Backend engineer specializing in C++ development, firmware engineering, and Infrastructure
               automation. Focused on building reliable systems, scalable infrastructure, and
               real-time tooling that ships with confidence.
             </p>

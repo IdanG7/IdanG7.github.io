@@ -114,7 +114,7 @@ const aboutCopy: Record<
       highlight: "systems",
     },
     paragraphs: [
-      "Backend engineer specializing in C++ development with deep expertise in firmware engineering, host systems, and DevOps automation. I build robust, high-performance solutions that power critical infrastructure.",
+      "Backend engineer specializing in C++ development with deep expertise in firmware engineering, host systems, and infrastructure automation. I build robust, high-performance solutions that power critical infrastructure.",
       "My work focuses on automated testing frameworks, firmware validation, and continuous integration pipelines. I transform complex system requirements into reliable, maintainable code that scales.",
       "Passionate about system-level programming, test automation, and building tools that make engineering teams more efficient.",
     ],
@@ -126,7 +126,7 @@ const aboutCopy: Record<
       highlight: "Idan",
     },
     paragraphs: [
-      "Backend engineer specializing in C++ development with deep expertise in firmware engineering, host systems, and DevOps automation. I build robust, high-performance solutions that power critical infrastructure.",
+      "Backend engineer specializing in C++ development with deep expertise in firmware engineering, host systems, and infrastructure automation. I build robust, high-performance solutions that power critical infrastructure.",
       "My work focuses on automated testing frameworks, firmware validation, and continuous integration pipelines. I transform complex system requirements into reliable, maintainable code that scales.",
       "Passionate about system-level programming, test automation, and building tools that make engineering teams more efficient.",
     ],

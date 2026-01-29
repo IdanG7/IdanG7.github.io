@@ -80,6 +80,8 @@ const GithubCard = () => {
     30 * 60 * 1000
   );
   const payload = data ?? fallbackGithub;
+  const repoLabel = payload.repo ?? "Private work";
+  const privateRepoLabel = repoLabel === "Private work" ? repoLabel : `Private · ${repoLabel}`;
 
   return (
     <a
@@ -136,11 +138,11 @@ const GithubCard = () => {
                 <span className="text-neutral-500 dark:text-white/30">Repo: </span>
                 {payload.isPrivate ? (
                   <span className="text-red-500 dark:text-red-600">
-                    Private work
+                    {privateRepoLabel}
                   </span>
                 ) : (
                   <span className="text-blue-600 dark:text-blue-600">
-                    {payload.repo ?? "Private work"}
+                    {repoLabel}
                   </span>
                 )}
               </p>

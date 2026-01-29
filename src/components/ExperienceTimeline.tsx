@@ -22,7 +22,7 @@ const experiences: Experience[] = [
     type: "Internship",
     role: "Embedded Firmware Engineer Intern",
     achievements: [
-      "Upcoming internship focused on <strong>embedded firmware development</strong> and real-time system validation.",
+      "Incoming internship focused on <strong>embedded firmware</strong>, real-time systems, and hardware validation.",
     ],
     technologies: ["Embedded Systems", "Firmware", "C", "C++"],
   },
@@ -33,11 +33,12 @@ const experiences: Experience[] = [
     type: "Full-time",
     role: "Junior Software Developer",
     achievements: [
-      "Administering <strong>70+ Jenkins projects</strong> and engineering CI/CD integrations that reduced errors by <strong>30%</strong>.",
-      "Developing <strong>C++</strong> components for NIR imaging systems with real-time processing algorithms.",
-      "Building API-driven testing tools and mentoring junior developers.",
+      "Delivered backend and embedded-facing features in <strong>C++</strong> for hardware-adjacent systems, improving reliability and test coverage.",
+      "Automated validation workflows to replace manual QA, accelerating releases and tightening quality gates.",
+      "Built reusable integration layers and APIs with strong error handling to stabilize device communication.",
+      "Owned CI/CD health across <strong>70+ Jenkins projects</strong>, streamlining integrations and reducing avoidable build issues by <strong>30%</strong>.",
     ],
-    technologies: ["Jenkins", "C++", "Groovy", "CI/CD", "NIR imaging"],
+    technologies: ["C++", "Jenkins", "CI/CD", "Automation", "APIs"],
   },
   {
     dateRange: "MAY 2024 - JAN 2025",
@@ -46,10 +47,11 @@ const experiences: Experience[] = [
     type: "Co-op",
     role: "Software Co-op Student",
     achievements: [
-      "Supported large-scale Jenkins infrastructure and built <strong>Groovy automation</strong> scripts.",
-      "Collaborated with QA to resolve <strong>100+ issues</strong> and strengthen release delivery timelines.",
+      "Supported multi-team CI/CD infrastructure, resolving pipeline failures to keep delivery reliable.",
+      "Collaborated with QA to triage and resolve <strong>100+ defects</strong>, improving release stability.",
+      "Automated regression testing to cut manual effort by <strong>20%</strong> and improve repeatability.",
     ],
-    technologies: ["Jenkins", "Groovy", "QA Tools"],
+    technologies: ["Jenkins", "Automation", "QA", "CI/CD"],
   },
 ];
 

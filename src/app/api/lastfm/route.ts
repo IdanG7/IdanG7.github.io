@@ -42,6 +42,17 @@ const FALLBACK_RESPONSE = {
   url: "https://open.spotify.com/track/01V9eIxh3ctGIuRxcS7Ppg",
 };
 
+const encodeBasicAuth = (clientId: string, clientSecret: string) => {
+  const raw = `${clientId}:${clientSecret}`;
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(raw).toString("base64");
+  }
+  if (typeof btoa !== "undefined") {
+    return btoa(raw);
+  }
+  return null;
+};
+
 const getAccessToken = async () => {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -51,7 +62,10 @@ const getAccessToken = async () => {
     return null;
   }
 
-  const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const authHeader = encodeBasicAuth(clientId, clientSecret);
+  if (!authHeader) {
+    return null;
+  }
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {

@@ -3,7 +3,7 @@
 const marqueeItems = [
   "Firmware",
   "C++",
-  "DevOps",
+  "Infrastructure",
   "CI/CD",
   "Automation",
   "Real-Time",

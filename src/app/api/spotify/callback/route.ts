@@ -7,6 +7,17 @@ type SpotifyTokenResponse = {
   error_description?: string;
 };
 
+const encodeBasicAuth = (clientId: string, clientSecret: string) => {
+  const raw = `${clientId}:${clientSecret}`;
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(raw).toString("base64");
+  }
+  if (typeof btoa !== "undefined") {
+    return btoa(raw);
+  }
+  return null;
+};
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
@@ -27,7 +38,10 @@ export async function GET(request: Request) {
     );
   }
 
-  const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const authHeader = encodeBasicAuth(clientId, clientSecret);
+  if (!authHeader) {
+    return NextResponse.json({ error: "Missing base64 encoder." }, { status: 500 });
+  }
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
