@@ -810,7 +810,7 @@ export default function VentureShowcase({
             if (stageFailed) {
               const failedStages = stages.map((stage, idx) =>
                 idx === currentStageIndex
-                  ? { ...stage, status: "failed", progress: nextProgress }
+                  ? { ...stage, status: "failed" as const, progress: nextProgress }
                   : stage
               );
 
@@ -830,14 +830,14 @@ export default function VentureShowcase({
 
             const successStages = stages.map((stage, idx) =>
               idx === currentStageIndex
-                ? { ...stage, status: "success", progress: 100 }
+                ? { ...stage, status: "success" as const, progress: 100 }
                 : stage
             );
 
             if (currentStageIndex < 2) {
               const nextStages = successStages.map((stage, idx) =>
                 idx === currentStageIndex + 1
-                  ? { ...stage, status: "running", progress: 0 }
+                  ? { ...stage, status: "running" as const, progress: 0 }
                   : stage
               );
               setCurrentStageIndex(currentStageIndex + 1);
