@@ -16,6 +16,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import {
   Activity,
@@ -430,8 +431,8 @@ const HoverRing = ({
   y,
   isVisible,
 }: {
-  x: ReturnType<typeof useMotionValue>;
-  y: ReturnType<typeof useMotionValue>;
+  x: MotionValue<number>;
+  y: MotionValue<number>;
   isVisible: boolean;
 }) => (
   <AnimatePresence>
