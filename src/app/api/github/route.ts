@@ -4,6 +4,7 @@ type GithubPushPayload = {
   commits?: Array<{
     message?: string;
   }>;
+  head?: string;
 };
 
 type GithubEvent = {
@@ -48,6 +49,32 @@ const parseBooleanFlag = (value?: string | null) => {
   if (!value) return false;
   const normalized = value.trim().toLowerCase();
   return normalized === "true" || normalized === "1" || normalized === "yes" || normalized === "on";
+};
+
+const fetchCommitMessage = async (
+  repoFullName: string,
+  sha: string,
+  token?: string
+): Promise<string | null> => {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${repoFullName}/commits/${sha}`,
+      {
+        headers: {
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "NewPortfolio",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        next: { revalidate: 60 },
+      }
+    );
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.commit?.message ?? null;
+  } catch {
+    return null;
+  }
 };
 
 const getLatestPush = async (): Promise<
@@ -107,9 +134,17 @@ const getLatestPush = async (): Promise<
   }
 
   const isPrivate = latestPush.public === false || Boolean(token && latestPush.public !== true);
-  const repoName = latestPush.repo?.name?.split("/").pop() ?? "Private work";
+  const repoFullName = latestPush.repo?.name ?? "";
+  const repoName = repoFullName.split("/").pop() ?? "Private work";
   const commits = latestPush.payload?.commits ?? [];
-  const commitMessage = commits[commits.length - 1]?.message ?? "Pushed updates";
+  let commitMessage = commits[commits.length - 1]?.message;
+
+  // If no commit message in payload, fetch it using the commit SHA
+  if (!commitMessage && latestPush.payload?.head && repoFullName) {
+    commitMessage = await fetchCommitMessage(repoFullName, latestPush.payload.head, token) ?? undefined;
+  }
+  commitMessage = commitMessage ?? "Pushed updates";
+
   const safeRepoName = isPrivate && !showPrivateDetails ? "Private work" : repoName;
   const safeMessage = isPrivate && !showPrivateDetails ? "Private updates" : commitMessage;
 
