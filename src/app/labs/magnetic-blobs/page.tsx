@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import CodePanel from "@/components/CodePanel";
 
 const MAX_BLOBS = 50;
 
@@ -580,6 +581,374 @@ export default function MagneticBlobsPage() {
   const [hoverSmoothness, setHoverSmoothness] = useState(0.15);
   const [cursorBallSize, setCursorBallSize] = useState(2);
 
+  const codeTabs = useMemo(() => {
+    const htmlCode = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Magnetic Blobs</title>
+<style>
+  * { margin: 0; padding: 0; }
+  body { background: #000; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// --- Configuration ---
+const COLOR = '${color}';
+const BALL_COUNT = ${ballCount};
+const SPEED = ${speed};
+const ANIMATION_SIZE = ${animationSize};
+const CLUMP_FACTOR = ${clumpFactor};
+const ENABLE_INTERACTION = ${enableInteraction};
+const HOVER_SMOOTHNESS = ${hoverSmoothness};
+const CURSOR_BALL_SIZE = ${cursorBallSize};
+const MAX_BLOBS = 50;
+
+// --- WebGL2 Shaders ---
+const vertexShaderSource2 = \`#version 300 es
+precision highp float;
+layout(location = 0) in vec2 position;
+void main() {
+    gl_Position = vec4(position, 0.0, 1.0);
+}
+\`;
+
+const fragmentShaderSource2 = \`#version 300 es
+precision highp float;
+uniform vec3 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec3 iColor;
+uniform vec3 iCursorColor;
+uniform float iAnimationSize;
+uniform int iBlobCount;
+uniform float iCursorBlobSize;
+uniform vec3 iMagneticBlobs[50];
+uniform float iClumpFactor;
+uniform bool enableTransparency;
+out vec4 outColor;
+
+float getMagneticBlobValue(vec2 c, float r, vec2 p) {
+    vec2 d = p - c;
+    float dist2 = dot(d, d);
+    return (r * r) / dist2;
+}
+
+void main() {
+    vec2 fc = gl_FragCoord.xy;
+    float scale = iAnimationSize / iResolution.y;
+    vec2 coord = (fc - iResolution.xy * 0.5) * scale;
+    vec2 mouseW = (iMouse.xy - iResolution.xy * 0.5) * scale;
+    float m1 = 0.0;
+    for (int i = 0; i < 50; i++) {
+        if (i >= iBlobCount) break;
+        m1 += getMagneticBlobValue(iMagneticBlobs[i].xy, iMagneticBlobs[i].z, coord);
+    }
+    float m2 = getMagneticBlobValue(mouseW, iCursorBlobSize, coord);
+    float total = m1 + m2;
+    float f = smoothstep(-1.0, 1.0, (total - 1.3) / min(1.0, fwidth(total)));
+    vec3 cFinal = vec3(0.0);
+    if (total > 0.0) {
+        float alpha1 = m1 / total;
+        float alpha2 = m2 / total;
+        cFinal = iColor * alpha1 + iCursorColor * alpha2;
+    }
+    outColor = vec4(cFinal * f, enableTransparency ? f : 1.0);
+}
+\`;
+
+// --- WebGL1 Fallback Shaders ---
+const vertexShaderSource1 = \`
+precision highp float;
+attribute vec2 position;
+void main() {
+    gl_Position = vec4(position, 0.0, 1.0);
+}
+\`;
+
+const fragmentShaderSource1 = \`
+#extension GL_OES_standard_derivatives : enable
+precision highp float;
+uniform vec3 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec3 iColor;
+uniform vec3 iCursorColor;
+uniform float iAnimationSize;
+uniform int iBlobCount;
+uniform float iCursorBlobSize;
+uniform vec3 iMagneticBlobs[50];
+uniform float iClumpFactor;
+uniform bool enableTransparency;
+
+float getMagneticBlobValue(vec2 c, float r, vec2 p) {
+    vec2 d = p - c;
+    float dist2 = dot(d, d);
+    return (r * r) / dist2;
+}
+
+void main() {
+    vec2 fc = gl_FragCoord.xy;
+    float scale = iAnimationSize / iResolution.y;
+    vec2 coord = (fc - iResolution.xy * 0.5) * scale;
+    vec2 mouseW = (iMouse.xy - iResolution.xy * 0.5) * scale;
+    float m1 = 0.0;
+    for (int i = 0; i < 50; i++) {
+        if (i >= iBlobCount) break;
+        m1 += getMagneticBlobValue(iMagneticBlobs[i].xy, iMagneticBlobs[i].z, coord);
+    }
+    float m2 = getMagneticBlobValue(mouseW, iCursorBlobSize, coord);
+    float total = m1 + m2;
+    float f = smoothstep(-1.0, 1.0, (total - 1.3) / min(1.0, fwidth(total)));
+    vec3 cFinal = vec3(0.0);
+    if (total > 0.0) {
+        float alpha1 = m1 / total;
+        float alpha2 = m2 / total;
+        cFinal = iColor * alpha1 + iCursorColor * alpha2;
+    }
+    gl_FragColor = vec4(cFinal * f, enableTransparency ? f : 1.0);
+}
+\`;
+
+// --- Utility Functions ---
+function hexToRgb(hex) {
+  const s = hex.replace('#', '');
+  return [
+    parseInt(s.slice(0, 2), 16) / 255,
+    parseInt(s.slice(2, 4), 16) / 255,
+    parseInt(s.slice(4, 6), 16) / 255,
+  ];
+}
+
+function fract(v) {
+  return v - Math.floor(v);
+}
+
+function seedVector(seed) {
+  const values = [0.1031 * seed, 0.103 * seed, 0.0973 * seed].map(fract);
+  const mix = [values[1], values[2], values[0]];
+  const offset =
+    values[0] * (mix[0] + 33.33) +
+    values[1] * (mix[1] + 33.33) +
+    values[2] * (mix[2] + 33.33);
+  return values.map(v => fract(v + offset));
+}
+
+function hashVector(seed) {
+  const values = [0.1031 * seed[0], 0.103 * seed[1], 0.0973 * seed[2]].map(fract);
+  const mix = [values[1], values[0], values[2]];
+  const offset =
+    values[0] * (mix[0] + 33.33) +
+    values[1] * (mix[1] + 33.33) +
+    values[2] * (mix[2] + 33.33);
+  const stepped = values.map(v => fract(v + offset));
+  const first = [stepped[0], stepped[0], stepped[1]];
+  const second = [stepped[1], stepped[0], stepped[0]];
+  const third = [stepped[2], stepped[1], stepped[0]];
+  return first.map((v, i) => fract((v + second[i]) * third[i]));
+}
+
+function createBlobSettings(count) {
+  const settings = [];
+  for (let i = 0; i < count; i++) {
+    const seed = seedVector(i + 1);
+    const startAngle = seed[0] * (Math.PI * 2);
+    const deltaFactor = 0.1 * Math.PI + seed[1] * (0.4 * Math.PI - 0.1 * Math.PI);
+    const baseScale = 5 + 5 * seed[1];
+    const hashed = hashVector(seed);
+    const toggle = Math.floor(2 * hashed[0]);
+    const radius = 0.5 + 1.5 * hashed[2];
+    settings.push({ startAngle, deltaFactor, baseScale, toggle, radius });
+  }
+  return settings;
+}
+
+// --- WebGL Setup ---
+const canvas = document.getElementById('c');
+const webgl2 = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false });
+const gl = webgl2 || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+
+if (!gl) {
+  document.body.innerHTML = '<p style="color:#fff;text-align:center;margin-top:40vh">WebGL is not supported.</p>';
+  throw new Error('WebGL not supported');
+}
+
+const isWebgl2 = Boolean(webgl2);
+if (!isWebgl2) {
+  const ext = gl.getExtension('OES_standard_derivatives');
+  if (!ext) {
+    document.body.innerHTML = '<p style="color:#fff;text-align:center;margin-top:40vh">Required WebGL extensions not available.</p>';
+    throw new Error('OES_standard_derivatives not supported');
+  }
+}
+
+// --- Shader Compilation ---
+function compileShader(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error('Shader error:', gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
+  }
+  return shader;
+}
+
+function createProgram(gl, vSrc, fSrc) {
+  const vs = compileShader(gl, gl.VERTEX_SHADER, vSrc);
+  const fs = compileShader(gl, gl.FRAGMENT_SHADER, fSrc);
+  if (!vs || !fs) return null;
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('Program error:', gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+    return null;
+  }
+  gl.deleteShader(vs);
+  gl.deleteShader(fs);
+  return program;
+}
+
+const program = createProgram(
+  gl,
+  isWebgl2 ? vertexShaderSource2 : vertexShaderSource1,
+  isWebgl2 ? fragmentShaderSource2 : fragmentShaderSource1
+);
+gl.useProgram(program);
+
+// --- Geometry ---
+const buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+  -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1
+]), gl.STATIC_DRAW);
+const posLoc = gl.getAttribLocation(program, 'position');
+gl.enableVertexAttribArray(posLoc);
+gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+// --- Uniforms ---
+const u = {
+  iResolution: gl.getUniformLocation(program, 'iResolution'),
+  iTime: gl.getUniformLocation(program, 'iTime'),
+  iMouse: gl.getUniformLocation(program, 'iMouse'),
+  iColor: gl.getUniformLocation(program, 'iColor'),
+  iCursorColor: gl.getUniformLocation(program, 'iCursorColor'),
+  iAnimationSize: gl.getUniformLocation(program, 'iAnimationSize'),
+  iBlobCount: gl.getUniformLocation(program, 'iBlobCount'),
+  iCursorBlobSize: gl.getUniformLocation(program, 'iCursorBlobSize'),
+  iMagneticBlobs: gl.getUniformLocation(program, 'iMagneticBlobs[0]'),
+  iClumpFactor: gl.getUniformLocation(program, 'iClumpFactor'),
+  enableTransparency: gl.getUniformLocation(program, 'enableTransparency'),
+};
+
+gl.enable(gl.BLEND);
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+// --- State ---
+const colorRgb = hexToRgb(COLOR);
+const blobSettings = createBlobSettings(Math.min(BALL_COUNT, MAX_BLOBS));
+const blobBuffer = new Float32Array(MAX_BLOBS * 3);
+const pointerTarget = { x: 0, y: 0 };
+const pointerCurrent = { x: 0, y: 0 };
+let pointerActive = false;
+const startTime = performance.now();
+
+// --- Mouse Tracking ---
+canvas.addEventListener('pointermove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  pointerTarget.x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+  pointerTarget.y = (1 - (e.clientY - rect.top) / rect.height) * canvas.height;
+});
+canvas.addEventListener('pointerenter', () => { pointerActive = true; });
+canvas.addEventListener('pointerleave', () => { pointerActive = false; });
+
+// --- Resize ---
+function resize() {
+  canvas.width = Math.max(1, Math.floor(window.innerWidth));
+  canvas.height = Math.max(1, Math.floor(window.innerHeight));
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.uniform3f(u.iResolution, canvas.width, canvas.height, 0);
+  pointerTarget.x = canvas.width * 0.5;
+  pointerTarget.y = canvas.height * 0.5;
+  pointerCurrent.x = canvas.width * 0.5;
+  pointerCurrent.y = canvas.height * 0.5;
+}
+
+const resizeObserver = new ResizeObserver(resize);
+resizeObserver.observe(canvas);
+resize();
+
+// --- Animation Loop ---
+function frame(now) {
+  const count = Math.min(BALL_COUNT, MAX_BLOBS);
+  const elapsed = (now - startTime) * 0.001;
+
+  gl.clearColor(0, 0, 0, 0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
+  if (u.iTime) gl.uniform1f(u.iTime, elapsed);
+  gl.uniform1f(u.iAnimationSize, ANIMATION_SIZE);
+  gl.uniform1f(u.iCursorBlobSize, CURSOR_BALL_SIZE);
+  if (u.iClumpFactor) gl.uniform1f(u.iClumpFactor, CLUMP_FACTOR);
+  gl.uniform1i(u.iBlobCount, count);
+  gl.uniform1i(u.enableTransparency, 1);
+  gl.uniform3fv(u.iColor, colorRgb);
+  gl.uniform3fv(u.iCursorColor, colorRgb);
+
+  for (let i = 0; i < count; i++) {
+    const s = blobSettings[i];
+    const phase = elapsed * SPEED * s.deltaFactor;
+    const angle = s.startAngle + phase;
+    const cosVal = Math.cos(angle);
+    const sinVal = Math.sin(angle + phase * s.toggle);
+    const bi = i * 3;
+    blobBuffer[bi] = cosVal * s.baseScale * CLUMP_FACTOR;
+    blobBuffer[bi + 1] = sinVal * s.baseScale * CLUMP_FACTOR;
+    blobBuffer[bi + 2] = s.radius;
+  }
+  for (let i = count; i < MAX_BLOBS; i++) {
+    const bi = i * 3;
+    blobBuffer[bi] = 0;
+    blobBuffer[bi + 1] = 0;
+    blobBuffer[bi + 2] = 0;
+  }
+  gl.uniform3fv(u.iMagneticBlobs, blobBuffer);
+
+  let targetX = pointerTarget.x;
+  let targetY = pointerTarget.y;
+  if (!ENABLE_INTERACTION || !pointerActive) {
+    const cx = canvas.width * 0.5;
+    const cy = canvas.height * 0.5;
+    const rx = canvas.width * 0.15;
+    const ry = canvas.height * 0.15;
+    targetX = cx + Math.cos(elapsed * SPEED) * rx;
+    targetY = cy + Math.sin(elapsed * SPEED) * ry;
+  }
+
+  pointerCurrent.x += (targetX - pointerCurrent.x) * HOVER_SMOOTHNESS;
+  pointerCurrent.y += (targetY - pointerCurrent.y) * HOVER_SMOOTHNESS;
+
+  gl.uniform3f(u.iMouse, pointerCurrent.x, pointerCurrent.y, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  requestAnimationFrame(frame);
+}
+
+requestAnimationFrame(frame);
+<\/script>
+</body>
+</html>`;
+
+    return [{ label: "HTML", language: "html", code: htmlCode }];
+  }, [color, ballCount, speed, animationSize, clumpFactor, enableInteraction, hoverSmoothness, cursorBallSize]);
+
   return (
     <>
       <Navigation />
@@ -752,6 +1121,7 @@ export default function MagneticBlobsPage() {
                 />
               </div>
             </div>
+            <CodePanel tabs={codeTabs} />
           </div>
         </div>
       </main>

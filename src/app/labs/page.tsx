@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import Navigation from "@/components/Navigation";
@@ -58,11 +58,25 @@ const labEntries: LabEntry[] = [
   },
   {
     title: "Galaxy",
+    href: "/labs/galaxy",
     description:
       "Immersive 3D galaxy visualization with interactive star systems, nebulae, and cosmic particles. Navigate through space.",
-    cta: "Coming Soon",
-    filters: ["Motion", "WIP"],
-    isComingSoon: true,
+    image: "/labs/Image/Galaxy.png",
+    video: "/labs/video/Galaxy.mp4",
+    videoType: "video/mp4",
+    cta: "Explore",
+    filters: ["Motion", "Performance"],
+  },
+  {
+    title: "Icon Cloud",
+    href: "/labs/icon-cloud",
+    description:
+      "A 3D rotating sphere of technology icons built with CSS 3D transforms and Fibonacci sphere distribution. Drag to rotate, hover to inspect.",
+    image: "/labs/Image/Icon.png",
+    video: "/labs/video/Icon.mp4",
+    videoType: "video/mp4",
+    cta: "Explore",
+    filters: ["UI", "Motion"],
   },
 ];
 
@@ -327,44 +341,12 @@ function LabCard({ lab }: { lab: LabEntry }) {
 
 export default function LabsPage() {
   const mainRef = useRef<HTMLElement>(null);
-  const filterNavRef = useRef<HTMLElement>(null);
-  const filterSentinelRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState<FilterOption>("All");
-  const [filterNavHeight, setFilterNavHeight] = useState(0);
-  const [isFilterPinned, setIsFilterPinned] = useState(false);
   const activeExperiments = labEntries.filter((lab) => !lab.isComingSoon).length;
   const filteredLabs =
     activeFilter === "All"
       ? labEntries
       : labEntries.filter((lab) => lab.filters.includes(activeFilter));
-
-  useLayoutEffect(() => {
-    const updateHeight = () => {
-      if (!filterNavRef.current) return;
-      setFilterNavHeight(filterNavRef.current.getBoundingClientRect().height);
-    };
-
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
-
-  useEffect(() => {
-    const updatePinnedState = () => {
-      if (!filterSentinelRef.current) return;
-      const offset = window.innerWidth >= 768 ? 80 : 64;
-      const { top } = filterSentinelRef.current.getBoundingClientRect();
-      setIsFilterPinned(top <= offset);
-    };
-
-    updatePinnedState();
-    window.addEventListener("scroll", updatePinnedState, { passive: true });
-    window.addEventListener("resize", updatePinnedState);
-    return () => {
-      window.removeEventListener("scroll", updatePinnedState);
-      window.removeEventListener("resize", updatePinnedState);
-    };
-  }, []);
 
   useLayoutEffect(() => {
     if (!mainRef.current) return;
@@ -440,18 +422,8 @@ export default function LabsPage() {
         </section>
 
         <section className="relative w-full bg-neutral-50 dark:bg-black">
-          <div ref={filterSentinelRef} className="absolute top-0 left-0 h-px w-full" />
-          {isFilterPinned ? (
-            <div aria-hidden="true" style={{ height: filterNavHeight }} />
-          ) : null}
           <nav
-            ref={filterNavRef}
-            className={cn(
-              "z-40 w-full bg-neutral-50 dark:bg-black py-4 md:py-6",
-              isFilterPinned
-                ? "fixed top-16 md:top-20 left-0 right-0"
-                : "sticky top-16 md:top-20"
-            )}
+            className="z-40 w-full bg-neutral-50 dark:bg-black py-4 md:py-6"
             role="navigation"
             aria-label="Filter experiments"
           >

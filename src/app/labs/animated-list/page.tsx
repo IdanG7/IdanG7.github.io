@@ -11,6 +11,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import CodePanel from "@/components/CodePanel";
 
 type AnimatedItem = {
   link: string;
@@ -291,6 +292,245 @@ export default function AnimatedListPage() {
     [hoverColor]
   );
 
+  const codeTabs = useMemo(() => {
+    const itemsLiteral = items
+      .map(
+        (item) =>
+          `  { link: "${item.link}", text: "${item.text}", image: "${item.image}" }`
+      )
+      .join(",\n");
+
+    return [
+      {
+        label: "React",
+        language: "tsx",
+        code: `import { useCallback, useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+
+type AnimatedItem = {
+  link: string;
+  text: string;
+  image: string;
+};
+
+const items: AnimatedItem[] = [
+${itemsLiteral},
+];
+
+const SPEED = 15;
+const TEXT_COLOR = "#fff";
+const BG_COLOR = "#0A0A0A";
+const HOVER_COLOR = "${hoverColor}";
+const HOVER_TEXT_COLOR = "${marqueeTextColor}";
+const BORDER_COLOR = "rgba(255,255,255,0.15)";
+const ITEM_HEIGHT = "120px";
+
+function getHoverDirection(
+  pointerX: number,
+  pointerY: number,
+  width: number,
+  height: number
+) {
+  const distTop = Math.pow(pointerX - width / 2, 2) + Math.pow(pointerY, 2);
+  const distBottom =
+    Math.pow(pointerX - width / 2, 2) + Math.pow(pointerY - height, 2);
+  return distTop < distBottom ? "top" : "bottom";
+}
+
+function AnimatedRow({
+  item,
+  isFirst,
+}: {
+  item: AnimatedItem;
+  isFirst: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const [repeatCount, setRepeatCount] = useState(4);
+
+  const updateRepeatCount = useCallback(() => {
+    if (!marqueeRef.current) return;
+    const part = marqueeRef.current.querySelector<HTMLElement>(".marquee-part");
+    if (!part) return;
+    const partWidth = part.offsetWidth;
+    if (!partWidth) return;
+    setRepeatCount(Math.max(4, Math.ceil(window.innerWidth / partWidth) + 2));
+  }, []);
+
+  useEffect(() => {
+    updateRepeatCount();
+    window.addEventListener("resize", updateRepeatCount);
+    return () => window.removeEventListener("resize", updateRepeatCount);
+  }, [updateRepeatCount]);
+
+  useEffect(() => {
+    if (!marqueeRef.current) return;
+    const part = marqueeRef.current.querySelector<HTMLElement>(".marquee-part");
+    if (!part) return;
+    const partWidth = part.offsetWidth;
+    if (!partWidth) return;
+    tweenRef.current?.kill();
+    tweenRef.current = gsap.to(marqueeRef.current, {
+      x: -partWidth,
+      duration: SPEED,
+      ease: "none",
+      repeat: -1,
+    });
+    return () => {
+      tweenRef.current?.kill();
+    };
+  }, [repeatCount]);
+
+  const handleEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!containerRef.current || !overlayRef.current || !marqueeRef.current)
+      return;
+    const bounds = containerRef.current.getBoundingClientRect();
+    const dir = getHoverDirection(
+      e.clientX - bounds.left,
+      e.clientY - bounds.top,
+      bounds.width,
+      bounds.height
+    );
+    gsap
+      .timeline({ defaults: { duration: 0.6, ease: "expo" } })
+      .set(overlayRef.current, { y: dir === "top" ? "-101%" : "101%" }, 0)
+      .set(marqueeRef.current, { y: dir === "top" ? "101%" : "-101%" }, 0)
+      .to([overlayRef.current, marqueeRef.current], { y: "0%" }, 0);
+  };
+
+  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!containerRef.current || !overlayRef.current || !marqueeRef.current)
+      return;
+    const bounds = containerRef.current.getBoundingClientRect();
+    const dir = getHoverDirection(
+      e.clientX - bounds.left,
+      e.clientY - bounds.top,
+      bounds.width,
+      bounds.height
+    );
+    gsap
+      .timeline({ defaults: { duration: 0.6, ease: "expo" } })
+      .to(overlayRef.current, { y: dir === "top" ? "-101%" : "101%" }, 0)
+      .to(marqueeRef.current, { y: dir === "top" ? "101%" : "-101%" }, 0);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        textAlign: "center",
+        borderTop: isFirst ? "none" : \`1px solid \${BORDER_COLOR}\`,
+        height: ITEM_HEIGHT,
+        minHeight: ITEM_HEIGHT,
+      }}
+    >
+      <a
+        href={item.link}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          position: "relative",
+          cursor: "pointer",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          fontWeight: 600,
+          fontSize: "4vh",
+          color: TEXT_COLOR,
+        }}
+      >
+        {item.text}
+      </a>
+      <div
+        ref={overlayRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          pointerEvents: "none",
+          transform: "translateY(101%)",
+          backgroundColor: HOVER_COLOR,
+        }}
+      >
+        <div
+          ref={marqueeRef}
+          style={{ height: "100%", width: "fit-content", display: "flex" }}
+        >
+          {Array.from({ length: repeatCount }).map((_, i) => (
+            <div
+              key={i}
+              className="marquee-part"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexShrink: 0,
+                color: HOVER_TEXT_COLOR,
+              }}
+            >
+              <span
+                style={{
+                  whiteSpace: "nowrap",
+                  textTransform: "uppercase",
+                  fontWeight: 400,
+                  fontSize: "4vh",
+                  lineHeight: 1,
+                  padding: "0 1vw",
+                }}
+              >
+                {item.text}
+              </span>
+              <div
+                style={{
+                  width: 200,
+                  height: "7vh",
+                  margin: "2em 2vw",
+                  padding: "1em",
+                  borderRadius: 50,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundImage: \`url(\${item.image})\`,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AnimatedList() {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: 500,
+        overflow: "hidden",
+        backgroundColor: BG_COLOR,
+      }}
+    >
+      <nav style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        {items.map((item, index) => (
+          <AnimatedRow key={item.text} item={item} isFirst={index === 0} />
+        ))}
+      </nav>
+    </div>
+  );
+}`,
+      },
+    ];
+  }, [items, hoverColor, marqueeTextColor]);
+
   const commitEdit = useCallback(() => {
     if (editingIndex === null) {
       setDraftText("");
@@ -504,6 +744,7 @@ export default function AnimatedListPage() {
                 itemHeight="120px"
               />
             </div>
+            <CodePanel tabs={codeTabs} />
           </div>
         </div>
       </main>
