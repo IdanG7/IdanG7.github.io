@@ -20,7 +20,7 @@ export const blogPosts: BlogPost[] = [
     content: `
 <p>There's a headline that's been making its rounds lately, and if you're a CS student or early-career developer, you've probably already seen some version of it: <strong>"AI will replace junior developers."</strong></p>
 
-<p>It showed up on my feed again last week — this time from a <a href="https://medium.com" target="_blank" rel="noopener noreferrer">Medium article</a> predicting that major tech companies will slow junior developer hiring as AI coding assistants handle more entry-level work. Another report from <a href="https://opentools.ai" target="_blank" rel="noopener noreferrer">OpenTools.ai</a> claims AI tools are promising productivity boosts of up to 55%, shifting demand away from junior coders and toward "AI-prompt engineers."</p>
+<p>It showed up on my feed again last week — this time from a <a href="https://medium.com/@emirkanbeyaz01/the-great-tech-hiring-freeze-how-ai-is-reshaping-the-junior-developer-job-market-c53da6e6fa08" target="_blank" rel="noopener noreferrer">Medium article</a> predicting that major tech companies will slow junior developer hiring as AI coding assistants handle more entry-level work. Another report from <a href="https://opentools.ai/news/ai-coding-assistants-revolutionizing-software-development-by-2026" target="_blank" rel="noopener noreferrer">OpenTools.ai</a> claims AI tools are promising productivity boosts of up to 55%, shifting demand away from junior coders and toward "AI-prompt engineers."</p>
 
 <p>Cool. Great. Love that for us.</p>
 
@@ -30,7 +30,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Let's be real: AI coding tools have gotten impressively good. GitHub Copilot, Claude, Cursor — they can scaffold entire functions, write boilerplate, generate tests, and even debug code with surprising accuracy. I use them myself. When I'm writing firmware validation scripts or spinning up CI/CD pipeline configs, having an AI assistant auto-complete the tedious parts saves real time.</p>
 
-<p>And the data backs it up. According to <a href="https://www.intelegain.com" target="_blank" rel="noopener noreferrer">Intelegain</a>, 84% of developers are already using or planning to use AI tools in their day-to-day work. That's not a fringe trend — that's the new baseline.</p>
+<p>And the data backs it up. According to <a href="https://www.intelegain.com/top-20-software-development-trends-in-2026/" target="_blank" rel="noopener noreferrer">Intelegain</a>, 84% of developers are already using or planning to use AI tools in their day-to-day work. That's not a fringe trend — that's the new baseline.</p>
 
 <p>So yes, the nature of junior dev work is changing. The days of getting hired purely to write CRUD endpoints or convert Figma designs to React components are numbered. If that's all you can do, you should be worried.</p>
 
@@ -54,7 +54,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>If anything, AI tools have made me <em>more</em> productive in the areas that actually matter for career growth. The mechanical parts got automated. The thinking parts got amplified.</p>
 
-<p>GitHub's chief product officer recently said that 2026 will bring "repository intelligence" — <a href="https://news.microsoft.com" target="_blank" rel="noopener noreferrer">AI that understands not just code but the relationships and history behind it</a>. That means the code you write today might literally be analyzed by an AI agent tomorrow for context, patterns, and quality. If that doesn't motivate you to write clean, well-documented code, I don't know what will.</p>
+<p>GitHub's chief product officer recently said that 2026 will bring "repository intelligence" — <a href="https://news.microsoft.com/source/features/ai/whats-next-in-ai-7-trends-to-watch-in-2026/" target="_blank" rel="noopener noreferrer">AI that understands not just code but the relationships and history behind it</a>. That means the code you write today might literally be analyzed by an AI agent tomorrow for context, patterns, and quality. If that doesn't motivate you to write clean, well-documented code, I don't know what will.</p>
 
 <h2>My Advice to Fellow Students and Junior Devs</h2>
 
@@ -64,7 +64,7 @@ export const blogPosts: BlogPost[] = [
 
 <p><strong>Build things that require judgment.</strong> AI can generate a REST API. It can't decide whether you need a REST API or a message queue. It can't architect a system that needs to handle failover gracefully. It can't sit in a meeting and figure out that the real requirement is completely different from what the PM wrote down. That's you. That's the value.</p>
 
-<p><strong>Contribute to open source.</strong> According to <a href="https://blogs.nvidia.com" target="_blank" rel="noopener noreferrer">NVIDIA's recent survey</a>, 85% of respondents said open source is moderately to extremely important to their AI strategy. The open source ecosystem is where the next wave of AI tooling is being built. Getting involved now doesn't just look good on a resume — it gives you a front-row seat to how the industry is evolving.</p>
+<p><strong>Contribute to open source.</strong> According to <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" target="_blank" rel="noopener noreferrer">NVIDIA's recent survey</a>, 85% of respondents said open source is moderately to extremely important to their AI strategy. The open source ecosystem is where the next wave of AI tooling is being built. Getting involved now doesn't just look good on a resume — it gives you a front-row seat to how the industry is evolving.</p>
 
 <h2>The Bottom Line</h2>
 
