@@ -15,68 +15,93 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Predictions say junior developer hiring will slow as AI handles entry-level work. Here's my honest take as someone in that exact position.",
     date: "2026-03-24",
-    readTime: "6 min read",
+    readTime: "7 min read",
     tags: ["AI", "Career", "Junior Dev", "Opinion"],
     content: `
-<p>There's a headline that's been making its rounds lately, and if you're a CS student or early-career developer, you've probably already seen some version of it: <strong>"AI will replace junior developers."</strong></p>
+<p>If you're a CS student or new developer, you've probably heard: <strong>"AI will replace junior developers."</strong></p>
 
-<p>It showed up on my feed again last week — this time from a <a href="https://medium.com/@emirkanbeyaz01/the-great-tech-hiring-freeze-how-ai-is-reshaping-the-junior-developer-job-market-c53da6e6fa08" target="_blank" rel="noopener noreferrer">Medium article</a> predicting that major tech companies will slow junior developer hiring as AI coding assistants handle more entry-level work. Another report from <a href="https://opentools.ai/news/ai-coding-assistants-revolutionizing-software-development-by-2026" target="_blank" rel="noopener noreferrer">OpenTools.ai</a> claims AI tools are promising productivity boosts of up to 55%, shifting demand away from junior coders and toward "AI-prompt engineers."</p>
+<p>It showed up on my feed again last week, this time from a <a href="https://www.cio.com/article/4062024/demand-for-junior-developers-softens-as-ai-takes-over.html" target="_blank" rel="noopener noreferrer">CIO article</a> predicting that major tech companies will slow junior developer hiring as AI coding assistants handle more entry-level work. Another report from <a href="https://www.index.dev/blog/developer-productivity-statistics-with-ai-tools" target="_blank" rel="noopener noreferrer">Index.dev</a> claims AI tools offer productivity boosts of up to 55%, shifting demand away from junior coders and toward "AI-prompt engineers."</p>
+
+<details class="blog-aside">
+<summary>What's an "AI-prompt engineer"?</summary>
+<p>Someone who specializes in designing effective prompts and workflows to get the most useful and accurate outputs from AI tools. For example, they might craft detailed instructions or troubleshoot the results to ensure the AI produces code or content that truly fits a project's needs.</p>
+</details>
 
 <p>Cool. Great. Love that for us.</p>
 
-<p>I'm a third-year Computer Science student in Ontario. I work as a junior software developer. I use AI coding tools daily. So when people ask me if I'm worried — yeah, I think about it. But after sitting with it for a while, my answer is more nuanced than just panic or denial.</p>
+<p>I'm a third-year CS student in Ontario working as a junior developer and using AI tools daily. According to a <a href="https://www.rbcx.com/resources/ai-adoption-report" target="_blank" rel="noopener noreferrer">report from RBCx</a>, most people using AI tools feel that the changes are incremental, so when people ask if I'm worried, my answer is more nuanced than panic or denial.</p>
 
 <h2>The Headlines Aren't Wrong — But They're Not the Full Story</h2>
 
-<p>Let's be real: AI coding tools have gotten impressively good. GitHub Copilot, Claude, Cursor — they can scaffold entire functions, write boilerplate, generate tests, and even debug code with surprising accuracy. I use them myself. When I'm writing firmware validation scripts or spinning up CI/CD pipeline configs, having an AI assistant auto-complete the tedious parts saves real time.</p>
+<p>Let's be real: AI coding tools have gotten impressively good. GitHub Copilot, Claude, and Cursor — they can scaffold entire functions, write boilerplate, generate tests, and even debug code with surprising accuracy. I use them myself. When I'm writing firmware validation scripts or spinning up CI/CD pipeline configs, having an AI assistant auto-complete the tedious parts saves real time.</p>
 
-<p>And the data backs it up. According to <a href="https://www.intelegain.com/top-20-software-development-trends-in-2026/" target="_blank" rel="noopener noreferrer">Intelegain</a>, 84% of developers are already using or planning to use AI tools in their day-to-day work. That's not a fringe trend — that's the new baseline.</p>
+<p>And the data backs it up. According to the <a href="https://survey.stackoverflow.co/2025/ai/" target="_blank" rel="noopener noreferrer">2025 Stack Overflow Developer Survey</a>, 84% of developers are already using or planning to use AI tools in their day-to-day work. That's not a fringe trend — that's the new baseline.</p>
 
-<p>So yes, the nature of junior dev work is changing. The days of getting hired purely to write CRUD endpoints or convert Figma designs to React components are numbered. If that's all you can do, you should be worried.</p>
+<p>So yes, the nature of junior dev work is changing. If your skills are limited to only CRUD endpoints or converting Figma designs into React components, you should be concerned.</p>
+
+<details class="blog-aside">
+<summary>How to future-proof your career</summary>
+<p>Focus on skills AI can't easily replicate — like learning core system design concepts, debugging real-world issues, and understanding how different tech stack components interact. Take on projects that challenge you to think beyond code, such as improving performance or designing for scalability. Even reading and understanding an existing codebase or participating in code reviews can help you stay relevant.</p>
+</details>
 
 <p>But here's the thing — that was never the whole job anyway.</p>
 
 <h2>What AI Can't Do (Yet)</h2>
 
-<p>I spend a good chunk of my time debugging issues that span multiple systems. A firmware update breaks a host-side validation test. A CI pipeline fails because someone changed an environment variable three repos upstream. A race condition shows up only under specific hardware timing constraints.</p>
+<p>Much of my time goes to debugging issues that cross multiple systems, where automated tools can't easily help.</p>
 
 <p>AI tools are genuinely helpful for generating code. They're terrible at understanding <em>why</em> code exists in a specific context, how it interacts with systems it's never seen, and what the actual business requirement behind a Jira ticket is when the ticket itself is vague.</p>
 
 <p>The junior devs who will struggle are the ones who treat coding like typing — like the value they provide is translating English requirements into syntax. That's exactly what AI is good at.</p>
 
-<p>The junior devs who will thrive are the ones who understand systems, ask good questions, debug across boundaries, and — crucially — can evaluate whether the AI-generated code is actually correct. Because right now, AI confidently generates wrong code all the time, and someone needs to catch it.</p>
+<p>The junior devs who will thrive are the ones who understand systems, ask good questions, debug across boundaries, and, crucially, can evaluate whether the AI-generated code is actually correct. Right now, AI confidently generates wrong code all the time, and someone needs to catch it.</p>
+
+<details class="blog-aside">
+<summary>A real example of AI getting it wrong</summary>
+<p>According to <a href="https://copilotcraft.dev/blog/ai-code-review-pitfalls" target="_blank" rel="noopener noreferrer">CopilotCraft</a>, sometimes AI-generated code may appear correct at first glance but can behave unexpectedly — like when Copilot produced a function that looked perfect but broke the app due to hidden issues such as not handling all data formats. I only noticed because I remembered a specific error case from a past bug report. If I hadn't double-checked, that bug would have made it to production and cost us serious troubleshooting hours. Stories like this remind me that human judgment still matters — and will probably do so for a long time.</p>
+</details>
 
 <h2>The Real Shift: From Code Writer to Code Reviewer</h2>
 
-<p>Here's my honest observation from using these tools daily: AI hasn't replaced my job. It's changed what my job looks like.</p>
+<p>Here's my honest observation from using these tools daily: AI hasn't replaced my job — it's changed it.</p>
 
-<p>I spend less time writing boilerplate and more time reviewing, testing, and integrating. I write more tests than I used to because generating them is faster now. I spend more time thinking about architecture and less time on syntax. My pull request descriptions have gotten better because I actually have time to write them properly.</p>
+<p>Now I spend more time reviewing, testing, and thinking about architecture, less on syntax. Generating tests is faster, and my pull request descriptions have improved.</p>
 
 <p>If anything, AI tools have made me <em>more</em> productive in the areas that actually matter for career growth. The mechanical parts got automated. The thinking parts got amplified.</p>
 
-<p>GitHub's chief product officer recently said that 2026 will bring "repository intelligence" — <a href="https://news.microsoft.com/source/features/ai/whats-next-in-ai-7-trends-to-watch-in-2026/" target="_blank" rel="noopener noreferrer">AI that understands not just code but the relationships and history behind it</a>. That means the code you write today might literally be analyzed by an AI agent tomorrow for context, patterns, and quality. If that doesn't motivate you to write clean, well-documented code, I don't know what will.</p>
+<p>GitHub's chief product officer recently said that 2026 will bring "repository intelligence" — <a href="https://appliedai.tools/microsoft/github-repository-intelligence-github-copilot/" target="_blank" rel="noopener noreferrer">AI that understands not just code but the relationships and history behind it</a>. That means the code you write today might literally be analyzed by an AI agent tomorrow for context, patterns, and quality. If that doesn't motivate you to write clean, well-documented code, I don't know what will.</p>
 
 <h2>My Advice to Fellow Students and Junior Devs</h2>
 
 <p><strong>Don't ignore AI tools.</strong> Use them. Get good at prompting. Understand their limitations. The developers who will be most valuable are the ones who can leverage AI effectively — not the ones who pretend it doesn't exist, and not the ones who blindly accept its output.</p>
 
-<p><strong>Go deeper, not wider.</strong> Instead of learning the 15th JavaScript framework, understand how systems actually work. Learn about networking, operating systems, concurrency, and debugging. These fundamentals are exactly what AI struggles with and what employers actually need.</p>
+<p><strong>Go deeper, not wider.</strong> Instead of another framework, learn how systems work — networking, OS, concurrency, and debugging. These are fundamentals AI struggles with, and employers value.</p>
 
-<p><strong>Build things that require judgment.</strong> AI can generate a REST API. It can't decide whether you need a REST API or a message queue. It can't architect a system that needs to handle failover gracefully. It can't sit in a meeting and figure out that the real requirement is completely different from what the PM wrote down. That's you. That's the value.</p>
+<details class="blog-aside">
+<summary>Where to start going deeper</summary>
+<p>Try courses like <strong>CS50</strong> for basics, or books like <em>Computer Systems: A Programmer's Perspective</em>. Build something like a simple shell or TCP server to understand real systems. Set a goal to master one area — such as DNS by setting up a home server, or debugging C code.</p>
+</details>
 
-<p><strong>Contribute to open source.</strong> According to <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" target="_blank" rel="noopener noreferrer">NVIDIA's recent survey</a>, 85% of respondents said open source is moderately to extremely important to their AI strategy. The open source ecosystem is where the next wave of AI tooling is being built. Getting involved now doesn't just look good on a resume — it gives you a front-row seat to how the industry is evolving.</p>
+<p><strong>Build things that require judgment.</strong> AI can generate a REST API. It can't decide whether you need a REST API or a message queue. It can't architect a system that gracefully handles failover. It can't sit in a meeting and figure out that the real requirement is completely different from what the PM wrote down. That's you. That's the value.</p>
+
+<p><strong>Contribute to open source.</strong> Open source is crucial for AI development and provides a front-row seat to industry shifts.</p>
+
+<details class="blog-aside">
+<summary>Getting started with open source</summary>
+<p>Find beginner-friendly projects on GitHub or join newcomer communities. Even a small contribution — a question or a documentation edit — can open opportunities. According to <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" target="_blank" rel="noopener noreferrer">NVIDIA's State of AI report</a>, 85% of respondents said open source is moderately to extremely important to their AI strategy.</p>
+</details>
 
 <h2>The Bottom Line</h2>
 
 <p>Should you panic? No. Should you be complacent? Absolutely not.</p>
 
-<p>The AI conversation around junior devs often gets framed as binary — either your job is safe or it's doomed. Reality is messier and more interesting than that. The role of a junior developer is evolving, not disappearing. The bar is moving from "can you write code?" to "can you solve problems, evaluate AI output, and understand systems?"</p>
+<p>The conversation about junior developers and AI often focuses on whether these roles will vanish or survive unchanged. My main argument is that junior developer jobs aren't disappearing — they are evolving. The key is a shift from just writing code to embracing roles that solve problems, critically evaluate AI-generated code, and deeply understand complex systems. Adapting to this new reality by growing these skills will keep you relevant and valuable, not replaceable.</p>
 
-<p>Personally, I find that more exciting than scary. The grunt work I hated is getting automated. The parts I actually enjoy — debugging complex systems, designing infrastructure, understanding <em>why</em> things break — those are becoming more important, not less.</p>
+<p>I find these changes more exciting than scary. The tedious work is getting automated, letting me focus on complex problems and design.</p>
 
-<p>If you're a student reading this: keep learning, keep building, and start using AI tools <em>critically</em>. Not as a crutch. As a power tool. The ones who figure out how to work alongside AI — not compete against it — are going to have careers that look nothing like what the doomsday headlines predict.</p>
+<p>If you're a student reading this, don't wait. Start integrating AI into your workflow, analyze its strengths and weaknesses, and build impactful projects now. Set clear, specific goals, take concrete action today, and carve out your place in tech's future.</p>
 
-<p>And honestly? I'd rather be starting my career right now, learning to work with AI from day one, than be a senior developer ten years in who suddenly has to adapt. We have the advantage. Let's use it.</p>
+<p>Be proactive: adapt now, learn deliberately, and leverage AI intentionally. Build real-world skills to make yourself indispensable. Decide today to lead your future in tech — your unique advantage starts with decisive action.</p>
 `,
   },
 ];

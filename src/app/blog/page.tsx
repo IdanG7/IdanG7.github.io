@@ -1,67 +1,108 @@
-import Link from "next/link";
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
 import Navigation from "@/components/Navigation";
 import BlogHero from "@/components/BlogHero";
 import Footer from "@/components/Footer";
-import { getAllPosts, formatDate } from "@/lib/blog";
+import { getAllPosts } from "@/lib/blog";
+import { FeaturedPostCard, BlogPostCard } from "@/components/BlogPostCard";
 
 export default function BlogPage() {
+  const mainRef = useRef<HTMLElement>(null);
   const posts = getAllPosts();
+  const featured = posts[0];
+  const rest = posts.slice(1);
+
+  useLayoutEffect(() => {
+    if (!mainRef.current) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const ctx = gsap.context(() => {
+      const selector = gsap.utils.selector(mainRef);
+      const sectionHeading = selector(".blog-section-heading");
+      const cards = selector(".blog-card-wrapper");
+
+      if (prefersReducedMotion) {
+        gsap.set([sectionHeading, cards], { opacity: 1, y: 0 });
+        return;
+      }
+
+      gsap.set(sectionHeading, { y: 30, opacity: 0 });
+      gsap.set(cards, { y: 40, opacity: 0 });
+
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .to(sectionHeading, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.1,
+        })
+        .to(
+          cards,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.12,
+          },
+          "-=0.6"
+        );
+    }, mainRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <>
       <Navigation />
-      <main>
+      <main ref={mainRef}>
         <BlogHero />
+
+        {/* Posts section */}
         <section className="w-full bg-neutral-50 dark:bg-black">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-            {posts.length > 0 ? (
-              <div className="flex flex-col gap-0">
-                {posts.map((post, index) => (
-                  <Link
-                    key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="group block"
-                  >
-                    {index > 0 && (
-                      <div className="h-px bg-neutral-200 dark:bg-white/10" />
-                    )}
-                    <article className="py-10 md:py-14">
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {post.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-0.5 text-[10px] font-outfit font-medium tracking-wider uppercase rounded-full bg-neutral-100 dark:bg-white/5 text-neutral-500 dark:text-white/40 border border-neutral-200 dark:border-white/10"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Title */}
-                      <h2 className="text-2xl md:text-3xl font-outfit font-bold text-neutral-900 dark:text-white leading-tight tracking-tight group-hover:text-neutral-600 dark:group-hover:text-white/80 transition-colors mb-3">
-                        {post.title}
-                      </h2>
-
-                      {/* Excerpt */}
-                      <p className="font-outfit text-neutral-500 dark:text-white/50 text-base md:text-lg leading-relaxed mb-4 max-w-2xl">
-                        {post.excerpt}
-                      </p>
-
-                      {/* Meta */}
-                      <div className="flex items-center gap-3 text-sm font-outfit text-neutral-400 dark:text-white/30">
-                        <time dateTime={post.date}>
-                          {formatDate(post.date)}
-                        </time>
-                        <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-white/20" />
-                        <span>{post.readTime}</span>
-                      </div>
-                    </article>
-                  </Link>
-                ))}
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            {/* Section header */}
+            <div className="blog-section-heading flex items-center gap-4 mb-10 md:mb-14">
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-neutral-900 dark:bg-white" />
+                <span className="font-outfit text-xs font-semibold tracking-[0.2em] uppercase text-neutral-900 dark:text-white">
+                  Latest Writing
+                </span>
               </div>
+              <div className="flex-1 h-[1px] bg-neutral-200 dark:bg-white/[0.08]" />
+              <span className="font-outfit text-xs tracking-wider text-neutral-400 dark:text-white/25 tabular-nums">
+                {posts.length} {posts.length === 1 ? "article" : "articles"}
+              </span>
+            </div>
+
+            {posts.length > 0 ? (
+              <>
+                {/* Featured post (latest) */}
+                {featured && (
+                  <div className="mb-8 md:mb-12">
+                    <FeaturedPostCard post={featured} index={0} />
+                  </div>
+                )}
+
+                {/* Remaining posts grid */}
+                {rest.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                    {rest.map((post, i) => (
+                      <BlogPostCard
+                        key={post.slug}
+                        post={post}
+                        index={i + 1}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             ) : (
-              <div className="flex flex-col items-center text-center">
+              <div className="flex flex-col items-center text-center py-12">
                 <div className="w-16 h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-white/10 flex items-center justify-center mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -89,8 +130,20 @@ export default function BlogPage() {
                 </p>
               </div>
             )}
+
+            {/* Bottom tagline */}
+            <div className="blog-card-wrapper mt-16 md:mt-20 flex flex-col items-center text-center">
+              <div className="w-12 h-[1px] bg-neutral-300 dark:bg-white/10 mb-8" />
+              <p className="font-outfit text-sm text-neutral-400 dark:text-white/30 mb-2">
+                More articles on the way.
+              </p>
+              <p className="font-nyght text-lg md:text-xl italic text-neutral-600 dark:text-white/50">
+                Stay curious, stay building.
+              </p>
+            </div>
           </div>
         </section>
+
         <Footer />
       </main>
     </>
