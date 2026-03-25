@@ -1,4 +1,16 @@
 services:
+  migrate:
+    build:
+      context: .
+      target: builder
+    command: sh -c "npx prisma migrate deploy"
+    env_file:
+      - .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
   web:
     build: .
     ports:
@@ -8,6 +20,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
 
   db:
