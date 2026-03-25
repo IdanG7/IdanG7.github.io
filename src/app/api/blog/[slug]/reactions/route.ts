@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 const VOTER_COOKIE = "blog_voter_id";
 
@@ -9,7 +9,7 @@ async function getVoterId() {
   const cookieStore = await cookies();
   let voterId = cookieStore.get(VOTER_COOKIE)?.value;
   if (!voterId) {
-    voterId = uuidv4();
+    voterId = randomUUID();
   }
   return voterId;
 }
