@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import HeroBackground from "./HeroBackground";
 import HeroVideoBackground from "./HeroVideoBackground";
@@ -9,78 +9,71 @@ import GlitchText from "./GlitchText";
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log("[Hero] effect fired, sectionRef:", !!sectionRef.current);
     if (!sectionRef.current) return;
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const ctx = gsap.context(() => {
-      const selector = gsap.utils.selector(sectionRef);
-      const name = selector(".hero-name-container");
-      const tagline = selector(".hero-tagline-part");
-      const bottomInfo = selector(".hero-bottom-info");
+    const section = sectionRef.current;
+    const name = section.querySelectorAll(".hero-name-container");
+    const tagline = section.querySelectorAll(".hero-tagline-part");
+    const bottomInfo = section.querySelectorAll(".hero-bottom-info");
+    console.log("[Hero] elements found:", name.length, tagline.length, bottomInfo.length);
 
-      if (prefersReducedMotion) {
-        gsap.set(name, { opacity: 1, y: 0 });
-        gsap.set(tagline, { opacity: 1, y: 0, filter: "blur(0px)" });
-        gsap.set(bottomInfo, { opacity: 1, y: 0 });
-        return;
-      }
+    if (prefersReducedMotion) {
+      gsap.set(name, { opacity: 1, y: 0 });
+      gsap.set(tagline, { opacity: 1, y: 0, filter: "blur(0px)" });
+      gsap.set(bottomInfo, { opacity: 1, y: 0 });
+      section
+        .querySelectorAll(".gsap-hero-title, .gsap-hero-tagline, .gsap-hero-bottom")
+        .forEach((el) => el.classList.add("gsap-animated"));
+      return;
+    }
 
-      gsap.set(name, { y: 100, opacity: 0 });
-      gsap.set(tagline, { y: 20, opacity: 0, filter: "blur(8px)" });
-      gsap.set(bottomInfo, { y: 30, opacity: 0 });
+    gsap.set(name, { y: 100, opacity: 0 });
+    gsap.set(tagline, { y: 20, opacity: 0, filter: "blur(8px)" });
+    gsap.set(bottomInfo, { y: 30, opacity: 0 });
 
-      gsap
-        .timeline({ defaults: { ease: "expo.out" } })
-        .to(name, {
+    const tl = gsap
+      .timeline({ defaults: { ease: "expo.out" } })
+      .to(name, {
+        y: 0,
+        opacity: 1,
+        duration: 2,
+        delay: 0.3,
+        onComplete: () => {
+          name.forEach((el) => el.classList.add("gsap-animated"));
+        },
+      })
+      .to(
+        tagline,
+        {
+          filter: "blur(0px)",
+          opacity: 1,
+          y: 0,
+          stagger: 0.2,
+          duration: 1.5,
+          onComplete: () => {
+            tagline.forEach((el) => el.classList.add("gsap-animated"));
+          },
+        },
+        "-=1.2"
+      )
+      .to(
+        bottomInfo,
+        {
           y: 0,
           opacity: 1,
-          visibility: "visible",
-          duration: 2,
-          delay: 0.3,
+          duration: 1,
           onComplete: () => {
-            document
-              .querySelectorAll(".hero-name-container")
-              .forEach((el) => el.classList.add("gsap-animated"));
+            bottomInfo.forEach((el) => el.classList.add("gsap-animated"));
           },
-        })
-        .to(
-          tagline,
-          {
-            filter: "blur(0px)",
-            opacity: 1,
-            visibility: "visible",
-            y: 0,
-            stagger: 0.2,
-            duration: 1.5,
-            onComplete: () => {
-              document
-                .querySelectorAll(".hero-tagline-part")
-                .forEach((el) => el.classList.add("gsap-animated"));
-            },
-          },
-          "-=1.2"
-        )
-        .to(
-          bottomInfo,
-          {
-            y: 0,
-            opacity: 1,
-            visibility: "visible",
-            duration: 1,
-            onComplete: () => {
-              document
-                .querySelectorAll(".hero-bottom-info")
-                .forEach((el) => el.classList.add("gsap-animated"));
-            },
-          },
-          "-=1"
-        );
-    }, sectionRef);
+        },
+        "-=1"
+      );
 
-    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
@@ -132,7 +125,7 @@ export default function Hero() {
       </div>
 
       <div
-        className="hero-bottom-info w-full flex justify-between items-end z-30 pointer-events-none"
+        className="hero-bottom-info gsap-hero-bottom w-full flex justify-between items-end z-30 pointer-events-none"
         style={{ marginBottom: "1rem" }}
       >
         <div className="flex flex-col items-center gap-3">

@@ -3,7 +3,7 @@ import Script from "next/script";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import PageLoader from "@/components/PageLoader";
+
 import PageTransition from "@/components/PageTransition";
 import DisableRightClick from "@/components/DisableRightClick";
 
@@ -166,7 +166,6 @@ export default function RootLayout({
         </Script>
         <DisableRightClick />
         <SmoothScroll>
-          <PageLoader />
           <PageTransition>{children}</PageTransition>
         </SmoothScroll>
       </body>

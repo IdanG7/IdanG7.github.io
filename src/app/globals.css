@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Hide hero elements before GSAP animation runs (prevents flash on SSR) */
+.gsap-hero-title,
+.gsap-hero-tagline,
+.gsap-hero-bottom {
+  opacity: 0;
+}
+.gsap-hero-title.gsap-animated,
+.gsap-hero-tagline.gsap-animated,
+.gsap-hero-bottom.gsap-animated {
+  opacity: 1;
+}
+
 /* Design Tokens - Matching parthh.in */
 :root {
   /* Colors - Light Theme (base) */
