@@ -18,95 +18,100 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const voterId = await getVoterId();
+  try {
+    const { slug } = await params;
+    const voterId = await getVoterId();
 
-  const [likeCount, userReaction] = await Promise.all([
-    prisma.reaction.count({ where: { slug, type: "LIKE" } }),
-    prisma.reaction.findUnique({
-      where: { slug_voterId: { slug, voterId } },
-    }),
-  ]);
+    const [likeCount, userReaction] = await Promise.all([
+      prisma.reaction.count({ where: { slug, type: "LIKE" } }),
+      prisma.reaction.findUnique({
+        where: { slug_voterId: { slug, voterId } },
+      }),
+    ]);
 
-  const response = NextResponse.json({
-    likes: likeCount,
-    userVote: userReaction?.type ?? null,
-  });
-
-  // Set cookie if it doesn't exist yet
-  const cookieStore = await cookies();
-  if (!cookieStore.get(VOTER_COOKIE)) {
-    response.cookies.set(VOTER_COOKIE, voterId, {
-      httpOnly: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years
-      path: "/",
+    const response = NextResponse.json({
+      likes: likeCount,
+      userVote: userReaction?.type ?? null,
     });
-  }
 
-  return response;
+    const cookieStore = await cookies();
+    if (!cookieStore.get(VOTER_COOKIE)) {
+      response.cookies.set(VOTER_COOKIE, voterId, {
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 365 * 2,
+        path: "/",
+      });
+    }
+
+    return response;
+  } catch (e) {
+    console.error("[reactions GET]", e);
+    return NextResponse.json({ likes: 0, userVote: null });
+  }
 }
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const { type } = await req.json();
+  try {
+    const { slug } = await params;
+    const { type } = await req.json();
 
-  if (type !== "LIKE" && type !== "DISLIKE") {
-    return NextResponse.json({ error: "Invalid type" }, { status: 400 });
-  }
+    if (type !== "LIKE" && type !== "DISLIKE") {
+      return NextResponse.json({ error: "Invalid type" }, { status: 400 });
+    }
 
-  const voterId = await getVoterId();
+    const voterId = await getVoterId();
 
-  const existing = await prisma.reaction.findUnique({
-    where: { slug_voterId: { slug, voterId } },
-  });
+    const existing = await prisma.reaction.findUnique({
+      where: { slug_voterId: { slug, voterId } },
+    });
 
-  if (existing) {
-    if (existing.type === type) {
-      // Same vote — remove it (toggle off)
-      await prisma.reaction.delete({
-        where: { slug_voterId: { slug, voterId } },
-      });
+    if (existing) {
+      if (existing.type === type) {
+        await prisma.reaction.delete({
+          where: { slug_voterId: { slug, voterId } },
+        });
+      } else {
+        await prisma.reaction.update({
+          where: { slug_voterId: { slug, voterId } },
+          data: { type },
+        });
+      }
     } else {
-      // Different vote — switch it
-      await prisma.reaction.update({
-        where: { slug_voterId: { slug, voterId } },
-        data: { type },
+      await prisma.reaction.create({
+        data: { slug, voterId, type },
       });
     }
-  } else {
-    // New vote
-    await prisma.reaction.create({
-      data: { slug, voterId, type },
+
+    const likeCount = await prisma.reaction.count({
+      where: { slug, type: "LIKE" },
     });
-  }
 
-  const likeCount = await prisma.reaction.count({
-    where: { slug, type: "LIKE" },
-  });
-
-  const updatedReaction = await prisma.reaction.findUnique({
-    where: { slug_voterId: { slug, voterId } },
-  });
-
-  const response = NextResponse.json({
-    likes: likeCount,
-    userVote: updatedReaction?.type ?? null,
-  });
-
-  // Ensure cookie is set
-  const cookieStore = await cookies();
-  if (!cookieStore.get(VOTER_COOKIE)) {
-    response.cookies.set(VOTER_COOKIE, voterId, {
-      httpOnly: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 365 * 2,
-      path: "/",
+    const updatedReaction = await prisma.reaction.findUnique({
+      where: { slug_voterId: { slug, voterId } },
     });
-  }
 
-  return response;
+    const response = NextResponse.json({
+      likes: likeCount,
+      userVote: updatedReaction?.type ?? null,
+    });
+
+    const cookieStore = await cookies();
+    if (!cookieStore.get(VOTER_COOKIE)) {
+      response.cookies.set(VOTER_COOKIE, voterId, {
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 365 * 2,
+        path: "/",
+      });
+    }
+
+    return response;
+  } catch (e) {
+    console.error("[reactions POST]", e);
+    return NextResponse.json({ likes: 0, userVote: null }, { status: 500 });
+  }
 }

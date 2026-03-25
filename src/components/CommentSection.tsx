@@ -3,18 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession, signIn } from "next-auth/react";
 
-interface CommentUser {
-  name: string | null;
-  image: string | null;
-  email: string | null;
-}
-
 interface Comment {
   id: string;
   body: string;
+  authorName: string;
+  authorAvatar: string | null;
+  authorGithub: string;
   createdAt: string;
-  user: CommentUser;
-  userId: string;
 }
 
 function timeAgo(dateStr: string): string {
@@ -40,7 +35,8 @@ export default function CommentSection({ slug }: { slug: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const isAdmin = session?.user?.name === process.env.NEXT_PUBLIC_ADMIN_GITHUB;
+  const userLogin = (session?.user as Record<string, unknown> | undefined)?.login as string | undefined;
+  const isAdmin = userLogin === process.env.NEXT_PUBLIC_ADMIN_GITHUB;
 
   useEffect(() => {
     fetch(`/api/blog/${slug}/comments`)
@@ -184,9 +180,9 @@ export default function CommentSection({ slug }: { slug: string }) {
               className="group py-5 border-b border-neutral-100 dark:border-white/[0.05] last:border-b-0"
             >
               <div className="flex items-start gap-3">
-                {comment.user.image ? (
+                {comment.authorAvatar ? (
                   <img
-                    src={comment.user.image}
+                    src={comment.authorAvatar}
                     alt=""
                     className="w-8 h-8 rounded-full flex-shrink-0 mt-0.5"
                   />
@@ -196,7 +192,7 @@ export default function CommentSection({ slug }: { slug: string }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-outfit text-sm font-medium text-neutral-800 dark:text-white/80">
-                      {comment.user.name ?? "Anonymous"}
+                      {comment.authorName}
                     </span>
                     <span className="font-outfit text-[11px] text-neutral-400 dark:text-white/25">
                       {timeAgo(comment.createdAt)}
@@ -207,7 +203,7 @@ export default function CommentSection({ slug }: { slug: string }) {
                   </p>
                 </div>
                 {/* Delete button for admin or comment author */}
-                {(isAdmin || comment.userId === session?.user?.id) && (
+                {(isAdmin || comment.authorGithub === userLogin) && (
                   <button
                     onClick={() => deleteComment(comment.id)}
                     disabled={deletingId === comment.id}
