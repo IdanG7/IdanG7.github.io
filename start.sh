@@ -17,7 +17,7 @@ echo "node_modules/prisma exists: $([ -d node_modules/prisma ] && echo 'yes' || 
 echo "node_modules/@prisma exists: $([ -d node_modules/@prisma ] && echo 'yes' || echo 'NO')"
 
 echo "=== DEBUG: Running prisma migrate deploy ==="
-npx prisma migrate deploy 2>&1 || echo "!!! MIGRATION FAILED !!!"
+node node_modules/prisma/build/index.js migrate deploy 2>&1 || echo "!!! MIGRATION FAILED !!!"
 
 echo "=== DEBUG: Starting server ==="
 node server.js
