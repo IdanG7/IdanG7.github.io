@@ -585,7 +585,7 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
               target="_blank"
               rel="noopener noreferrer"
               draggable="false"
-              className="project-frame group relative block w-full lg:max-w-[865px] lg:h-auto lg:min-h-[350px]"
+              className="project-frame group relative block w-full lg:max-w-[865px] lg:h-auto lg:min-h-[350px] lg:cursor-none"
               style={{ background: "transparent" }}
             >
               <div

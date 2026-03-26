@@ -15,7 +15,7 @@ export const blogPosts: BlogPost[] = [
       "Cuba's Blackout and the Fragility of Infrastructure We Take for Granted",
     excerpt:
       "A massive blackout left millions of Cubans without power for days. As someone who works on CI/CD pipelines and deployments, it got me thinking about how fragile the systems we depend on really are.",
-    date: "2026-03-26",
+    date: "2026-03-23",
     readTime: "7 min read",
     tags: ["Infrastructure", "Systems", "Engineering", "Opinion"],
     content: `
@@ -97,7 +97,7 @@ export const blogPosts: BlogPost[] = [
       "The 2026 FIFA World Cup Is Coming to Canada — What Does That Mean for Toronto Tech?",
     excerpt:
       "Canada is co-hosting the biggest sporting event on the planet this summer. Behind the scenes, there's a massive wave of tech work — and opportunity — that most devs aren't talking about.",
-    date: "2026-03-26",
+    date: "2026-03-16",
     readTime: "7 min read",
     tags: ["Infrastructure", "Career", "Engineering", "Opinion"],
     content: `
@@ -166,7 +166,7 @@ export const blogPosts: BlogPost[] = [
       "Agentic AI Hit the Trough of Disillusionment — And That's Actually Good News",
     excerpt:
       "Gartner says GenAI is officially in the trough of disillusionment. For junior devs navigating hype cycles, this is the moment that separates real skills from resume buzzwords.",
-    date: "2026-03-26",
+    date: "2026-03-09",
     readTime: "7 min read",
     tags: ["AI", "Career", "Junior Dev", "Opinion"],
     content: `
@@ -244,7 +244,7 @@ export const blogPosts: BlogPost[] = [
       "Open Source Is Eating the AI World — And That Matters If You're a Student",
     excerpt:
       "85% of organizations say open source is critical to their AI strategy. If you're a CS student not contributing yet, you're leaving career leverage on the table.",
-    date: "2026-03-26",
+    date: "2026-03-02",
     readTime: "6 min read",
     tags: ["AI", "Career", "Junior Dev", "Opinion"],
     content: `
@@ -316,7 +316,7 @@ export const blogPosts: BlogPost[] = [
     title: "AI Coding Tools Are Coming for Junior Dev Jobs — Should I Panic?",
     excerpt:
       "Predictions say junior developer hiring will slow as AI handles entry-level work. Here's my honest take as someone in that exact position.",
-    date: "2026-03-24",
+    date: "2026-02-23",
     readTime: "7 min read",
     tags: ["AI", "Career", "Junior Dev", "Opinion"],
     content: `

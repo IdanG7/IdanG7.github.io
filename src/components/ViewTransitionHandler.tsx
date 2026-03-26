@@ -75,10 +75,6 @@ export function applyTransitionAnimation(
 
     scrollToTopInstant();
   });
-
-  transition.finished.then(() => {
-    scrollToTopInstant();
-  });
 }
 
 /**
@@ -92,9 +88,6 @@ export default function ViewTransitionHandler() {
   // Scroll to top on every route change
   useEffect(() => {
     scrollToTopInstant();
-    requestAnimationFrame(() => {
-      scrollToTopInstant();
-    });
   }, [pathname]);
 
   // Intercept browser back/forward for smooth view transitions
