@@ -25,6 +25,9 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
           touchMultiplier: 1.5,
         });
 
+        // Expose Lenis globally so TransitionLink can do instant scroll resets
+        (window as any).__lenis = lenisRef.current;
+
         lenisRef.current.on("scroll", ScrollTrigger.update);
 
         const tick = (time: number) => {
@@ -53,6 +56,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         Promise.resolve(cleanupPromise).then((cleanup) => cleanup?.());
       }
       lenisRef.current?.destroy();
+      (window as any).__lenis = null;
       document.documentElement.classList.remove("lenis", "lenis-smooth");
     };
   }, []);

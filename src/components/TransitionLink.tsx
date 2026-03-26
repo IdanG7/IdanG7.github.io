@@ -1,55 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { ComponentProps, MouseEvent, useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { ComponentProps, MouseEvent, useCallback, useRef } from "react";
+import { scrollToTopInstant, applyTransitionAnimation } from "@/components/ViewTransitionHandler";
 
-type TransitionLinkProps = ComponentProps<typeof Link>;
+type TransitionLinkProps = ComponentProps<typeof Link> & {
+  /** Use reverse (closing) animation — for "back" style links */
+  back?: boolean;
+};
 
 export default function TransitionLink({
   href,
   onClick,
   children,
+  back = false,
   ...props
 }: TransitionLinkProps) {
   const router = useRouter();
-  const pathname = usePathname();
   const resolveRef = useRef<(() => void) | null>(null);
-
-  // When pathname changes, resolve any pending transition
-  useEffect(() => {
-    if (resolveRef.current) {
-      resolveRef.current();
-      resolveRef.current = null;
-    }
-  }, [pathname]);
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
-      // Call original onClick if provided
       onClick?.(e);
-
-      // If default was prevented, don't do our transition
       if (e.defaultPrevented) return;
-
-      // Check if View Transitions API is supported
-      if (!document.startViewTransition) {
-        return; // Let normal navigation happen
-      }
-
-      // Prevent default navigation
       e.preventDefault();
 
-      // Get the href as string
       const url = typeof href === "string" ? href : href.pathname || "/";
 
-      // Start view transition
-      document.startViewTransition(() => {
+      // No View Transitions API — just navigate and scroll
+      if (!document.startViewTransition) {
+        router.push(url, { scroll: false });
+        requestAnimationFrame(() => scrollToTopInstant());
+        return;
+      }
+
+      const transition = document.startViewTransition(() => {
         return new Promise<void>((resolve) => {
           resolveRef.current = resolve;
-          router.push(url);
+          router.push(url, { scroll: false });
 
-          // Fallback timeout in case pathname doesn't change (same page nav)
           setTimeout(() => {
             if (resolveRef.current === resolve) {
               resolve();
@@ -58,12 +48,15 @@ export default function TransitionLink({
           }, 500);
         });
       });
+
+      // Apply correct animation direction via Web Animations API
+      applyTransitionAnimation(transition, back ? "back" : "forward");
     },
-    [href, onClick, router]
+    [href, onClick, router, back]
   );
 
   return (
-    <Link href={href} onClick={handleClick} {...props}>
+    <Link href={href} onClick={handleClick} scroll={false} {...props}>
       {children}
     </Link>
   );

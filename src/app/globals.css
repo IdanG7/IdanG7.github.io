@@ -1163,28 +1163,17 @@ img {
   animation: page-fade-out 0.3s cubic-bezier(0.25, 0.4, 0.25, 1) forwards;
 }
 
-/* View Transitions API - Circle Reveal from Center */
-@keyframes circle-reveal {
-  from {
-    clip-path: circle(0% at 50% 50%);
-  }
-
-  to {
-    clip-path: circle(150% at 50% 50%);
-  }
-}
-
+/* View Transitions API — animations are applied via JS Web Animations API
+   in ViewTransitionHandler.tsx for reliable directional control.
+   These CSS rules just set base z-index and disable default crossfade. */
 ::view-transition-old(root) {
   animation: none;
-  z-index: 1;
 }
 
 ::view-transition-new(root) {
-  animation: circle-reveal 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  z-index: 2;
+  animation: none;
 }
 
-/* Ensure the old page stays visible underneath */
 ::view-transition-image-pair(root) {
   isolation: isolate;
 }
@@ -1194,7 +1183,7 @@ img {
 
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation: none;
+    animation: none !important;
   }
 }
 

@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import { gsap } from "gsap";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -588,12 +588,13 @@ export default function AnimatedList() {
       <Navigation />
       <main className="min-h-screen bg-neutral-50 dark:bg-black pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 md:pb-32">
-          <Link
+          <TransitionLink
             href="/labs"
+            back
             className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-white/10 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
           >
             Back to Labs
-          </Link>
+          </TransitionLink>
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-12 mb-12 md:mb-20">
             <div className="flex-1">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-outfit font-bold text-neutral-900 dark:text-white tracking-tight leading-[1.1]">

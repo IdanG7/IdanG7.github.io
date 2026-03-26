@@ -35,7 +35,8 @@ export default function CommentSection({ slug }: { slug: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const userLogin = (session?.user as Record<string, unknown> | undefined)?.login as string | undefined;
+  const userLogin = (session?.user as Record<string, unknown> | undefined)
+    ?.login as string | undefined;
   const isAdmin = userLogin === process.env.NEXT_PUBLIC_ADMIN_GITHUB;
 
   useEffect(() => {
@@ -89,17 +90,16 @@ export default function CommentSection({ slug }: { slug: string }) {
   );
 
   return (
-    <div className="mt-2">
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="w-1.5 h-1.5 rounded-full bg-neutral-900 dark:bg-white" />
-        <span className="font-outfit text-xs font-semibold tracking-[0.2em] uppercase text-neutral-900 dark:text-white">
+    <div id="discussion" className="scroll-mt-24">
+      {/* Section header */}
+      <div className="flex items-center gap-3 mb-8 pt-12 border-t border-neutral-200 dark:border-white/[0.08]">
+        <h2 className="font-outfit text-lg font-bold text-neutral-900 dark:text-white">
           Discussion
+        </h2>
+        <span className="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-neutral-100 dark:bg-white/[0.06] font-outfit text-xs font-semibold text-neutral-500 dark:text-white/40 tabular-nums">
+          {comments.length}
         </span>
-        <div className="flex-1 h-[1px] bg-neutral-200 dark:bg-white/[0.08]" />
-        <span className="font-outfit text-xs tracking-wider text-neutral-400 dark:text-white/25 tabular-nums">
-          {comments.length} {comments.length === 1 ? "comment" : "comments"}
-        </span>
+        <div className="flex-1" />
       </div>
 
       {/* Comment form or sign-in prompt */}
@@ -126,6 +126,12 @@ export default function CommentSection({ slug }: { slug: string }) {
               placeholder="Share your thoughts..."
               maxLength={2000}
               rows={3}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault();
+                  submitComment();
+                }
+              }}
               className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-white/[0.03] text-neutral-800 dark:text-white/80 font-outfit text-sm placeholder:text-neutral-400 dark:placeholder:text-white/20 resize-none focus:outline-none focus:border-green-500/40 dark:focus:border-green-500/30 transition-colors"
             />
             <div className="flex items-center justify-between mt-2">
@@ -135,7 +141,7 @@ export default function CommentSection({ slug }: { slug: string }) {
               <button
                 onClick={submitComment}
                 disabled={!body.trim() || isSubmitting}
-                className="px-4 py-1.5 rounded-full bg-green-600 hover:bg-green-500 disabled:opacity-40 disabled:hover:bg-green-600 text-white font-outfit text-xs font-semibold tracking-wider uppercase transition-colors"
+                className="px-5 py-1.5 rounded-full bg-neutral-900 dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-40 text-white dark:text-black font-outfit text-xs font-semibold tracking-wider uppercase transition-colors"
               >
                 {isSubmitting ? "Posting..." : "Post"}
               </button>
@@ -145,19 +151,19 @@ export default function CommentSection({ slug }: { slug: string }) {
       ) : (
         <button
           onClick={() => signIn("github")}
-          className="group flex items-center gap-3 w-full px-5 py-4 mb-8 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-white/[0.03] hover:border-green-500/30 dark:hover:border-green-500/20 transition-colors"
+          className="group flex items-center gap-3 w-full px-5 py-4 mb-8 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-white/[0.03] hover:border-neutral-300 dark:hover:border-white/20 transition-colors"
         >
           <svg
             viewBox="0 0 24 24"
             width="20"
             height="20"
             fill="currentColor"
-            className="text-neutral-600 dark:text-white/50 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors"
+            className="text-neutral-600 dark:text-white/50 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors"
           >
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z" />
           </svg>
           <span className="font-outfit text-sm text-neutral-500 dark:text-white/40 group-hover:text-neutral-700 dark:group-hover:text-white/60 transition-colors">
-            Sign in with GitHub to comment
+            Sign in with GitHub to join the discussion
           </span>
         </button>
       )}
@@ -173,12 +179,9 @@ export default function CommentSection({ slug }: { slug: string }) {
           ))}
         </div>
       ) : comments.length > 0 ? (
-        <div className="space-y-0">
+        <div className="space-y-0 divide-y divide-neutral-100 dark:divide-white/[0.05]">
           {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="group py-5 border-b border-neutral-100 dark:border-white/[0.05] last:border-b-0"
-            >
+            <div key={comment.id} className="group py-5">
               <div className="flex items-start gap-3">
                 {comment.authorAvatar ? (
                   <img
@@ -190,10 +193,15 @@ export default function CommentSection({ slug }: { slug: string }) {
                   <div className="w-8 h-8 rounded-full bg-neutral-200 dark:bg-white/10 flex-shrink-0 mt-0.5" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-outfit text-sm font-medium text-neutral-800 dark:text-white/80">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <a
+                      href={`https://github.com/${comment.authorGithub}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-outfit text-sm font-semibold text-neutral-800 dark:text-white/80 hover:underline underline-offset-2"
+                    >
                       {comment.authorName}
-                    </span>
+                    </a>
                     <span className="font-outfit text-[11px] text-neutral-400 dark:text-white/25">
                       {timeAgo(comment.createdAt)}
                     </span>
@@ -202,7 +210,7 @@ export default function CommentSection({ slug }: { slug: string }) {
                     {comment.body}
                   </p>
                 </div>
-                {/* Delete button for admin or comment author */}
+                {/* Delete button */}
                 {(isAdmin || comment.authorGithub === userLogin) && (
                   <button
                     onClick={() => deleteComment(comment.id)}
@@ -210,17 +218,7 @@ export default function CommentSection({ slug }: { slug: string }) {
                     className="opacity-0 group-hover:opacity-100 flex-shrink-0 p-1.5 rounded-md text-neutral-400 dark:text-white/20 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-500/10 transition-all"
                     title="Delete comment"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M3 6h18" />
                       <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                       <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -232,9 +230,11 @@ export default function CommentSection({ slug }: { slug: string }) {
           ))}
         </div>
       ) : (
-        <p className="font-outfit text-sm text-neutral-400 dark:text-white/25 text-center py-6">
-          No comments yet. Be the first to share your thoughts.
-        </p>
+        <div className="text-center py-10">
+          <p className="font-outfit text-sm text-neutral-400 dark:text-white/25">
+            No comments yet. Be the first to share your thoughts.
+          </p>
+        </div>
       )}
     </div>
   );

@@ -6,6 +6,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 import PageTransition from "@/components/PageTransition";
 import DisableRightClick from "@/components/DisableRightClick";
+import ViewTransitionHandler from "@/components/ViewTransitionHandler";
 
 const helvetica = localFont({
   src: [
@@ -165,6 +166,7 @@ export default function RootLayout({
           })();`}
         </Script>
         <DisableRightClick />
+        <ViewTransitionHandler />
         <SmoothScroll>
           <PageTransition>{children}</PageTransition>
         </SmoothScroll>

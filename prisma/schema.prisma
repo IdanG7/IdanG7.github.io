@@ -11,7 +11,7 @@ datasource db {
 
 enum ReactionType {
   LIKE
-  DISLIKE
+  CLAP
 }
 
 model Reaction {
@@ -21,7 +21,7 @@ model Reaction {
   type      ReactionType
   createdAt DateTime     @default(now())
 
-  @@unique([slug, voterId])
+  @@unique([slug, voterId, type])
   @@index([slug])
 }
 
@@ -35,4 +35,10 @@ model Comment {
   createdAt    DateTime @default(now())
 
   @@index([slug])
+}
+
+model View {
+  id   String @id @default(cuid())
+  slug String @unique
+  count Int   @default(0)
 }

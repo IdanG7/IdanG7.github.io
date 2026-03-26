@@ -1,6 +1,9 @@
 "use client";
 
+import { useState, useRef, useCallback } from "react";
+import { useMotionValue } from "framer-motion";
 import TransitionLink from "@/components/TransitionLink";
+import HoverRing from "@/components/HoverRing";
 import { cn } from "@/lib/utils";
 import type { BlogPost } from "@/lib/blog";
 import { formatDate } from "@/lib/blog";
@@ -29,17 +32,54 @@ function ArticleNumber({ index }: { index: number }) {
   );
 }
 
+function useCardHover() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLElement>(null);
+
+  const onMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!cardRef.current) return;
+      x.set(e.clientX);
+      y.set(e.clientY);
+    },
+    [x, y]
+  );
+
+  const onMouseEnter = useCallback(
+    (e: React.MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setIsHovered(true);
+    },
+    [x, y]
+  );
+
+  const onMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  return { x, y, isHovered, cardRef, onMouseMove, onMouseEnter, onMouseLeave };
+}
+
 export function FeaturedPostCard({ post, index }: { post: BlogPost; index: number }) {
-  const primaryTag = post.tags[0];
-  const tagColor = tagColors[primaryTag] ?? defaultTagColor;
+  const { x, y, isHovered, cardRef, onMouseMove, onMouseEnter, onMouseLeave } = useCardHover();
 
   return (
     <div className="blog-card-wrapper">
+      <HoverRing x={x} y={y} isVisible={isHovered} label="READ ARTICLE" />
       <TransitionLink
         href={`/blog/${post.slug}`}
         className="group block outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-3xl"
       >
-        <article className="relative overflow-hidden rounded-3xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A] transition-all duration-500 group-hover:border-neutral-300 dark:group-hover:border-white/[0.15] group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:group-hover:shadow-[0_8px_40px_rgba(255,255,255,0.03)]">
+        <article
+          ref={cardRef as React.Ref<HTMLElement>}
+          onMouseMove={onMouseMove}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          className="relative overflow-hidden rounded-3xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A] transition-all duration-500 group-hover:border-neutral-300 dark:group-hover:border-white/[0.15] group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:group-hover:shadow-[0_8px_40px_rgba(255,255,255,0.03)] cursor-none"
+        >
           {/* Decorative gradient bar */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neutral-300 dark:via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -94,20 +134,17 @@ export function FeaturedPostCard({ post, index }: { post: BlogPost; index: numbe
 
             {/* Right: Abstract decorative panel */}
             <div className="hidden md:flex w-[280px] lg:w-[320px] shrink-0 relative overflow-hidden bg-neutral-50 dark:bg-[#060606] border-l border-neutral-100 dark:border-white/[0.06] items-center justify-center">
-              {/* Large serif letter watermark */}
               <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none">
                 <span className="font-nyght text-[200px] lg:text-[240px] italic text-neutral-100 dark:text-white/[0.03] leading-none transition-transform duration-700 group-hover:scale-105 group-hover:rotate-[-2deg]">
                   {post.title.charAt(0)}
                 </span>
               </div>
-              {/* Featured badge */}
               <div className="absolute top-6 right-6">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-black text-[10px] font-outfit font-bold tracking-[0.15em] uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 dark:bg-emerald-600 animate-pulse" />
                   Latest
                 </div>
               </div>
-              {/* Decorative lines */}
               <div className="absolute bottom-8 left-8 right-8 space-y-2 opacity-30">
                 <div className="h-[1px] bg-neutral-300 dark:bg-white/10 w-full" />
                 <div className="h-[1px] bg-neutral-300 dark:bg-white/10 w-3/4" />
@@ -122,13 +159,22 @@ export function FeaturedPostCard({ post, index }: { post: BlogPost; index: numbe
 }
 
 export function BlogPostCard({ post, index }: { post: BlogPost; index: number }) {
+  const { x, y, isHovered, cardRef, onMouseMove, onMouseEnter, onMouseLeave } = useCardHover();
+
   return (
     <div className="blog-card-wrapper">
+      <HoverRing x={x} y={y} isVisible={isHovered} label="READ ARTICLE" />
       <TransitionLink
         href={`/blog/${post.slug}`}
         className="group block h-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-2xl"
       >
-        <article className="relative h-full flex flex-col rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A] p-6 md:p-7 transition-all duration-500 group-hover:border-neutral-300 dark:group-hover:border-white/[0.15] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] dark:group-hover:shadow-[0_4px_24px_rgba(255,255,255,0.02)] overflow-hidden">
+        <article
+          ref={cardRef as React.Ref<HTMLElement>}
+          onMouseMove={onMouseMove}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          className="relative h-full flex flex-col rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-[#0A0A0A] p-6 md:p-7 transition-all duration-500 group-hover:border-neutral-300 dark:group-hover:border-white/[0.15] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] dark:group-hover:shadow-[0_4px_24px_rgba(255,255,255,0.02)] overflow-hidden cursor-none"
+        >
           {/* Subtle top-left accent on hover */}
           <div className="absolute top-0 left-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-neutral-300 dark:from-white/20 to-transparent" />

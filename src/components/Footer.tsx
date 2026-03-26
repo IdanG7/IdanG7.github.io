@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import FidgetOrbs from "./FidgetOrbs";
 
 export default function Footer() {
@@ -35,11 +35,11 @@ export default function Footer() {
       <div className="bg-white dark:bg-[#0A0A0A] rounded-3xl py-6 px-4 md:py-10 md:px-10 mb-10 md:mb-20 shadow-sm dark:shadow-none transition-colors duration-500">
         <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
           <div className="flex flex-col gap-6 max-w-lg">
-            <Link href="/" className="group block w-fit">
+            <TransitionLink href="/" className="group block w-fit">
               <h3 className="text-3xl md:text-5xl font-bold text-neutral-900 dark:text-white tracking-tight transition-all duration-300 group-hover:tracking-wider font-agile">
                 IDAN
               </h3>
-            </Link>
+            </TransitionLink>
             <p className="text-neutral-500 dark:text-neutral-400 text-sm md:text-base leading-relaxed font-fjalla max-w-md">
               Backend engineer specializing in C++ development, firmware engineering, and Infrastructure
               automation. Focused on building reliable systems, scalable infrastructure, and
@@ -51,7 +51,7 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               <h4 className="text-neutral-400 font-medium mb-2 font-outfit">General</h4>
               <div className="flex flex-col gap-3">
-                <Link className="group flex items-center gap-2 w-fit" href="/">
+                <TransitionLink className="group flex items-center gap-2 w-fit" href="/">
                   <span className="relative inline-block text-sm md:text-base text-neutral-600 dark:text-white tracking-wide font-fjalla">
                     Home
                     <span className="absolute left-0 bottom-0 w-full h-[1px] bg-black dark:bg-white origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -65,8 +65,8 @@ export default function Footer() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </Link>
-                <Link className="group flex items-center gap-2 w-fit" href="/about">
+                </TransitionLink>
+                <TransitionLink className="group flex items-center gap-2 w-fit" href="/about">
                   <span className="relative inline-block text-sm md:text-base text-neutral-600 dark:text-white tracking-wide font-fjalla">
                     About
                     <span className="absolute left-0 bottom-0 w-full h-[1px] bg-black dark:bg-white origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -80,8 +80,8 @@ export default function Footer() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </Link>
-                <Link className="group flex items-center gap-2 w-fit" href="/projects">
+                </TransitionLink>
+                <TransitionLink className="group flex items-center gap-2 w-fit" href="/projects">
                   <span className="relative inline-block text-sm md:text-base text-neutral-600 dark:text-white tracking-wide font-fjalla">
                     Projects
                     <span className="absolute left-0 bottom-0 w-full h-[1px] bg-black dark:bg-white origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -95,8 +95,8 @@ export default function Footer() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </Link>
-                <Link className="group flex items-center gap-2 w-fit" href="/links">
+                </TransitionLink>
+                <TransitionLink className="group flex items-center gap-2 w-fit" href="/links">
                   <span className="relative inline-block text-sm md:text-base text-neutral-600 dark:text-white tracking-wide font-fjalla">
                     Links
                     <span className="absolute left-0 bottom-0 w-full h-[1px] bg-black dark:bg-white origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -110,8 +110,8 @@ export default function Footer() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </Link>
-                <Link className="group flex items-center gap-2 w-fit" href="/uses">
+                </TransitionLink>
+                <TransitionLink className="group flex items-center gap-2 w-fit" href="/uses">
                   <span className="relative inline-block text-sm md:text-base text-neutral-600 dark:text-white tracking-wide font-fjalla">
                     Uses
                     <span className="absolute left-0 bottom-0 w-full h-[1px] bg-black dark:bg-white origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -125,7 +125,7 @@ export default function Footer() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </Link>
+                </TransitionLink>
               </div>
             </div>
 

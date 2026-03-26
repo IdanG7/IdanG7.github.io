@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -465,13 +464,13 @@ export default function Navigation() {
               <div className="flex flex-col w-full relative z-30">
                 {/* Header */}
                 <div className="h-[48px] w-full flex items-center px-5 shrink-0 gap-3 border-b border-neutral-200 dark:border-white/10">
-                  <Link
+                  <TransitionLink
                     href="/"
                     className="relative z-30 font-outfit text-neutral-800 dark:text-white/90 text-xs font-medium tracking-wide flex-1"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Idan Gurevich
-                  </Link>
+                  </TransitionLink>
                 </div>
 
                 {/* Links */}
