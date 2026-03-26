@@ -102,7 +102,15 @@ export default function ViewTransitionHandler() {
     if (typeof document === "undefined") return;
     if (!document.startViewTransition) return;
 
+    let lastPathname = window.location.pathname;
+
     const handlePopState = () => {
+      const newPathname = window.location.pathname;
+
+      // Skip hash-only changes (e.g. #discussion anchor links)
+      if (newPathname === lastPathname) return;
+      lastPathname = newPathname;
+
       const transition = document.startViewTransition(async () => {
         await new Promise<void>((resolve) => setTimeout(resolve, 200));
         scrollToTopInstant();
