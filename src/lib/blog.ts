@@ -101,7 +101,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     tags: ["Infrastructure", "Career", "Engineering", "Opinion"],
     content: `
-<p>This summer, the <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener noreferrer">2026 FIFA World Cup</a> kicks off across Canada, the US, and Mexico — the first World Cup with 48 teams and the first time Canada has co-hosted. Toronto's BMO Field and Vancouver's BC Place are on the venue list, and if you live in Ontario like I do, you can already feel it building. Transit expansions, construction projects, and a general buzz that this province hasn't seen since the 2015 Pan Am Games.</p>
+<p>This summer, the <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener noreferrer">2026 FIFA World Cup</a> kicks off across Canada, the US, and Mexico — the first World Cup with 48 teams and the first time Canada has co-hosted. Toronto's BMO Field and Vancouver's BC Place are on the venue list, and if you live in Ontario like I do, you can already feel it building. Transit expansions, construction projects, and a general buzz that this province hasn't seen since the 2015 Pan Am Games.</p>
 
 <p>But here's the part that caught my attention as a developer: <strong>mega-events like the World Cup are absolute machines for tech work.</strong> And most of it is the kind of unglamorous, critical infrastructure that CS students never think about.</p>
 
@@ -109,9 +109,9 @@ export const blogPosts: BlogPost[] = [
 
 <p>When you watch a match, you see a pitch, some cameras, and a scoreboard. What you don't see is an enormous technology operation running underneath.</p>
 
-<p><strong>Real-time data pipelines.</strong> FIFA's <a href="https://www.fifa.com/fifaplus/en/articles/enhanced-football-intelligence-semi-automated-offside-technology-at-the-fifa-world-cup-26" target="_blank" rel="noopener noreferrer">Enhanced Football Intelligence</a> system tracks every player and the ball using sensor arrays and computer vision — producing terabytes of positional data per match. That data feeds live stats, VAR decisions, broadcast overlays, and the fantasy platforms that millions of fans use. Every millisecond of latency matters.</p>
+<p><strong>Real-time data pipelines.</strong> FIFA's <a href="https://inside.fifa.com/media-releases/lenovo-tech-world-ai-powered-innovations-world-cup-2026" target="_blank" rel="noopener noreferrer">Enhanced Football Intelligence</a> system tracks every player and the ball using sensor arrays and computer vision — producing terabytes of positional data per match. That data feeds live stats, VAR decisions, broadcast overlays, and the fantasy platforms that millions of fans use. Every millisecond of latency matters.</p>
 
-<p><strong>Ticketing and access control at insane scale.</strong> The 2022 Qatar World Cup sold over <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/qatar2022/articles/3-million-tickets-sold-qatar-2022" target="_blank" rel="noopener noreferrer">3 million tickets</a>. The 2026 tournament, with 48 teams across 16 venues, will dwarf that. That's a distributed ticketing system handling spikes that make Black Friday look gentle — with fraud detection, mobile entry, and real-time capacity management across three countries.</p>
+<p><strong>Ticketing and access control at insane scale.</strong> The 2022 Qatar World Cup sold over <a href="https://www.fifa.com/en/articles/fifa-world-cup-qatar-2022-tm-ticket-sales-reach-2-45-million" target="_blank" rel="noopener noreferrer">2.45 million tickets</a>. The 2026 tournament, with 48 teams across 16 venues, will dwarf that. That's a distributed ticketing system handling spikes that make Black Friday look gentle — with fraud detection, mobile entry, and real-time capacity management across three countries.</p>
 
 <p><strong>Streaming infrastructure.</strong> Billions of viewers worldwide. Multiple camera angles. Multi-language commentary. Instant replays. All delivered at broadcast quality with minimal buffering. The CDN and edge computing work behind live sports streaming is some of the most demanding infrastructure engineering on the planet.</p>
 
@@ -170,7 +170,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     tags: ["AI", "Career", "Junior Dev", "Opinion"],
     content: `
-<p>If you've been paying attention to the AI discourse lately, you might have noticed a shift. The breathless excitement from a year ago — "AI agents will automate everything!" — has cooled into something more measured. Some would say pessimistic. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/what-to-know-about-ai-hype-cycle" target="_blank" rel="noopener noreferrer">MIT Sloan</a> is openly discussing AI bubble parallels to the dot-com era, and Gartner has placed generative AI squarely in the <strong>"trough of disillusionment"</strong> on their hype cycle.</p>
+<p>If you've been paying attention to the AI discourse lately, you might have noticed a shift. The breathless excitement from a year ago — "AI agents will automate everything!" — has cooled into something more measured. Some would say pessimistic. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/how-to-break-ai-hype-cycle-and-make-good-ai-decisions-your-organization" target="_blank" rel="noopener noreferrer">MIT Sloan</a> is openly discussing AI bubble parallels to the dot-com era, and Gartner has placed generative AI squarely in the <strong>"trough of disillusionment"</strong> on their hype cycle.</p>
 
 <p>For a third-year CS student watching all this from a desk in Ontario, my reaction might surprise you: <em>finally.</em></p>
 
@@ -185,7 +185,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Well, it's 2026. My laundry is still piling up.</p>
 
-<p>The reality is that <a href="https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-what-it-and-how-it-will-change-work" target="_blank" rel="noopener noreferrer">agentic AI turned out to be the most overhyped trend</a> in the recent AI wave. Autonomous agents are genuinely useful in narrow, well-defined contexts — running CI pipelines, triaging support tickets, summarizing meeting notes. But the vision of fully autonomous AI agents replacing human judgment at scale? That's hit a wall of messy real-world complexity that no amount of prompt engineering can solve.</p>
+<p>The reality is that <a href="https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-explained" target="_blank" rel="noopener noreferrer">agentic AI turned out to be the most overhyped trend</a> in the recent AI wave. Autonomous agents are genuinely useful in narrow, well-defined contexts — running CI pipelines, triaging support tickets, summarizing meeting notes. But the vision of fully autonomous AI agents replacing human judgment at scale? That's hit a wall of messy real-world complexity that no amount of prompt engineering can solve.</p>
 
 <p>Companies that went all-in on "agentic everything" are quietly scaling back. The ones that took a more measured approach are actually seeing results. And that's exactly how hype cycles work.</p>
 
@@ -193,7 +193,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Here's the thing nobody tells CS students: <strong>your career will span multiple hype cycles.</strong> AI agents aren't the first, and they won't be the last. Blockchain, the metaverse, Web3, NFTs — each one had a peak where people said "learn this or get left behind," followed by a trough where most of those people quietly updated their LinkedIn headlines back to "Software Engineer."</p>
 
-<p>The <a href="https://mitsloan.mit.edu/ideas-made-to-matter/what-to-know-about-ai-hype-cycle" target="_blank" rel="noopener noreferrer">MIT Sloan analysis</a> draws direct parallels between AI today and the dot-com bubble. During the dot-com era, the companies that survived weren't the ones with the flashiest pitches — they were the ones building real infrastructure. Amazon sold books. Google organized information. The boring stuff won.</p>
+<p>The <a href="https://mitsloan.mit.edu/ideas-made-to-matter/how-to-break-ai-hype-cycle-and-make-good-ai-decisions-your-organization" target="_blank" rel="noopener noreferrer">MIT Sloan analysis</a> draws direct parallels between AI today and the dot-com bubble. During the dot-com era, the companies that survived weren't the ones with the flashiest pitches — they were the ones building real infrastructure. Amazon sold books. Google organized information. The boring stuff won.</p>
 
 <p>The same pattern is playing out with AI. The companies and developers who will thrive aren't the ones chasing the latest buzzword. They're the ones building practical applications, understanding the fundamentals, and developing judgment about what AI can and can't do.</p>
 
@@ -331,7 +331,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Cool. Great. Love that for us.</p>
 
-<p>I'm a third-year CS student in Ontario working as a junior developer and using AI tools daily. According to a <a href="https://www.rbcx.com/resources/ai-adoption-report" target="_blank" rel="noopener noreferrer">report from RBCx</a>, most people using AI tools feel that the changes are incremental, so when people ask if I'm worried, my answer is more nuanced than panic or denial.</p>
+<p>I'm a third-year CS student in Ontario working as a junior developer and using AI tools daily. According to the <a href="https://stackoverflow.blog/2025/12/29/developers-remain-willing-but-reluctant-to-use-ai-the-2025-developer-survey-results-are-here/" target="_blank" rel="noopener noreferrer">2025 Stack Overflow Developer Survey analysis</a>, most developers using AI tools feel that the changes are incremental, so when people ask if I'm worried, my answer is more nuanced than panic or denial.</p>
 
 <h2>The Headlines Aren't Wrong — But They're Not the Full Story</h2>
 
@@ -360,7 +360,7 @@ export const blogPosts: BlogPost[] = [
 
 <details class="blog-aside">
 <summary>A real example of AI getting it wrong</summary>
-<p>According to <a href="https://copilotcraft.dev/blog/ai-code-review-pitfalls" target="_blank" rel="noopener noreferrer">CopilotCraft</a>, sometimes AI-generated code may appear correct at first glance but can behave unexpectedly — like when Copilot produced a function that looked perfect but broke the app due to hidden issues such as not handling all data formats. I only noticed because I remembered a specific error case from a past bug report. If I hadn't double-checked, that bug would have made it to production and cost us serious troubleshooting hours. Stories like this remind me that human judgment still matters — and will probably do so for a long time.</p>
+<p>According to <a href="https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report" target="_blank" rel="noopener noreferrer">CodeRabbit's State of AI vs Human Code Generation report</a>, AI-generated code produces roughly 1.7x more issues than human-written code — sometimes it appears correct at first glance but can behave unexpectedly — like when Copilot produced a function that looked perfect but broke the app due to hidden issues such as not handling all data formats. I only noticed because I remembered a specific error case from a past bug report. If I hadn't double-checked, that bug would have made it to production and cost us serious troubleshooting hours. Stories like this remind me that human judgment still matters — and will probably do so for a long time.</p>
 </details>
 
 <h2>The Real Shift: From Code Writer to Code Reviewer</h2>
