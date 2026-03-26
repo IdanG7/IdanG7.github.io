@@ -613,7 +613,7 @@ export default function BentoGrid() {
                 </div>
               </div>
               <div className="relative z-10 flex justify-center lg:block">
-                <button className="group/btn relative w-fit px-6 lg:px-0 lg:w-full h-10 lg:h-12 rounded-full bg-white overflow-hidden flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                <a href={`mailto:${emailAddress}`} className="group/btn relative w-fit px-6 lg:px-0 lg:w-full h-10 lg:h-12 rounded-full bg-white overflow-hidden flex items-center justify-center gap-2 active:scale-95 transition-transform">
                   <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.85,0,0.15,1)]" />
                   <span className="relative z-10 text-[9px] lg:text-[11px] font-black uppercase tracking-[0.15em] text-black group-hover/btn:text-white transition-colors duration-300">
                     Connect Now
@@ -634,7 +634,7 @@ export default function BentoGrid() {
                     <path d="M7 7h10v10" />
                     <path d="M7 17 17 7" />
                   </svg>
-                </button>
+                </a>
               </div>
             </div>
           </div>
