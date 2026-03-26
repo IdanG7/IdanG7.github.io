@@ -250,7 +250,7 @@ export const blogPosts: BlogPost[] = [
     content: `
 <p>There's a quiet revolution happening in AI, and it's not coming from OpenAI's next model drop or Google's latest keynote. It's happening on GitHub, in messy repos with half-finished READMEs and heated PR discussions. <strong>Open source is becoming the backbone of AI development</strong> — and if you're a student or early-career dev, this is your window to get in.</p>
 
-<p>According to <a href="https://blogs.nvidia.com/blog/open-source-ai-survey/" target="_blank" rel="noopener noreferrer">NVIDIA's 2026 State of AI report</a>, 85% of survey respondents said open source is moderately to extremely important to their AI strategy. That's not hobbyists tinkering on weekends — that's enterprises, research labs, and startups all betting on community-driven tools over proprietary black boxes.</p>
+<p>According to <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" target="_blank" rel="noopener noreferrer">NVIDIA's 2026 State of AI report</a>, 85% of survey respondents said open source is moderately to extremely important to their AI strategy. That's not hobbyists tinkering on weekends — that's enterprises, research labs, and startups all betting on community-driven tools over proprietary black boxes.</p>
 
 <p>As someone who's been lurking in open source communities for a while and only recently started contributing, I wish I'd started sooner. Here's why this matters for people like us.</p>
 
