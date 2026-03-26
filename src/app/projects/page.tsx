@@ -1,3 +1,4 @@
+import BehindCurtains from "@/components/BehindCurtains";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import ProjectsHero from "@/components/ProjectsHero";
@@ -10,8 +11,9 @@ export default function ProjectsPage() {
       <main>
         <ProjectsHero />
         <VentureShowcase showHeading={false} />
-        <Footer />
+        <BehindCurtains />
       </main>
+      <Footer />
     </>
   );
 }
