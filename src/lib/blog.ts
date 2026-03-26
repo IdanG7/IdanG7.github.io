@@ -10,6 +10,84 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "agentic-ai-trough-of-disillusionment",
+    title:
+      "Agentic AI Hit the Trough of Disillusionment — And That's Actually Good News",
+    excerpt:
+      "Gartner says GenAI is officially in the trough of disillusionment. For junior devs navigating hype cycles, this is the moment that separates real skills from resume buzzwords.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["AI", "Career", "Junior Dev", "Opinion"],
+    content: `
+<p>If you've been paying attention to the AI discourse lately, you might have noticed a shift. The breathless excitement from a year ago — "AI agents will automate everything!" — has cooled into something more measured. Some would say pessimistic. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/what-to-know-about-ai-hype-cycle" target="_blank" rel="noopener noreferrer">MIT Sloan</a> is openly discussing AI bubble parallels to the dot-com era, and Gartner has placed generative AI squarely in the <strong>"trough of disillusionment"</strong> on their hype cycle.</p>
+
+<p>For a third-year CS student watching all this from a desk in Ontario, my reaction might surprise you: <em>finally.</em></p>
+
+<details class="blog-aside">
+<summary>What's the "trough of disillusionment"?</summary>
+<p>Gartner's Hype Cycle is a model that tracks how emerging technologies move through phases: a <strong>Technology Trigger</strong>, a <strong>Peak of Inflated Expectations</strong> (where everyone overpromises), a <strong>Trough of Disillusionment</strong> (where reality sets in and hype fades), the <strong>Slope of Enlightenment</strong> (where practical use cases emerge), and finally the <strong>Plateau of Productivity</strong> (where the tech becomes genuinely useful and boring). Most transformative technologies go through all five phases. The trough isn't death — it's growing up.</p>
+</details>
+
+<h2>What Happened to the Hype</h2>
+
+<p>Remember when "agentic AI" was the hottest term in tech? Every startup pitch deck featured autonomous agents that would handle your emails, manage your deployments, and probably do your laundry. LinkedIn influencers were posting about how "AI agents will replace entire engineering teams by 2025."</p>
+
+<p>Well, it's 2026. My laundry is still piling up.</p>
+
+<p>The reality is that <a href="https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-what-it-and-how-it-will-change-work" target="_blank" rel="noopener noreferrer">agentic AI turned out to be the most overhyped trend</a> in the recent AI wave. Autonomous agents are genuinely useful in narrow, well-defined contexts — running CI pipelines, triaging support tickets, summarizing meeting notes. But the vision of fully autonomous AI agents replacing human judgment at scale? That's hit a wall of messy real-world complexity that no amount of prompt engineering can solve.</p>
+
+<p>Companies that went all-in on "agentic everything" are quietly scaling back. The ones that took a more measured approach are actually seeing results. And that's exactly how hype cycles work.</p>
+
+<h2>Why Hype Cycles Matter for Your Career</h2>
+
+<p>Here's the thing nobody tells CS students: <strong>your career will span multiple hype cycles.</strong> AI agents aren't the first, and they won't be the last. Blockchain, the metaverse, Web3, NFTs — each one had a peak where people said "learn this or get left behind," followed by a trough where most of those people quietly updated their LinkedIn headlines back to "Software Engineer."</p>
+
+<p>The <a href="https://mitsloan.mit.edu/ideas-made-to-matter/what-to-know-about-ai-hype-cycle" target="_blank" rel="noopener noreferrer">MIT Sloan analysis</a> draws direct parallels between AI today and the dot-com bubble. During the dot-com era, the companies that survived weren't the ones with the flashiest pitches — they were the ones building real infrastructure. Amazon sold books. Google organized information. The boring stuff won.</p>
+
+<p>The same pattern is playing out with AI. The companies and developers who will thrive aren't the ones chasing the latest buzzword. They're the ones building practical applications, understanding the fundamentals, and developing judgment about what AI can and can't do.</p>
+
+<details class="blog-aside">
+<summary>The dot-com parallel is more specific than you think</summary>
+<p>During the dot-com bubble, thousands of companies with "e-" or ".com" in their name raised millions and burned through it all. But the underlying technology — the internet — was real and transformative. The bubble bursting didn't kill the internet. It killed the bad business models. AI is following the same trajectory: the technology is genuinely powerful, but many of the current business models and expectations built around it are unsustainable. The trough filters out the noise so the real signal can emerge.</p>
+</details>
+
+<h2>What This Means at the Junior Dev Level</h2>
+
+<p>If you're a student or early-career developer, the trough of disillusionment is actually your friend. Here's why:</p>
+
+<p><strong>The hiring bar is normalizing.</strong> During peak hype, job postings demanded "3+ years of LLM experience" for entry-level roles — which is absurd when the technology is barely older than that. As hype cools, expectations get more realistic. Companies start looking for people who can actually build things rather than people who can recite Sam Altman's latest interview.</p>
+
+<p><strong>The tools are maturing.</strong> Early-hype tools are fragile, poorly documented, and change every week. Post-hype tools are stable, well-tested, and actually useful. Learning AI tools now means you're learning the versions that will stick around, not the ones that'll be deprecated next quarter.</p>
+
+<p><strong>Fundamentals matter more in the trough.</strong> When hype is high, you can get by on vibes and buzzwords. When hype fades, employers want people who understand data structures, system design, networking, and debugging — the skills that let you evaluate whether an AI solution actually makes sense for a given problem. I've written about this before: <a href="/blog/ai-coming-for-junior-dev-jobs">going deeper beats going wider</a>.</p>
+
+<p><strong>It's easier to stand out.</strong> During peak hype, everyone and their dog is posting AI tutorials and side projects. In the trough, the tourists leave. If you're still building, still learning, still contributing — that consistency is visible and valued.</p>
+
+<h2>My Honest Take: The Trough Is Where Real Developers Are Made</h2>
+
+<p>I'll admit — I got caught up in the hype too. Last year I spent weeks trying to build an autonomous agent that could review pull requests end-to-end. It worked about 40% of the time and hallucinated the rest. I learned more from that failure than from any tutorial that promised "build an AI agent in 10 minutes."</p>
+
+<p>That's the gift of the trough. It forces you to confront what actually works versus what sounds impressive in a demo. And confronting that gap is where real engineering skill develops.</p>
+
+<p>The developers I admire most — the senior engineers and maintainers I interact with in <a href="/blog/open-source-eating-ai-world">open source communities</a> — they've all lived through previous hype cycles. They have a pattern-matching instinct for what's real and what's noise. That instinct doesn't come from reading hot takes on X. It comes from building things, watching them fail, and building again.</p>
+
+<details class="blog-aside">
+<summary>How to develop your own hype radar</summary>
+<p>A few questions I now ask when I see a new AI trend: (1) Does this solve a problem I've actually encountered, or a problem I've only read about in pitch decks? (2) Are the people excited about it builders or marketers? (3) Can I try it myself in under an hour, or does it require "enterprise onboarding"? (4) Is the demo cherry-picked or reproducible? These filters aren't perfect, but they've saved me from chasing at least three dead-end technologies.</p>
+</details>
+
+<h2>So What Should You Do?</h2>
+
+<p><strong>Don't abandon AI.</strong> The trough doesn't mean AI is over — it means the unrealistic expectations are over. The underlying technology is still transformative. Keep using AI tools, keep learning how they work under the hood, keep building with them.</p>
+
+<p><strong>But don't bet everything on one trend.</strong> The students who will have the strongest careers are the ones with broad foundations and deep expertise in areas that survive hype cycles. Distributed systems, security, performance engineering, developer tooling — these fields aren't going anywhere regardless of what happens with AI agents.</p>
+
+<p><strong>Be skeptical, not cynical.</strong> There's a difference between "this technology is overhyped right now" and "this technology is useless." Learn to hold both ideas at once: AI is genuinely powerful <em>and</em> most of what people claim about it is exaggerated. That nuance is a superpower in an industry that loves extremes.</p>
+
+<p>The trough of disillusionment isn't a grave. It's a filter. The hype tourists are leaving, the real builders are staying, and the technology is quietly getting better. If you're a junior dev still here, still learning, still building — you're exactly where you need to be.</p>
+`,
+  },
+  {
     slug: "open-source-eating-ai-world",
     title:
       "Open Source Is Eating the AI World — And That Matters If You're a Student",
