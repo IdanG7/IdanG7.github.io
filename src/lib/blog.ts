@@ -10,6 +10,88 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "cuba-blackout-infrastructure-fragility",
+    title:
+      "Cuba's Blackout and the Fragility of Infrastructure We Take for Granted",
+    excerpt:
+      "A massive blackout left millions of Cubans without power for days. As someone who works on CI/CD pipelines and deployments, it got me thinking about how fragile the systems we depend on really are.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["Infrastructure", "Systems", "Engineering", "Opinion"],
+    content: `
+<p>A few weeks ago, a <a href="https://en.wikipedia.org/wiki/2025_Cuba_blackout" target="_blank" rel="noopener noreferrer">massive blackout swept across western Cuba</a>, leaving millions of people without electricity for days. The cause wasn't a cyberattack or a natural disaster — it was cascading infrastructure failure. An aging power grid, starved of maintenance and investment, finally buckled under its own weight.</p>
+
+<p>I read about it on a break between deploys at work. And I'll be honest — my first reaction wasn't political. It was technical. Because the failure pattern Cuba experienced is one I've seen before, just at a much smaller scale: <strong>a system that works fine until it doesn't, because nobody invested in the boring parts.</strong></p>
+
+<h2>What Actually Happened</h2>
+
+<p>Cuba's electrical grid has been deteriorating for years. The country relies on aging thermoelectric plants, many built decades ago, running on fuel that's increasingly hard to source due to economic sanctions and supply chain issues. Maintenance has been deferred, backup systems are limited, and there's minimal redundancy.</p>
+
+<p>When a key generation facility went offline, it triggered a cascading failure — each subsequent plant overloaded and tripped, domino-style, until the entire western grid collapsed. Restoring power wasn't as simple as flipping a switch. <a href="https://en.wikipedia.org/wiki/Cascading_failure" target="_blank" rel="noopener noreferrer">Black-start recovery</a> — bringing a grid back from zero — is one of the hardest problems in power engineering, requiring careful sequencing to avoid triggering another collapse.</p>
+
+<p>Millions of people lost refrigeration, water pumps, hospital equipment, and communication. For days.</p>
+
+<details class="blog-aside">
+<summary>What's a cascading failure?</summary>
+<p>A cascading failure happens when one component in an interconnected system fails and shifts its load to neighboring components, which then also fail under the increased demand, creating a chain reaction. It's the same principle behind traffic jams (one brake tap ripples backward for miles), financial crises (one bank's failure causes a run on others), and — very relevantly for developers — distributed system outages (one overloaded service causes timeouts in dependent services, which cascade through the entire architecture).</p>
+</details>
+
+<h2>Why a Developer Should Care About Power Grids</h2>
+
+<p>You might be thinking: "I write JavaScript. Why should I care about Cuban power infrastructure?" Fair question. Here's why.</p>
+
+<p><strong>The failure pattern is universal.</strong> What happened to Cuba's grid is structurally identical to what happens when a poorly designed microservices architecture falls over. One service gets slow, the services that depend on it start timing out, those timeouts cause retries, the retries increase load, and suddenly your entire system is down because a single database query got expensive.</p>
+
+<p>If you've ever debugged a production incident at 2 AM, you've lived a miniature version of a cascading failure. The lessons from power grid engineering — circuit breakers, load shedding, graceful degradation, redundancy — are the same concepts we use in software. They're not metaphors. They're the same math.</p>
+
+<details class="blog-aside">
+<summary>Circuit breakers aren't just for electrical panels</summary>
+<p>In software, the <a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener noreferrer">circuit breaker pattern</a> (popularized by Michael Nygard's <em>Release It!</em>) works exactly like its electrical counterpart. When a downstream service starts failing, the circuit breaker "trips" and stops sending requests to it — preventing the failure from cascading. After a timeout, it allows a few test requests through to check if the service has recovered. Netflix's Hystrix library made this pattern mainstream, and it's now built into most service mesh frameworks.</p>
+</details>
+
+<p><strong>Infrastructure debt is real — and invisible until it isn't.</strong> Cuba didn't wake up one morning with a broken grid. It deteriorated over years of deferred maintenance, each shortcut compounding until the whole system was fragile. Sound familiar? That CI/CD pipeline held together with bash scripts and hope? The deployment process that "works fine, just don't touch that config file"? The test suite everyone skips because it's flaky?</p>
+
+<p>Technical debt and infrastructure debt follow the same curve. They're invisible in the good times and catastrophic in the bad times. Cuba's blackout is an extreme example, but the pattern scales all the way down to your team's Jenkins server.</p>
+
+<h2>Resilience as a Skill Set</h2>
+
+<p>Here's what I've been thinking about since reading about the blackout: <strong>resilience engineering is an underrated skill for junior developers.</strong></p>
+
+<p>We spend a lot of time in school learning how to make things work. We spend almost no time learning how to make things <em>keep</em> working when conditions change. But in production, the interesting question is almost never "does this work?" It's "what happens when this fails?"</p>
+
+<p>What happens when your database connection drops? What happens when a third-party API starts responding in 30 seconds instead of 300 milliseconds? What happens when your cloud region goes down? What happens when deployment rolls out a bad config to 10% of your servers?</p>
+
+<p>These aren't hypothetical questions. They're Tuesday.</p>
+
+<p>The best engineers I've worked with think about failure modes instinctively. They add health checks, set up alerting, write runbooks, and design systems that degrade gracefully instead of collapsing completely. That mindset — <em>what's the worst that can happen, and how do we survive it</em> — is more valuable than knowing any specific framework.</p>
+
+<h2>What Cuba Taught Me About My Own Work</h2>
+
+<p>After reading about the blackout, I spent an afternoon looking at the systems I work with and asking: where are our single points of failure?</p>
+
+<p>The answer was uncomfortable. We had a deployment pipeline that depended on a single CI runner with no fallback. A monitoring setup that would silently stop alerting if one service went down. A config file that three people knew about and zero people had documented.</p>
+
+<p>None of these were urgent problems. Everything was "working fine." But so was Cuba's grid — until it wasn't.</p>
+
+<p>I didn't rewrite everything. That's not the point. I documented the config file. I added a health check for the monitoring service. Small things. But the exercise of <em>looking</em> — of asking "what breaks when this breaks?" — was worth every minute.</p>
+
+<details class="blog-aside">
+<summary>A simple resilience checklist for your projects</summary>
+<p>Ask yourself these questions about any system you maintain: (1) What happens if the primary database goes down? Is there a replica? (2) Do you have alerts for when things fail, or do you find out from users? (3) Can you deploy a rollback in under 5 minutes? (4) Is there a single person who holds critical knowledge that isn't documented? (5) When was the last time you actually tested your backup restoration process? If you can't answer these confidently, you have infrastructure debt — and now is the time to address it, not during an outage.</p>
+</details>
+
+<h2>Build Things That Survive</h2>
+
+<p>Cuba's blackout is a human crisis, and I don't want to reduce it to a tech analogy. Real people suffered — and continue to suffer — because of systemic underinvestment in critical infrastructure. That context matters.</p>
+
+<p>But as developers, we can take the lesson seriously: <strong>the systems people depend on deserve to be built with failure in mind.</strong> Whether it's a national power grid or a deployment pipeline, the boring work of redundancy, monitoring, documentation, and maintenance is what separates systems that bend from systems that break.</p>
+
+<p>Next time you're tempted to skip writing that health check, or defer that infrastructure upgrade, or leave that runbook unwritten — remember that every fragile system was "working fine" right up until the moment it wasn't.</p>
+
+<p>Build things that survive. The people who depend on them are counting on it.</p>
+`,
+  },
+  {
     slug: "fifa-world-cup-2026-toronto-tech",
     title:
       "The 2026 FIFA World Cup Is Coming to Canada — What Does That Mean for Toronto Tech?",

@@ -62,6 +62,8 @@ const tagColors: Record<string, string> = {
     "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
   Engineering:
     "text-violet-600 dark:text-violet-400 bg-violet-500/10 border-violet-500/20",
+  Systems:
+    "text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20",
 };
 
 const defaultTagColor =
