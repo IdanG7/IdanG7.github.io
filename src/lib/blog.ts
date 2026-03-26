@@ -10,6 +10,75 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "fifa-world-cup-2026-toronto-tech",
+    title:
+      "The 2026 FIFA World Cup Is Coming to Canada — What Does That Mean for Toronto Tech?",
+    excerpt:
+      "Canada is co-hosting the biggest sporting event on the planet this summer. Behind the scenes, there's a massive wave of tech work — and opportunity — that most devs aren't talking about.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["Infrastructure", "Career", "Engineering", "Opinion"],
+    content: `
+<p>This summer, the <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener noreferrer">2026 FIFA World Cup</a> kicks off across Canada, the US, and Mexico — the first World Cup with 48 teams and the first time Canada has co-hosted. Toronto's BMO Field and Vancouver's BC Place are on the venue list, and if you live in Ontario like I do, you can already feel it building. Transit expansions, construction projects, and a general buzz that this province hasn't seen since the 2015 Pan Am Games.</p>
+
+<p>But here's the part that caught my attention as a developer: <strong>mega-events like the World Cup are absolute machines for tech work.</strong> And most of it is the kind of unglamorous, critical infrastructure that CS students never think about.</p>
+
+<h2>The Tech Behind a World Cup You Never See</h2>
+
+<p>When you watch a match, you see a pitch, some cameras, and a scoreboard. What you don't see is an enormous technology operation running underneath.</p>
+
+<p><strong>Real-time data pipelines.</strong> FIFA's <a href="https://www.fifa.com/fifaplus/en/articles/enhanced-football-intelligence-semi-automated-offside-technology-at-the-fifa-world-cup-26" target="_blank" rel="noopener noreferrer">Enhanced Football Intelligence</a> system tracks every player and the ball using sensor arrays and computer vision — producing terabytes of positional data per match. That data feeds live stats, VAR decisions, broadcast overlays, and the fantasy platforms that millions of fans use. Every millisecond of latency matters.</p>
+
+<p><strong>Ticketing and access control at insane scale.</strong> The 2022 Qatar World Cup sold over <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/qatar2022/articles/3-million-tickets-sold-qatar-2022" target="_blank" rel="noopener noreferrer">3 million tickets</a>. The 2026 tournament, with 48 teams across 16 venues, will dwarf that. That's a distributed ticketing system handling spikes that make Black Friday look gentle — with fraud detection, mobile entry, and real-time capacity management across three countries.</p>
+
+<p><strong>Streaming infrastructure.</strong> Billions of viewers worldwide. Multiple camera angles. Multi-language commentary. Instant replays. All delivered at broadcast quality with minimal buffering. The CDN and edge computing work behind live sports streaming is some of the most demanding infrastructure engineering on the planet.</p>
+
+<details class="blog-aside">
+<summary>What's VAR, technically?</summary>
+<p>The Video Assistant Referee (VAR) system is a real-time video review system that uses multiple synchronized camera feeds, semi-automated offside detection (using limb-tracking technology and ball sensors), and a dedicated operations room. The technical challenge is processing high-resolution feeds from 12+ cameras, running computer vision models for offside detection, and delivering a decision to the referee — all within seconds. It's essentially a distributed real-time system with life-or-death stakes (at least according to football fans).</p>
+</details>
+
+<h2>Local Impact: What's Actually Happening in Ontario</h2>
+
+<p>Toronto has been preparing for this for years, and a surprising amount of that preparation is tech-adjacent.</p>
+
+<p>The <a href="https://www.toronto.ca/city-government/accountability-operations-customer-service/long-term-vision-plans-and-strategies/smart-cityto/" target="_blank" rel="noopener noreferrer">City of Toronto's smart city initiatives</a> have accelerated ahead of the tournament. Public Wi-Fi expansion, transit app upgrades, real-time crowd management systems, and digital wayfinding for tourists who don't know the TTC from a Tim Hortons. The Metrolinx GO expansion is leaning heavily on software for scheduling and capacity prediction.</p>
+
+<p>Local companies are hiring for it too. Agencies and consultancies with government contracts need developers for everything from event management platforms to public safety dashboards. If you're looking for contract work or co-op placements this summer, the World Cup pipeline is real — even if the job posting doesn't mention "FIFA" anywhere.</p>
+
+<p>And then there's the startup angle. Every major sporting event spawns a wave of apps — fan engagement platforms, local business discovery tools, transit planners, accessibility guides. If you've ever wanted to ship something that people actually use at scale, building for a World Cup audience is about as high-stakes a proving ground as you'll find.</p>
+
+<h2>What a Junior Dev Can Actually Learn from This</h2>
+
+<p>I'll be honest — you and I probably aren't going to be hired to build FIFA's VAR system. But the World Cup is still a masterclass in the kind of engineering problems that matter in the real world.</p>
+
+<p><strong>Scale isn't abstract anymore.</strong> CS courses teach Big O notation and horizontal scaling in theory. A World Cup makes it visceral. When 500,000 people try to buy tickets at the same time, your naive database query doesn't just slow down — it falls over and makes international news. Following how organizations handle these events (and reading their post-mortems when things go wrong) is genuinely educational.</p>
+
+<p><strong>Reliability beats cleverness.</strong> The systems behind live broadcasting and stadium operations don't get to be down for maintenance. They can't show a loading spinner during a penalty shootout. This kind of engineering — where uptime is non-negotiable and failure is public — teaches you to think about resilience, redundancy, and graceful degradation in ways that a side project never will.</p>
+
+<details class="blog-aside">
+<summary>Great post-mortems to learn from</summary>
+<p>If you want to understand how large-scale systems fail and recover, read engineering blogs from companies that handle live events. <a href="https://netflixtechblog.com/" target="_blank" rel="noopener noreferrer">Netflix's tech blog</a> on streaming architecture, Ticketmaster's very public failures (and what they reveal about queueing theory), and Cloudflare's incident reports are all goldmines. The pattern is almost always the same: an unexpected interaction between systems under load that nobody anticipated. Learning to think about those interactions is a skill that translates everywhere.</p>
+</details>
+
+<p><strong>Soft infrastructure matters.</strong> The World Cup doesn't just need code — it needs localization (English, French, Spanish across three countries), accessibility compliance, data privacy across multiple jurisdictions, and user experiences that work for people who aren't tech-savvy. These are the "boring" problems that junior devs often overlook, but they're exactly what makes software actually usable at scale.</p>
+
+<h2>My Honest Take</h2>
+
+<p>I think most developers, especially students, underestimate how much interesting tech work exists outside of "tech companies." We default to thinking our career options are FAANG, startups, or freelancing. But events like the World Cup remind me that software is everywhere — in stadiums, transit systems, city infrastructure, broadcasting, logistics, public safety.</p>
+
+<p>Ontario is about to host millions of people from around the world. The systems that make that possible — from the apps tourists use to navigate the TTC to the backend that processes entry at BMO Field — are built by developers. And right now, a lot of those teams need help.</p>
+
+<p>If you're a student in Ontario looking for summer work, don't just search "software developer" on LinkedIn. Look at what the city, province, and local organizations are building for the World Cup. Look at the vendors and contractors behind the scenes. Some of the most formative engineering work happens in places you'd never think to look.</p>
+
+<h2>Enjoy the Tournament (and Take Notes)</h2>
+
+<p>This is a once-in-a-generation event happening in our backyard. Whether you're a football fan or not, pay attention to the tech. Watch how the apps perform under load. Notice when systems fail. Read the engineering write-ups that will inevitably follow.</p>
+
+<p>And if you're in Toronto this summer — go to a match if you can. There's something motivating about being in a venue and thinking, <em>"someone had to build the system that let me scan this ticket."</em> Might as well be you next time.</p>
+`,
+  },
+  {
     slug: "agentic-ai-trough-of-disillusionment",
     title:
       "Agentic AI Hit the Trough of Disillusionment — And That's Actually Good News",
