@@ -10,6 +10,235 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "cuba-blackout-infrastructure-fragility",
+    title:
+      "Cuba's Blackout and the Fragility of Infrastructure We Take for Granted",
+    excerpt:
+      "A massive blackout left millions of Cubans without power for days. As someone who works on CI/CD pipelines and deployments, it got me thinking about how fragile the systems we depend on really are.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["Infrastructure", "Systems", "Engineering", "Opinion"],
+    content: `
+<p>A few weeks ago, a <a href="https://en.wikipedia.org/wiki/2025_Cuba_blackout" target="_blank" rel="noopener noreferrer">massive blackout swept across western Cuba</a>, leaving millions of people without electricity for days. The cause wasn't a cyberattack or a natural disaster — it was cascading infrastructure failure. An aging power grid, starved of maintenance and investment, finally buckled under its own weight.</p>
+
+<p>I read about it on a break between deploys at work. And I'll be honest — my first reaction wasn't political. It was technical. Because the failure pattern Cuba experienced is one I've seen before, just at a much smaller scale: <strong>a system that works fine until it doesn't, because nobody invested in the boring parts.</strong></p>
+
+<h2>What Actually Happened</h2>
+
+<p>Cuba's electrical grid has been deteriorating for years. The country relies on aging thermoelectric plants, many built decades ago, running on fuel that's increasingly hard to source due to economic sanctions and supply chain issues. Maintenance has been deferred, backup systems are limited, and there's minimal redundancy.</p>
+
+<p>When a key generation facility went offline, it triggered a cascading failure — each subsequent plant overloaded and tripped, domino-style, until the entire western grid collapsed. Restoring power wasn't as simple as flipping a switch. <a href="https://en.wikipedia.org/wiki/Cascading_failure" target="_blank" rel="noopener noreferrer">Black-start recovery</a> — bringing a grid back from zero — is one of the hardest problems in power engineering, requiring careful sequencing to avoid triggering another collapse.</p>
+
+<p>Millions of people lost refrigeration, water pumps, hospital equipment, and communication. For days.</p>
+
+<details class="blog-aside">
+<summary>What's a cascading failure?</summary>
+<p>A cascading failure happens when one component in an interconnected system fails and shifts its load to neighboring components, which then also fail under the increased demand, creating a chain reaction. It's the same principle behind traffic jams (one brake tap ripples backward for miles), financial crises (one bank's failure causes a run on others), and — very relevantly for developers — distributed system outages (one overloaded service causes timeouts in dependent services, which cascade through the entire architecture).</p>
+</details>
+
+<h2>Why a Developer Should Care About Power Grids</h2>
+
+<p>You might be thinking: "I write JavaScript. Why should I care about Cuban power infrastructure?" Fair question. Here's why.</p>
+
+<p><strong>The failure pattern is universal.</strong> What happened to Cuba's grid is structurally identical to what happens when a poorly designed microservices architecture falls over. One service gets slow, the services that depend on it start timing out, those timeouts cause retries, the retries increase load, and suddenly your entire system is down because a single database query got expensive.</p>
+
+<p>If you've ever debugged a production incident at 2 AM, you've lived a miniature version of a cascading failure. The lessons from power grid engineering — circuit breakers, load shedding, graceful degradation, redundancy — are the same concepts we use in software. They're not metaphors. They're the same math.</p>
+
+<details class="blog-aside">
+<summary>Circuit breakers aren't just for electrical panels</summary>
+<p>In software, the <a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener noreferrer">circuit breaker pattern</a> (popularized by Michael Nygard's <em>Release It!</em>) works exactly like its electrical counterpart. When a downstream service starts failing, the circuit breaker "trips" and stops sending requests to it — preventing the failure from cascading. After a timeout, it allows a few test requests through to check if the service has recovered. Netflix's Hystrix library made this pattern mainstream, and it's now built into most service mesh frameworks.</p>
+</details>
+
+<p><strong>Infrastructure debt is real — and invisible until it isn't.</strong> Cuba didn't wake up one morning with a broken grid. It deteriorated over years of deferred maintenance, each shortcut compounding until the whole system was fragile. Sound familiar? That CI/CD pipeline held together with bash scripts and hope? The deployment process that "works fine, just don't touch that config file"? The test suite everyone skips because it's flaky?</p>
+
+<p>Technical debt and infrastructure debt follow the same curve. They're invisible in the good times and catastrophic in the bad times. Cuba's blackout is an extreme example, but the pattern scales all the way down to your team's Jenkins server.</p>
+
+<h2>Resilience as a Skill Set</h2>
+
+<p>Here's what I've been thinking about since reading about the blackout: <strong>resilience engineering is an underrated skill for junior developers.</strong></p>
+
+<p>We spend a lot of time in school learning how to make things work. We spend almost no time learning how to make things <em>keep</em> working when conditions change. But in production, the interesting question is almost never "does this work?" It's "what happens when this fails?"</p>
+
+<p>What happens when your database connection drops? What happens when a third-party API starts responding in 30 seconds instead of 300 milliseconds? What happens when your cloud region goes down? What happens when deployment rolls out a bad config to 10% of your servers?</p>
+
+<p>These aren't hypothetical questions. They're Tuesday.</p>
+
+<p>The best engineers I've worked with think about failure modes instinctively. They add health checks, set up alerting, write runbooks, and design systems that degrade gracefully instead of collapsing completely. That mindset — <em>what's the worst that can happen, and how do we survive it</em> — is more valuable than knowing any specific framework.</p>
+
+<h2>What Cuba Taught Me About My Own Work</h2>
+
+<p>After reading about the blackout, I spent an afternoon looking at the systems I work with and asking: where are our single points of failure?</p>
+
+<p>The answer was uncomfortable. We had a deployment pipeline that depended on a single CI runner with no fallback. A monitoring setup that would silently stop alerting if one service went down. A config file that three people knew about and zero people had documented.</p>
+
+<p>None of these were urgent problems. Everything was "working fine." But so was Cuba's grid — until it wasn't.</p>
+
+<p>I didn't rewrite everything. That's not the point. I documented the config file. I added a health check for the monitoring service. Small things. But the exercise of <em>looking</em> — of asking "what breaks when this breaks?" — was worth every minute.</p>
+
+<details class="blog-aside">
+<summary>A simple resilience checklist for your projects</summary>
+<p>Ask yourself these questions about any system you maintain: (1) What happens if the primary database goes down? Is there a replica? (2) Do you have alerts for when things fail, or do you find out from users? (3) Can you deploy a rollback in under 5 minutes? (4) Is there a single person who holds critical knowledge that isn't documented? (5) When was the last time you actually tested your backup restoration process? If you can't answer these confidently, you have infrastructure debt — and now is the time to address it, not during an outage.</p>
+</details>
+
+<h2>Build Things That Survive</h2>
+
+<p>Cuba's blackout is a human crisis, and I don't want to reduce it to a tech analogy. Real people suffered — and continue to suffer — because of systemic underinvestment in critical infrastructure. That context matters.</p>
+
+<p>But as developers, we can take the lesson seriously: <strong>the systems people depend on deserve to be built with failure in mind.</strong> Whether it's a national power grid or a deployment pipeline, the boring work of redundancy, monitoring, documentation, and maintenance is what separates systems that bend from systems that break.</p>
+
+<p>Next time you're tempted to skip writing that health check, or defer that infrastructure upgrade, or leave that runbook unwritten — remember that every fragile system was "working fine" right up until the moment it wasn't.</p>
+
+<p>Build things that survive. The people who depend on them are counting on it.</p>
+`,
+  },
+  {
+    slug: "fifa-world-cup-2026-toronto-tech",
+    title:
+      "The 2026 FIFA World Cup Is Coming to Canada — What Does That Mean for Toronto Tech?",
+    excerpt:
+      "Canada is co-hosting the biggest sporting event on the planet this summer. Behind the scenes, there's a massive wave of tech work — and opportunity — that most devs aren't talking about.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["Infrastructure", "Career", "Engineering", "Opinion"],
+    content: `
+<p>This summer, the <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener noreferrer">2026 FIFA World Cup</a> kicks off across Canada, the US, and Mexico — the first World Cup with 48 teams and the first time Canada has co-hosted. Toronto's BMO Field and Vancouver's BC Place are on the venue list, and if you live in Ontario like I do, you can already feel it building. Transit expansions, construction projects, and a general buzz that this province hasn't seen since the 2015 Pan Am Games.</p>
+
+<p>But here's the part that caught my attention as a developer: <strong>mega-events like the World Cup are absolute machines for tech work.</strong> And most of it is the kind of unglamorous, critical infrastructure that CS students never think about.</p>
+
+<h2>The Tech Behind a World Cup You Never See</h2>
+
+<p>When you watch a match, you see a pitch, some cameras, and a scoreboard. What you don't see is an enormous technology operation running underneath.</p>
+
+<p><strong>Real-time data pipelines.</strong> FIFA's <a href="https://inside.fifa.com/media-releases/lenovo-tech-world-ai-powered-innovations-world-cup-2026" target="_blank" rel="noopener noreferrer">Enhanced Football Intelligence</a> system tracks every player and the ball using sensor arrays and computer vision — producing terabytes of positional data per match. That data feeds live stats, VAR decisions, broadcast overlays, and the fantasy platforms that millions of fans use. Every millisecond of latency matters.</p>
+
+<p><strong>Ticketing and access control at insane scale.</strong> The 2022 Qatar World Cup sold over <a href="https://www.fifa.com/en/articles/fifa-world-cup-qatar-2022-tm-ticket-sales-reach-2-45-million" target="_blank" rel="noopener noreferrer">2.45 million tickets</a>. The 2026 tournament, with 48 teams across 16 venues, will dwarf that. That's a distributed ticketing system handling spikes that make Black Friday look gentle — with fraud detection, mobile entry, and real-time capacity management across three countries.</p>
+
+<p><strong>Streaming infrastructure.</strong> Billions of viewers worldwide. Multiple camera angles. Multi-language commentary. Instant replays. All delivered at broadcast quality with minimal buffering. The CDN and edge computing work behind live sports streaming is some of the most demanding infrastructure engineering on the planet.</p>
+
+<details class="blog-aside">
+<summary>What's VAR, technically?</summary>
+<p>The Video Assistant Referee (VAR) system is a real-time video review system that uses multiple synchronized camera feeds, semi-automated offside detection (using limb-tracking technology and ball sensors), and a dedicated operations room. The technical challenge is processing high-resolution feeds from 12+ cameras, running computer vision models for offside detection, and delivering a decision to the referee — all within seconds. It's essentially a distributed real-time system with life-or-death stakes (at least according to football fans).</p>
+</details>
+
+<h2>Local Impact: What's Actually Happening in Ontario</h2>
+
+<p>Toronto has been preparing for this for years, and a surprising amount of that preparation is tech-adjacent.</p>
+
+<p>The <a href="https://www.toronto.ca/city-government/accountability-operations-customer-service/long-term-vision-plans-and-strategies/smart-cityto/" target="_blank" rel="noopener noreferrer">City of Toronto's smart city initiatives</a> have accelerated ahead of the tournament. Public Wi-Fi expansion, transit app upgrades, real-time crowd management systems, and digital wayfinding for tourists who don't know the TTC from a Tim Hortons. The Metrolinx GO expansion is leaning heavily on software for scheduling and capacity prediction.</p>
+
+<p>Local companies are hiring for it too. Agencies and consultancies with government contracts need developers for everything from event management platforms to public safety dashboards. If you're looking for contract work or co-op placements this summer, the World Cup pipeline is real — even if the job posting doesn't mention "FIFA" anywhere.</p>
+
+<p>And then there's the startup angle. Every major sporting event spawns a wave of apps — fan engagement platforms, local business discovery tools, transit planners, accessibility guides. If you've ever wanted to ship something that people actually use at scale, building for a World Cup audience is about as high-stakes a proving ground as you'll find.</p>
+
+<h2>What a Junior Dev Can Actually Learn from This</h2>
+
+<p>I'll be honest — you and I probably aren't going to be hired to build FIFA's VAR system. But the World Cup is still a masterclass in the kind of engineering problems that matter in the real world.</p>
+
+<p><strong>Scale isn't abstract anymore.</strong> CS courses teach Big O notation and horizontal scaling in theory. A World Cup makes it visceral. When 500,000 people try to buy tickets at the same time, your naive database query doesn't just slow down — it falls over and makes international news. Following how organizations handle these events (and reading their post-mortems when things go wrong) is genuinely educational.</p>
+
+<p><strong>Reliability beats cleverness.</strong> The systems behind live broadcasting and stadium operations don't get to be down for maintenance. They can't show a loading spinner during a penalty shootout. This kind of engineering — where uptime is non-negotiable and failure is public — teaches you to think about resilience, redundancy, and graceful degradation in ways that a side project never will.</p>
+
+<details class="blog-aside">
+<summary>Great post-mortems to learn from</summary>
+<p>If you want to understand how large-scale systems fail and recover, read engineering blogs from companies that handle live events. <a href="https://netflixtechblog.com/" target="_blank" rel="noopener noreferrer">Netflix's tech blog</a> on streaming architecture, Ticketmaster's very public failures (and what they reveal about queueing theory), and Cloudflare's incident reports are all goldmines. The pattern is almost always the same: an unexpected interaction between systems under load that nobody anticipated. Learning to think about those interactions is a skill that translates everywhere.</p>
+</details>
+
+<p><strong>Soft infrastructure matters.</strong> The World Cup doesn't just need code — it needs localization (English, French, Spanish across three countries), accessibility compliance, data privacy across multiple jurisdictions, and user experiences that work for people who aren't tech-savvy. These are the "boring" problems that junior devs often overlook, but they're exactly what makes software actually usable at scale.</p>
+
+<h2>My Honest Take</h2>
+
+<p>I think most developers, especially students, underestimate how much interesting tech work exists outside of "tech companies." We default to thinking our career options are FAANG, startups, or freelancing. But events like the World Cup remind me that software is everywhere — in stadiums, transit systems, city infrastructure, broadcasting, logistics, public safety.</p>
+
+<p>Ontario is about to host millions of people from around the world. The systems that make that possible — from the apps tourists use to navigate the TTC to the backend that processes entry at BMO Field — are built by developers. And right now, a lot of those teams need help.</p>
+
+<p>If you're a student in Ontario looking for summer work, don't just search "software developer" on LinkedIn. Look at what the city, province, and local organizations are building for the World Cup. Look at the vendors and contractors behind the scenes. Some of the most formative engineering work happens in places you'd never think to look.</p>
+
+<h2>Enjoy the Tournament (and Take Notes)</h2>
+
+<p>This is a once-in-a-generation event happening in our backyard. Whether you're a football fan or not, pay attention to the tech. Watch how the apps perform under load. Notice when systems fail. Read the engineering write-ups that will inevitably follow.</p>
+
+<p>And if you're in Toronto this summer — go to a match if you can. There's something motivating about being in a venue and thinking, <em>"someone had to build the system that let me scan this ticket."</em> Might as well be you next time.</p>
+`,
+  },
+  {
+    slug: "agentic-ai-trough-of-disillusionment",
+    title:
+      "Agentic AI Hit the Trough of Disillusionment — And That's Actually Good News",
+    excerpt:
+      "Gartner says GenAI is officially in the trough of disillusionment. For junior devs navigating hype cycles, this is the moment that separates real skills from resume buzzwords.",
+    date: "2026-03-26",
+    readTime: "7 min read",
+    tags: ["AI", "Career", "Junior Dev", "Opinion"],
+    content: `
+<p>If you've been paying attention to the AI discourse lately, you might have noticed a shift. The breathless excitement from a year ago — "AI agents will automate everything!" — has cooled into something more measured. Some would say pessimistic. <a href="https://mitsloan.mit.edu/ideas-made-to-matter/how-to-break-ai-hype-cycle-and-make-good-ai-decisions-your-organization" target="_blank" rel="noopener noreferrer">MIT Sloan</a> is openly discussing AI bubble parallels to the dot-com era, and Gartner has placed generative AI squarely in the <strong>"trough of disillusionment"</strong> on their hype cycle.</p>
+
+<p>For a third-year CS student watching all this from a desk in Ontario, my reaction might surprise you: <em>finally.</em></p>
+
+<details class="blog-aside">
+<summary>What's the "trough of disillusionment"?</summary>
+<p>Gartner's Hype Cycle is a model that tracks how emerging technologies move through phases: a <strong>Technology Trigger</strong>, a <strong>Peak of Inflated Expectations</strong> (where everyone overpromises), a <strong>Trough of Disillusionment</strong> (where reality sets in and hype fades), the <strong>Slope of Enlightenment</strong> (where practical use cases emerge), and finally the <strong>Plateau of Productivity</strong> (where the tech becomes genuinely useful and boring). Most transformative technologies go through all five phases. The trough isn't death — it's growing up.</p>
+</details>
+
+<h2>What Happened to the Hype</h2>
+
+<p>Remember when "agentic AI" was the hottest term in tech? Every startup pitch deck featured autonomous agents that would handle your emails, manage your deployments, and probably do your laundry. LinkedIn influencers were posting about how "AI agents will replace entire engineering teams by 2025."</p>
+
+<p>Well, it's 2026. My laundry is still piling up.</p>
+
+<p>The reality is that <a href="https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-explained" target="_blank" rel="noopener noreferrer">agentic AI turned out to be the most overhyped trend</a> in the recent AI wave. Autonomous agents are genuinely useful in narrow, well-defined contexts — running CI pipelines, triaging support tickets, summarizing meeting notes. But the vision of fully autonomous AI agents replacing human judgment at scale? That's hit a wall of messy real-world complexity that no amount of prompt engineering can solve.</p>
+
+<p>Companies that went all-in on "agentic everything" are quietly scaling back. The ones that took a more measured approach are actually seeing results. And that's exactly how hype cycles work.</p>
+
+<h2>Why Hype Cycles Matter for Your Career</h2>
+
+<p>Here's the thing nobody tells CS students: <strong>your career will span multiple hype cycles.</strong> AI agents aren't the first, and they won't be the last. Blockchain, the metaverse, Web3, NFTs — each one had a peak where people said "learn this or get left behind," followed by a trough where most of those people quietly updated their LinkedIn headlines back to "Software Engineer."</p>
+
+<p>The <a href="https://mitsloan.mit.edu/ideas-made-to-matter/how-to-break-ai-hype-cycle-and-make-good-ai-decisions-your-organization" target="_blank" rel="noopener noreferrer">MIT Sloan analysis</a> draws direct parallels between AI today and the dot-com bubble. During the dot-com era, the companies that survived weren't the ones with the flashiest pitches — they were the ones building real infrastructure. Amazon sold books. Google organized information. The boring stuff won.</p>
+
+<p>The same pattern is playing out with AI. The companies and developers who will thrive aren't the ones chasing the latest buzzword. They're the ones building practical applications, understanding the fundamentals, and developing judgment about what AI can and can't do.</p>
+
+<details class="blog-aside">
+<summary>The dot-com parallel is more specific than you think</summary>
+<p>During the dot-com bubble, thousands of companies with "e-" or ".com" in their name raised millions and burned through it all. But the underlying technology — the internet — was real and transformative. The bubble bursting didn't kill the internet. It killed the bad business models. AI is following the same trajectory: the technology is genuinely powerful, but many of the current business models and expectations built around it are unsustainable. The trough filters out the noise so the real signal can emerge.</p>
+</details>
+
+<h2>What This Means at the Junior Dev Level</h2>
+
+<p>If you're a student or early-career developer, the trough of disillusionment is actually your friend. Here's why:</p>
+
+<p><strong>The hiring bar is normalizing.</strong> During peak hype, job postings demanded "3+ years of LLM experience" for entry-level roles — which is absurd when the technology is barely older than that. As hype cools, expectations get more realistic. Companies start looking for people who can actually build things rather than people who can recite Sam Altman's latest interview.</p>
+
+<p><strong>The tools are maturing.</strong> Early-hype tools are fragile, poorly documented, and change every week. Post-hype tools are stable, well-tested, and actually useful. Learning AI tools now means you're learning the versions that will stick around, not the ones that'll be deprecated next quarter.</p>
+
+<p><strong>Fundamentals matter more in the trough.</strong> When hype is high, you can get by on vibes and buzzwords. When hype fades, employers want people who understand data structures, system design, networking, and debugging — the skills that let you evaluate whether an AI solution actually makes sense for a given problem. I've written about this before: <a href="/blog/ai-coming-for-junior-dev-jobs">going deeper beats going wider</a>.</p>
+
+<p><strong>It's easier to stand out.</strong> During peak hype, everyone and their dog is posting AI tutorials and side projects. In the trough, the tourists leave. If you're still building, still learning, still contributing — that consistency is visible and valued.</p>
+
+<h2>My Honest Take: The Trough Is Where Real Developers Are Made</h2>
+
+<p>I'll admit — I got caught up in the hype too. Last year I spent weeks trying to build an autonomous agent that could review pull requests end-to-end. It worked about 40% of the time and hallucinated the rest. I learned more from that failure than from any tutorial that promised "build an AI agent in 10 minutes."</p>
+
+<p>That's the gift of the trough. It forces you to confront what actually works versus what sounds impressive in a demo. And confronting that gap is where real engineering skill develops.</p>
+
+<p>The developers I admire most — the senior engineers and maintainers I interact with in <a href="/blog/open-source-eating-ai-world">open source communities</a> — they've all lived through previous hype cycles. They have a pattern-matching instinct for what's real and what's noise. That instinct doesn't come from reading hot takes on X. It comes from building things, watching them fail, and building again.</p>
+
+<details class="blog-aside">
+<summary>How to develop your own hype radar</summary>
+<p>A few questions I now ask when I see a new AI trend: (1) Does this solve a problem I've actually encountered, or a problem I've only read about in pitch decks? (2) Are the people excited about it builders or marketers? (3) Can I try it myself in under an hour, or does it require "enterprise onboarding"? (4) Is the demo cherry-picked or reproducible? These filters aren't perfect, but they've saved me from chasing at least three dead-end technologies.</p>
+</details>
+
+<h2>So What Should You Do?</h2>
+
+<p><strong>Don't abandon AI.</strong> The trough doesn't mean AI is over — it means the unrealistic expectations are over. The underlying technology is still transformative. Keep using AI tools, keep learning how they work under the hood, keep building with them.</p>
+
+<p><strong>But don't bet everything on one trend.</strong> The students who will have the strongest careers are the ones with broad foundations and deep expertise in areas that survive hype cycles. Distributed systems, security, performance engineering, developer tooling — these fields aren't going anywhere regardless of what happens with AI agents.</p>
+
+<p><strong>Be skeptical, not cynical.</strong> There's a difference between "this technology is overhyped right now" and "this technology is useless." Learn to hold both ideas at once: AI is genuinely powerful <em>and</em> most of what people claim about it is exaggerated. That nuance is a superpower in an industry that loves extremes.</p>
+
+<p>The trough of disillusionment isn't a grave. It's a filter. The hype tourists are leaving, the real builders are staying, and the technology is quietly getting better. If you're a junior dev still here, still learning, still building — you're exactly where you need to be.</p>
+`,
+  },
+  {
     slug: "open-source-eating-ai-world",
     title:
       "Open Source Is Eating the AI World — And That Matters If You're a Student",
@@ -21,7 +250,7 @@ export const blogPosts: BlogPost[] = [
     content: `
 <p>There's a quiet revolution happening in AI, and it's not coming from OpenAI's next model drop or Google's latest keynote. It's happening on GitHub, in messy repos with half-finished READMEs and heated PR discussions. <strong>Open source is becoming the backbone of AI development</strong> — and if you're a student or early-career dev, this is your window to get in.</p>
 
-<p>According to <a href="https://blogs.nvidia.com/blog/open-source-ai-survey/" target="_blank" rel="noopener noreferrer">NVIDIA's 2026 State of AI report</a>, 85% of survey respondents said open source is moderately to extremely important to their AI strategy. That's not hobbyists tinkering on weekends — that's enterprises, research labs, and startups all betting on community-driven tools over proprietary black boxes.</p>
+<p>According to <a href="https://blogs.nvidia.com/blog/state-of-ai-report-2026/" target="_blank" rel="noopener noreferrer">NVIDIA's 2026 State of AI report</a>, 85% of survey respondents said open source is moderately to extremely important to their AI strategy. That's not hobbyists tinkering on weekends — that's enterprises, research labs, and startups all betting on community-driven tools over proprietary black boxes.</p>
 
 <p>As someone who's been lurking in open source communities for a while and only recently started contributing, I wish I'd started sooner. Here's why this matters for people like us.</p>
 
@@ -102,7 +331,7 @@ export const blogPosts: BlogPost[] = [
 
 <p>Cool. Great. Love that for us.</p>
 
-<p>I'm a third-year CS student in Ontario working as a junior developer and using AI tools daily. According to a <a href="https://www.rbcx.com/resources/ai-adoption-report" target="_blank" rel="noopener noreferrer">report from RBCx</a>, most people using AI tools feel that the changes are incremental, so when people ask if I'm worried, my answer is more nuanced than panic or denial.</p>
+<p>I'm a third-year CS student in Ontario working as a junior developer and using AI tools daily. According to the <a href="https://stackoverflow.blog/2025/12/29/developers-remain-willing-but-reluctant-to-use-ai-the-2025-developer-survey-results-are-here/" target="_blank" rel="noopener noreferrer">2025 Stack Overflow Developer Survey analysis</a>, most developers using AI tools feel that the changes are incremental, so when people ask if I'm worried, my answer is more nuanced than panic or denial.</p>
 
 <h2>The Headlines Aren't Wrong — But They're Not the Full Story</h2>
 
@@ -131,7 +360,7 @@ export const blogPosts: BlogPost[] = [
 
 <details class="blog-aside">
 <summary>A real example of AI getting it wrong</summary>
-<p>According to <a href="https://copilotcraft.dev/blog/ai-code-review-pitfalls" target="_blank" rel="noopener noreferrer">CopilotCraft</a>, sometimes AI-generated code may appear correct at first glance but can behave unexpectedly — like when Copilot produced a function that looked perfect but broke the app due to hidden issues such as not handling all data formats. I only noticed because I remembered a specific error case from a past bug report. If I hadn't double-checked, that bug would have made it to production and cost us serious troubleshooting hours. Stories like this remind me that human judgment still matters — and will probably do so for a long time.</p>
+<p>According to <a href="https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report" target="_blank" rel="noopener noreferrer">CodeRabbit's State of AI vs Human Code Generation report</a>, AI-generated code produces roughly 1.7x more issues than human-written code — sometimes it appears correct at first glance but can behave unexpectedly — like when Copilot produced a function that looked perfect but broke the app due to hidden issues such as not handling all data formats. I only noticed because I remembered a specific error case from a past bug report. If I hadn't double-checked, that bug would have made it to production and cost us serious troubleshooting hours. Stories like this remind me that human judgment still matters — and will probably do so for a long time.</p>
 </details>
 
 <h2>The Real Shift: From Code Writer to Code Reviewer</h2>
