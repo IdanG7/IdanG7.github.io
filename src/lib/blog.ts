@@ -19,7 +19,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     tags: ["Infrastructure", "Systems", "Engineering", "Opinion"],
     content: `
-<p>A few weeks ago, a <a href="https://en.wikipedia.org/wiki/2025_Cuba_blackout" target="_blank" rel="noopener noreferrer">massive blackout swept across western Cuba</a>, leaving millions of people without electricity for days. The cause wasn't a cyberattack or a natural disaster — it was cascading infrastructure failure. An aging power grid, starved of maintenance and investment, finally buckled under its own weight.</p>
+<p>A few weeks ago, a <a href="https://en.wikipedia.org/wiki/2026_Cuban_crisis" target="_blank" rel="noopener noreferrer">massive blackout swept across western Cuba</a>, leaving millions of people without electricity for days. The cause wasn't a cyberattack or a natural disaster — it was cascading infrastructure failure. An aging power grid, starved of maintenance and investment, finally buckled under its own weight.</p>
 
 <p>I read about it on a break between deploys at work. And I'll be honest — my first reaction wasn't political. It was technical. Because the failure pattern Cuba experienced is one I've seen before, just at a much smaller scale: <strong>a system that works fine until it doesn't, because nobody invested in the boring parts.</strong></p>
 
